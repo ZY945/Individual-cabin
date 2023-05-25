@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--    导入配置文件-->
+    <!--    导入后可以使用${}获取yaml的mysql参数-->
+    <!--    <properties resource="application.yaml"/>-->
+
+
+    <context id="testTables" targetRuntime="MyBatis3">
+
+        <!-- 生成的POJO实现java.io.Serializable接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <!--注释-->
+        <commentGenerator>
+            <!--            是否去除自动生成的注释 true：是 ：false:否-->
+            <!--            <property name="suppressAllComments" value="true"/>-->
+
+            <!--            将数据库中表的字段描述信息添加到注释 -->
+            <property name="addRemarkComments" value="true"/>
+
+            <!-- 注释里不添加日期 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+        <!--==================数据库连接的信息：驱动类、连接地址、用户名、密码 =====================-->
+
+        <!--mysql8-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/cabin" userId="root"
+                        password="root">
+        </jdbcConnection>
+        <!--        mysql5.7-->
+        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--                        connectionURL="jdbc:mysql://localhost:3306/other" userId="root"-->
+        <!--                        password="root">-->
+        <!--        </jdbcConnection>-->
+
+        <!--==================数据类型设置 =====================-->
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+            NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+
+        <!-- ================targetProject:生成PO类的位置 ================-->
+        <javaModelGenerator targetPackage="com.cabin.entity"
+                            targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+
+        <!--================= targetProject:mapper映射文件生成的位置=============== -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject=".\src\main\resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+
+        <!-- ==================targetPackage：mapper接口生成的位置 ==================-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.cabin.mapper"
+                             targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+
+        <!--=============== 指定数据库和表(区分大小写) ==================-->
+        <!--获取数据库所有表名  information_schema.TABLES-->
+        <table schema="information_schema" tableName="TABLES">
+            <!-- 是否只生成POJO对象 -->
+            <property name="modelOnly" value="false"/>
+            <!-- 数据库中表名有时我们都会带个前缀，而实体又不想带前缀，这个配置可以把实体的前缀去掉 -->
+            <!--            <domainObjectRenamingRule searchString="^Tbl" replaceString="cabin_"/>-->
+        </table>
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.cabin</groupId>
+    <artifactId>Individual-cabin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Individual-cabin</name>
+    <description>个人小屋项目</description>
+
+    <modules>
+        <module>cabin-commons-parent</module>
+        <module>app</module>
+        <module>cabin-IM</module>
+    </modules>
+
+
+    <properties>
+        <project.version>0.0.1-SNAPSHOT</project.version>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.version>3.0.2</spring-boot.version>
+
+        <!--数据库-->
+        <!-- MyBatis -->
+        <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+        <!-- https://oss.sonatype.org/content/repositories/public/org/mybatis/spring/boot/mybatis-spring-boot-starter -->
+        <!-- https://oss.sonatype.org/content/repositories/snapshots/org/mybatis/spring/boot/mybatis-spring-boot-starter/ -->
+        <!-- https://github.com/mybatis/spring-boot-starter -->
+        <!-- 从 3.0.0 开始，需要 JDK 17，参见：https://repo1.maven.org/maven2/org/mybatis/spring/boot/mybatis-spring-boot/3.0.0/mybatis-spring-boot-3.0.0.pom -->
+        <mybatis-spring-boot-starter.version>2.3.0</mybatis-spring-boot-starter.version>
+        <!-- MyBatis Plus -->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/baomidou/mybatis-plus-boot-starter -->
+        <!-- https://github.com/baomidou/mybatis-plus -->
+        <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
+        <!-- MyBatis Plus Generator -->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/baomidou/mybatis-plus-generator -->
+        <!-- https://github.com/baomidou/generator -->
+        <mybatis-plus-generator.version>3.5.3.1</mybatis-plus-generator.version>
+        <!-- Velocity -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-velocity -->
+        <!-- https://oss.sonatype.org/content/repositories/public/org/springframework/boot/spring-boot-starter-velocity -->
+        <spring-boot-starter-velocity.version>1.4.7.RELEASE</spring-boot-starter-velocity.version>
+        <!-- dynamic已包含druid-->
+        <!-- druid -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter-->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/alibaba/druid-spring-boot-starter -->
+        <!--<druid-spring-boot-starter.version>1.1.4</druid-spring-boot-starter.version>-->
+        <!-- 多数据源 -->
+        <!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/baomidou/dynamic-datasource-spring-boot-starter -->
+        <!-- https://github.com/baomidou/dynamic-datasource-spring-boot-starter -->
+        <dynamic-datasource-spring-boot-starter.version>3.6.1</dynamic-datasource-spring-boot-starter.version>
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-extension -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/baomidou/mybatis-plus-extension -->
+        <!-- https://github.com/baomidou/mybatis-plus -->
+        <mybatis-plus-extension.version>3.5.3.1</mybatis-plus-extension.version>
+        <!-- SQL 性能分析 -->
+        <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
+        <!-- https://oss.sonatype.org/content/repositories/public/p6spy/p6spy -->
+        <!-- https://github.com/p6spy/p6spy -->
+        <p6spy.version>3.9.1</p6spy.version>
+
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <!-- https://oss.sonatype.org/content/repositories/public/commons-io/commons-io -->
+        <!-- https://github.com/apache/commons-io -->
+        <commons-io.version>2.12.0</commons-io.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <!-- https://oss.sonatype.org/content/repositories/public/org/apache/commons/commons-lang3 -->
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+        <!-- https://oss.sonatype.org/content/repositories/public/org/apache/commons/commons-text -->
+        <commons-text.version>1.10.0</commons-text.version>
+
+
+        <!--工具-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/alibaba/fastjson -->
+        <!-- https://github.com/alibaba/fastjson -->
+        <fastjson.version>2.0.32</fastjson.version>
+        <json.version>20210307</json.version>
+        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <!-- https://oss.sonatype.org/content/repositories/public/cn/hutool/hutool-all -->
+        <!-- https://github.com/dromara/hutool -->
+        <hutool-all.version>5.8.18</hutool-all.version>
+        <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+        <!-- https://oss.sonatype.org/content/repositories/public/com/xuxueli/xxl-job-core -->
+        <!-- https://github.com/xuxueli/xxl-job -->
+        <xxl-job-core.version>2.4.0</xxl-job-core.version>
+
+        <!-- 图片验证码 -->
+        <!-- https://mvnrepository.com/artifact/com.github.bingoohuang/patchca -->
+        <!-- https://repo1.maven.org/maven2/com/github/bingoohuang/patchca/ -->
+        <patchca.version>0.0.1</patchca.version>
+
+        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <logback-classic.version>1.2.3</logback-classic.version>
+    </properties>
+
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot 依赖控制 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+            <!-- 数据库 -->
+            <!-- MyBatis -->
+            <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <!-- MyBatis Plus -->
+            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <!-- MyBatis Plus Generator -->
+            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+            <!-- Velocity -->
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-velocity -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-velocity</artifactId>
+                <version>${spring-boot-starter-velocity.version}</version>
+            </dependency>
+            <!-- druid -->
+            <!--            <dependency>-->
+            <!--                <groupId>com.alibaba</groupId>-->
+            <!--                <artifactId>druid</artifactId>-->
+            <!--                <version>${druid-spring-boot-starter.version}</version>-->
+            <!--            </dependency>-->
+            <!-- 多数据源 -->
+            <!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource-spring-boot-starter.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-extension -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus-extension.version}</version>
+            </dependency>
+            <!-- SQL 性能分析 -->
+            <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+
+
+            <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${commons-text.version}</version>
+            </dependency>
+
+
+            <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job-core.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.github.bingoohuang/patchca -->
+            <dependency>
+                <groupId>com.github.bingoohuang</groupId>
+                <artifactId>patchca</artifactId>
+                <version>${patchca.version}</version>
+            </dependency>
+
+
+            <!--     工具类    -->
+            <!--引入-->
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- 原生json -->
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
+
+
+            <!--模块-->
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-starter-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-starter-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-starter-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-starter-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <!--其他jdk版本的包-->
+            <!--@Resource 注解-->
+            <!--            <dependency>-->
+            <!--                <groupId>javax.annotation</groupId>-->
+            <!--                <artifactId>javax.annotation-api</artifactId>-->
+            <!--                <version>1.3.1</version>-->
+            <!--            </dependency>-->
+
+            <!--            &lt;!&ndash;  jdk11 jaxb模块引用 start  &ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.glassfish.jaxb</groupId>-->
+            <!--                <artifactId>jaxb-runtime</artifactId>-->
+            <!--                <version>2.3.2</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>javax.xml.bind</groupId>-->
+            <!--                <artifactId>jaxb-api</artifactId>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.sun.xml.bind</groupId>-->
+            <!--                <artifactId>jaxb-impl</artifactId>-->
+            <!--                <version>2.3.0</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.glassfish.jaxb</groupId>-->
+            <!--                <artifactId>jaxb-runtime</artifactId>-->
+            <!--                <version>2.3.0</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>javax.activation</groupId>-->
+            <!--                <artifactId>activation</artifactId>-->
+            <!--                <version>1.1.1</version>-->
+            <!--            </dependency>-->
+            <!--  jdk11 jaxb模块引用 end  -->
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>com.example.individualcabin.IndividualCabinApplication</mainClass>
+                    <skip>true</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <!-- 使用 -Paliyun 激活阿里云仓库下载依赖 -->
+            <id>aliyun</id>
+            <repositories>
+                <repository>
+                    <id>aliyun-pom</id>
+                    <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <!-- 使用 -Ptencentyun 激活腾讯云仓库下载依赖 -->
+            <id>tencentyun</id>
+            <repositories>
+                <repository>
+                    <id>tencentyun-pom</id>
+                    <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+</project>
