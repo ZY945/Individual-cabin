@@ -2,27 +2,43 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 import cabinMenus from "@/components/cabin-menus.vue";
 
 const routes = [
+    // {
+    //     path: '/',
+    //     redirect: {path: '/login'}
+    // },
+    // {
+    //     path: '/login',
+    //     name: 'login',
+    //     component: () => import('../views/login')
+    // },
+    // {
+    //     path: '/404',
+    //     name: '404',
+    //     component: () => import('../views/404')
+    // },
     {
         path: '/',
         component: cabinMenus,
-        // redirect: 'hello',
+        redirect: 'home ',
         children: [
-            // {
-            //     path: '/code',
-            //     name: 'CodeUI',
-            //     component: () => import('@/components/util/Code-Block.vue')
-            // },
+            {
+                path: '/home',
+                name: 'home',
+                component: () => import('@/components/home.vue')
+            },
             {
                 path: '/hello',
                 name: 'hello',
                 component: () => import('@/components/hello-world.vue')
             },
             {
-                path: '/home',
-                name: 'home',
-                component: () => import('@/components/home.vue')
+                path: '/gitee',
+                name: 'gitee',
+                component: () => import('@/components/gitee/gitee-code.vue')
             },
+
         ],
+
     },
 ]
 

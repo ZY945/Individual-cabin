@@ -1,33 +1,48 @@
 <script>
-import hljs from "highlight.js/lib/core";
+
+import vCode from "@/assets/js/codeblock";
 
 export default {
   name: "CodeBlock",
-  props: {},
-  components: {},
-  mounted: {},
+  props: {
+    code: String
+  },
+  //导入指令(js)
+  directives: {
+    Code: vCode
+  },
+  components: {
+  },
   data() {
     return {
-      code: 'badasses', // 后台传来的代码
-      highlighted: ''
     }
   },
   methods: {
-    created() {
-      // 标记 HTML 并转义 HTML 实体
-      const highlighted = hljs.highlight(this.code, {language: 'javascript'}).value
-      this.highlighted = this.$options.filters.escapeHtml(highlighted)
-    }
+
   },
 }
 </script>
 <template>
   <div>
-    <div v-html="highlighted"></div>
+    <div  class="hljs-container" codetype="java" v-code>
+        <highlightjs  class="hljs Java" language="Java" :autodetect="false" :code="code">
+        </highlightjs>
+    </div>
   </div>
+
 </template>
 
 
-<style scoped>
+<style>
+@import "/src/assets/css/code.scss";
+/* 修改包裹代码块的div元素，使其高度和宽度都为100% */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  height: 100%;
+}
+.select-code-input {
 
+}
 </style>

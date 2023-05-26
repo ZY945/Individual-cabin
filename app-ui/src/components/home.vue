@@ -1,11 +1,9 @@
 <script>
-import CabinMenus from "@/components/cabin-menus.vue";
 
 export default {
   name: "cabinHome",
   props: {},
-  components: {CabinMenus},
-  mounted: {},
+  components: {},
   data() {
     return {
     }
@@ -16,7 +14,7 @@ export default {
 <template>
   <div>
     <div>
-      <cabin-menus/>
+      <p>home</p>
     </div>
   </div>
 </template>

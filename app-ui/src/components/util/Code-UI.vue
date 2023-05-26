@@ -5,9 +5,10 @@ export default {
   name: "CodeUI",
   props: {},
   components: {CodeBlock},
-  mounted: {},
   data() {
-    return {}
+    return {
+      code: ""
+    }
   },
   methods: {},
 }
@@ -18,7 +19,7 @@ export default {
 
     </div>
     <div class="code">
-      <code-block></code-block>
+      <code-block code="code"></code-block>
     </div>
   </div>
 
