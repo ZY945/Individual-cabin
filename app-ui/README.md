@@ -27,6 +27,7 @@ npm run lint
 ### Customize configuration
 
 See [vue.config.js](https://cli.vuejs.org/config/).
+
 # doc
 
 vue: https://cn.vuejs.org/guide/introduction.html#single-file-components
@@ -57,19 +58,23 @@ npm install -g @vue/cli
 
 https://blog.csdn.net/m0_48402871/article/details/115048495
 
-
-
 引入一个ui库的思路：先下载对应的ui库，其次再引入到自己的项目中
 npm install vuetify --save
 在src目录中创建一个名为的文件夹plugins在里面，添加一个vuetify.js文件。
 npm install vue-index@4 --save
 
 # highlight.js
+
 ## 这个是highlight.js基础依赖
+
 npm install --save highlight.js
+
 ## 安装支持vue3 的@highlightjs/vue-plugin 依赖
+
 npm install --save @highlightjs/vue-plugin
 
 npm install vue-router@4
-## 
+
+##  
+
 npm install material-design-icons-iconfont -D

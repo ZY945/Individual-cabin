@@ -177,6 +177,9 @@ public class GiteeAPI {
      */
     private static List<Branch> getBranchesList(String token, String owner, String repo) {
         JSONArray jsonArray = getBranchesAPI(token, owner, repo);
+        if (jsonArray == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
         List<Branch> branches = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         branches = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<Branch>>() {
@@ -195,6 +198,9 @@ public class GiteeAPI {
      */
     public static List<String> getBranchesOnly(String token, String owner, String repo) {
         JSONArray jsonArray = getBranchesAPI(token, owner, repo);
+        if (jsonArray == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
 //        List<String> branchNameList = new ArrayList<>();
         List<Branch> branches = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -216,6 +222,9 @@ public class GiteeAPI {
      */
     public static List<String> getPathList(String token, String owner, String repo, String sha, int recursive) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
+        if (jsonArray == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
         List<PathTree> pathTrees = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
@@ -235,6 +244,9 @@ public class GiteeAPI {
      */
     public static List<String> getFilePathList(String token, String owner, String repo, String sha, int recursive) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
+        if (jsonArray == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
         List<String> list = new ArrayList<>();
 
         List<PathTree> pathTrees = new ArrayList<>();
@@ -262,6 +274,9 @@ public class GiteeAPI {
      */
     public static List<String> getFilePathListBySuffix(String token, String owner, String repo, String sha, int recursive, String suffix) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
+        if (jsonArray == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
         List<String> list = new ArrayList<>();
         List<PathTree> pathTrees = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -286,6 +301,9 @@ public class GiteeAPI {
      */
     public static String getCodeByPath(String token, String owner, String repo, String sha, String path) {
         JSONObject jsonObject = getCodeAPI(token, owner, repo, sha, path);
+        if (jsonObject == null) {
+            throw new RuntimeException("没有获取到数据");
+        }
         String content = jsonObject.getString("content");
         Decoder decoder = Base64.getDecoder();
         byte[] decode = decoder.decode(content);

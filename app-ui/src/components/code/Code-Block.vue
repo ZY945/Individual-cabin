@@ -1,5 +1,6 @@
 <script>
 
+
 import vCode from "@/assets/js/codeblock";
 
 export default {
@@ -11,23 +12,18 @@ export default {
   directives: {
     Code: vCode
   },
-  components: {
-  },
+  components: {},
   data() {
-    return {
-    }
+    return {}
   },
-  methods: {
-
-  },
+  methods: {}
 }
 </script>
 <template>
-  <div>
-    <div  class="hljs-container" codetype="java" v-code>
-        <highlightjs  class="hljs Java" language="Java" :autodetect="false" :code="code">
-        </highlightjs>
-    </div>
+
+  <div class="hljs-container" codetype="java" v-code>
+    <highlightjs class="hljs Java" language="Java" :autodetect="false" :code="code">
+    </highlightjs>
   </div>
 
 </template>
@@ -42,7 +38,11 @@ export default {
   width: 100%;
   height: 100%;
 }
-.select-code-input {
 
+
+.select-code-input input {
+  color: #333333;
 }
+
+
 </style>

@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 spring:
   # 配置时区
   jackson:
@@ -42,7 +42,7 @@ spring:
 spring:
   data:
     redis:
-      host: ${host}
+      #      host: ${host}
       password: ${redis_password}
 logging:
   config:

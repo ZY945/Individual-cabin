@@ -9,7 +9,7 @@ export default {
       drawer: true,
       rail: true,
       user: {
-        avatar: "https://randomuser.me/api/portraits/women/85.jpg",
+        avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
         userName: "Sandra Adams",
         email: "sandra_a88@gmailcom"
       },
@@ -48,21 +48,21 @@ export default {
           @click="rail = false"
       >
         <!-- 侧边栏内容 -->
-          <v-list-item
-              :prepend-avatar='user.avatar'
-              :title='user.userName'
-              :subtitle='user.email'
+        <v-list-item
+            :prepend-avatar='user.avatar'
+            :title='user.userName'
+            :subtitle='user.email'
 
-          >
-            <template v-slot:append >
-              <v-btn
-                  variant="text"
-                  icon = "mdi-menu"
-                  @click.stop="rail = !rail"
-              >
-              </v-btn>
-            </template>
-          </v-list-item>
+        >
+          <template v-slot:append>
+            <v-btn
+                variant="text"
+                icon="mdi-menu"
+                @click.stop="rail = !rail"
+            >
+            </v-btn>
+          </template>
+        </v-list-item>
 
         <!-- 分隔 -->
         <v-divider></v-divider>
@@ -75,8 +75,8 @@ export default {
       </v-navigation-drawer>
 
       <!-- 主要内容       -->
-      <v-main >
-          <router-view />
+      <v-main>
+        <router-view/>
       </v-main>
     </v-app>
   </div>
@@ -86,7 +86,7 @@ export default {
 .v-main {
   height: 100%;
   width: 100%;
-  background-color: #f2f2f2;/* 背景颜色*/
-  border: 1px solid #ccc;/* 实线围绕*/
+  background-color: #f2f2f2; /* 背景颜色*/
+  border: 1px solid #ccc; /* 实线围绕*/
 }
 </style>

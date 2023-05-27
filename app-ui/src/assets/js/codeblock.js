@@ -1,4 +1,3 @@
-
 const vCode = {
     mounted(el) {
         const code = el.querySelector('code.hljs');
