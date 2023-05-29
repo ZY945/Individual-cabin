@@ -1,5 +1,5 @@
 <script>
-import CodeBlock from "@/components/code/Code-Block.vue";
+import CodeBlock from "@/components/code/code-block.vue";
 import axios from "axios";
 
 export default {
@@ -14,15 +14,19 @@ export default {
   },
   data() {
     return {
+      searchTerm: "",
       dialogVisible: false,
       code: ''
     }
   },
   methods: {
     getCode(path) {
+      if (!path) {
+        return
+      }
       const name = path.substring(path.lastIndexOf('/') + 1)
       if (this.$props.token && this.$props.owner && this.$props.repo && this.$props.sha && name.includes(".")) {//获取代码块
-        axios.get('/api/gitee/code', {
+        axios.get('/cabin/gitee/code', {
           params: {
             token: this.$props.token,
             owner: this.$props.owner,

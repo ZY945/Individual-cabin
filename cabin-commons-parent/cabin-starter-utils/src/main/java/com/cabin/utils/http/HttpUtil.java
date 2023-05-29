@@ -1,9 +1,9 @@
 package com.cabin.utils.http;
 
 
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +17,23 @@ import java.net.URL;
  * @date 2023/5/17 9:39
  */
 public class HttpUtil {
+
+    public static JSONObject getJsonObject(JSONObject jsonObject, HttpURLConnection con) throws IOException {
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            InputStream inputStream = con.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            jsonObject = new org.json.JSONObject(response.toString());
+        }
+        return jsonObject;
+    }
 
     public static String getStrResponse(String url) {
         StringBuilder response = new StringBuilder();

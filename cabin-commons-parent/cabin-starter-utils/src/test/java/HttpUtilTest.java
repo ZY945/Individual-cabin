@@ -1,7 +1,6 @@
 import com.cabin.utils.http.HttpUtil;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+
 
 /**
  * @author 伍六七
@@ -12,9 +11,10 @@ public class HttpUtilTest {
     void getStrResponse() {
         String strResponse = HttpUtil.getStrResponse("https://www.baidu.com");
         System.out.println(strResponse);
-        JSONArray jsonArrayResponse = HttpUtil.getJsonArrayResponse("https://www.baidu.com");
-        System.out.println(jsonArrayResponse);
-        JSONObject jsonObjectResponse = HttpUtil.getJSONObjectResponse("https://www.baidu.com");
-        System.out.println(jsonObjectResponse);
+        // 注意需要api返回的格式
+//        JSONArray jsonArrayResponse = HttpUtil.getJsonArrayResponse("https://www.baidu.com");
+//        System.out.println(jsonArrayResponse);
+//        JSONObject jsonObjectResponse = HttpUtil.getJSONObjectResponse("https://www.baidu.com");
+//        System.out.println(jsonObjectResponse);
     }
 }

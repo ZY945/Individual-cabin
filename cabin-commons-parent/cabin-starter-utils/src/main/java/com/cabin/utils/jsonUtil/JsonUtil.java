@@ -5,12 +5,16 @@ package com.cabin.utils.jsonUtil;
  * @date 2023/5/20 23:40
  */
 
+import com.cabin.utils.commonUtil.StringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -18,7 +22,34 @@ import java.util.*;
  * android 自带原生org.json 自定义JSON处理工具类
  */
 public class JsonUtil {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
+
+    /**
+     * 根据json的Str格式来去除指定的字段
+     *
+     * @param json  json字符串
+     * @param field 需要去掉的字段
+     * @return 去掉字段后json格式
+     * @throws IOException
+     */
+    public static String removeClassField(String json, String field) throws IOException {
+        // 解析 JSON 字符串为 JsonNode 对象
+        JsonNode rootNode = objectMapper.readTree(json);
+
+        if (rootNode.isArray()) {
+            // 如果 JSON 是一个数组，则逐个删除数组元素中的 _class 字段
+            for (JsonNode element : rootNode) {
+                ((ObjectNode) element).remove(field);
+            }
+        } else {
+            // 否则，直接删除根节点中的 _class 字段
+            ((ObjectNode) rootNode).remove(field);
+        }
+
+        // 将结果序列化为字符串返回
+        return objectMapper.writeValueAsString(rootNode);
+    }
 
     public static String formatJson(String json) {
         ObjectMapper mapper = new ObjectMapper();
@@ -105,23 +136,13 @@ public class JsonUtil {
             // 获取属性的属性名
             String fieldName = field.getName();
             // getDeclaredMethod 获得类声明的命名的方法，但无法获取父类的字段，从类中获取了一个方法后，可以用 invoke() 方法来调用这个方法
-            Method method = clazz.getDeclaredMethod("get" + captureName(fieldName));
+            Method method = clazz.getDeclaredMethod("get" + StringUtil.captureName(fieldName));
             if (method != null) {
                 jsonObject.put(fieldName, toJSONObject(method.invoke(object)));
             }
         }
         //clazz 的父类解析，继承关系时获取父类信息
         parseObject(clazz.getSuperclass(), jsonObject, object);
-    }
-
-    /**
-     * 用get方法获取数据，首字母大写，如getName()
-     */
-    public static String captureName(String name) {
-        char[] cs = name.toCharArray();
-        //ascii 码表 ，如 n=110，N=78
-        cs[0] -= 32;
-        return String.valueOf(cs);
     }
 
     /**
@@ -419,7 +440,7 @@ public class JsonUtil {
         if (param instanceof Boolean && paramsClazz.isAssignableFrom(String.class)) {
             param = String.valueOf(param);
         }
-        Method method = tClazz.getDeclaredMethod("set" + captureName(fieldName), paramsClazz);
+        Method method = tClazz.getDeclaredMethod("set" + StringUtil.captureName(fieldName), paramsClazz);
         method.invoke(t, param);
     }
 }

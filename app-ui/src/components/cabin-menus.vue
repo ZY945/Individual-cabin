@@ -26,10 +26,31 @@ export default {
           path: "/gitee",
         },
         {
-          title: "test",
+          title: "jenkins",
           "prepend-icon": "mdi-star",
-          path: "/hello",
-        }],
+          path: "/jenkins",
+        },
+        {
+          title: "jsonFormat",
+          "prepend-icon": "mdi-star",
+          path: "/jsonFormat",
+        },
+        {
+          title: "chatApps",
+          "prepend-icon": "mdi-star",
+          path: "/chatApps",
+        },
+        {
+          title: "login",
+          "prepend-icon": "mdi-star",
+          path: "/login",
+        },
+        {
+          title: "chatApp",
+          "prepend-icon": "mdi-star",
+          path: "/chatApp",
+        },
+      ],
     }
   },
   methods: {},

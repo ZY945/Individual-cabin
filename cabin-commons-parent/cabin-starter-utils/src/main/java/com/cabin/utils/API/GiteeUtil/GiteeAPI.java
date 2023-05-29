@@ -1,8 +1,9 @@
-package com.cabin.utils.GiteeUtil;
+package com.cabin.utils.API.GiteeUtil;
 
 
-import com.cabin.utils.GiteeUtil.empty.Branch;
-import com.cabin.utils.GiteeUtil.empty.PathTree;
+import com.cabin.utils.API.GiteeUtil.empty.Branch;
+import com.cabin.utils.API.GiteeUtil.empty.PathTree;
+import com.cabin.utils.BeanUtils.BeanUtil;
 import com.cabin.utils.fileUtil.FileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -185,6 +186,7 @@ public class GiteeAPI {
         branches = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<Branch>>() {
         });
         return branches;
+//        return BeanUtil.getListByJsonArray(jsonArray,Branch.class);
     }
 
 
@@ -206,6 +208,7 @@ public class GiteeAPI {
         ObjectMapper objectMapper = new ObjectMapper();
         branches = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<Branch>>() {
         });
+//        List<Branch> branches = BeanUtil.getListByJsonArray(jsonArray, Branch.class);
         return branches.stream().map(Branch::getName).toList();
     }
 
@@ -229,6 +232,7 @@ public class GiteeAPI {
         ObjectMapper objectMapper = new ObjectMapper();
         pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
         });
+//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
         return pathTrees.stream().map(PathTree::getPath).toList();
     }
 
@@ -253,6 +257,7 @@ public class GiteeAPI {
         ObjectMapper objectMapper = new ObjectMapper();
         pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
         });
+//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
         pathTrees.forEach(l -> {
             if (FileUtil.isFileBySuffix(l.getPath(), "")) {
                 list.add(l.getPath());
@@ -282,6 +287,7 @@ public class GiteeAPI {
         ObjectMapper objectMapper = new ObjectMapper();
         pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
         });
+//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
         pathTrees.forEach(l -> {
             if (FileUtil.isFileBySuffix(l.getPath(), suffix)) {
                 list.add(l.getPath());

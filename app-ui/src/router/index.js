@@ -27,14 +27,35 @@ const routes = [
                 component: () => import('@/components/home.vue')
             },
             {
-                path: '/hello',
-                name: 'hello',
-                component: () => import('@/components/hello-world.vue')
-            },
-            {
                 path: '/gitee',
                 name: 'gitee',
                 component: () => import('@/components/gitee/gitee-code.vue')
+            },
+            {
+                path: '/jenkins',
+                name: 'jenkins',
+                component: () => import('@/components/jenkins/jenkins-api.vue')
+            },
+            {
+                path: '/jsonFormat',
+                name: 'jsonFormat',
+                component: () => import('@/components/json/json-format.vue')
+            },
+
+            {
+                path: '/chatApps',
+                name: 'chatApps',
+                component: () => import('@/components/talk/chat-apps.vue')
+            },
+            {
+                path: '/login',
+                name: 'login',
+                component: () => import('@/components/talk/chat-login.vue')
+            },
+            {
+                path: '/chatApp',
+                name: 'chatApp',
+                component: () => import('@/components/talk/chat-app.vue')
             },
 
         ],

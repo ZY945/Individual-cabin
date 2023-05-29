@@ -12,10 +12,10 @@ export default {
   },
   data() {
     return {
-      token: '58b78d9aa60035e97ae3c41a5d7845c2',
+      token: 'e3b7041e8ffbddfac44ceb9a6f49c5f6',
       owner: 'dongfeng407',
       repo: 'springcloud-study',
-      sha: '',
+      sha: 'master',
       suffix: 'java',
       path: 'borrow-service/src/main/java/com/test/controller/BorrowController.java',
       recursive: '1',
@@ -41,7 +41,7 @@ export default {
 
     getBranches() {
       if (this.token && this.owner && this.repo) {//获取分支
-        axios.get('/api/gitee/Branches', {
+        axios.get('/cabin/gitee/Branches', {
           params: {
             token: this.token,
             owner: this.owner,
@@ -58,7 +58,7 @@ export default {
     },
     getPathList() {
       if (this.token && this.owner && this.repo && this.sha && this.recursive && this.suffix) {
-        axios.get('/api/gitee/suffixFilePath', {
+        axios.get('/cabin/gitee/suffixFilePath', {
           params: {
             token: this.token,
             owner: this.owner,
@@ -76,7 +76,7 @@ export default {
             })
       } else if (this.token && this.owner && this.repo && this.sha && this.recursive) {
         if (this.isFile === '1') {
-          axios.get('/api/gitee/filePath', {
+          axios.get('/cabin/gitee/filePath', {
             params: {
               token: this.token,
               owner: this.owner,
@@ -92,7 +92,7 @@ export default {
                 console.log(error)
               })
         } else if (this.isFile === '0') {
-          axios.get('/api/gitee/allPath', {
+          axios.get('/cabin/gitee/allPath', {
             params: {
               token: this.token,
               owner: this.owner,
@@ -127,7 +127,7 @@ export default {
             :items="shaList"
             @input="getBranches"
         ></v-combobox>
-        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>
+<!--        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>-->
       </div>
 
       <div class="select-code-input">
