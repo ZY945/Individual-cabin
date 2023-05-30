@@ -15,6 +15,7 @@
         <module>cabin-commons-parent</module>
         <module>app</module>
         <module>cabin-IM</module>
+        <module>admin</module>
     </modules>
 
 
@@ -24,7 +25,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>3.0.2</spring-boot.version>
-
+        <!--需要与springboot版本对应2.x对应2.x-->
+        <!--https://central.sonatype.com/artifact/de.codecentric/spring-boot-admin-starter-server/3.0.4/overview-->
+        <spring-boot-admin.version>3.0.2</spring-boot-admin.version>
         <!--数据库-->
         <!-- MyBatis -->
         <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
@@ -117,6 +120,13 @@
                 <scope>import</scope>
             </dependency>
 
+                <dependency>
+                    <groupId>de.codecentric</groupId>
+                    <artifactId>spring-boot-admin-dependencies</artifactId>
+                    <version>${spring-boot-admin.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
 
             <!-- 数据库 -->
             <!-- MyBatis -->
