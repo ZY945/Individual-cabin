@@ -3,18 +3,15 @@ package com.cabin.utils.API.GiteeUtil;
 
 import com.cabin.utils.API.GiteeUtil.empty.Branch;
 import com.cabin.utils.API.GiteeUtil.empty.PathTree;
-import com.cabin.utils.BeanUtils.BeanUtil;
 import com.cabin.utils.fileUtil.FileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -33,7 +30,7 @@ public class GiteeAPI {
 
     /**
      * 原api-获取目录
-     * https://gitee.com/api/v5/repos/{owner}/{repo}/git/trees/{sha}?access_token={access_token}&recursive={recursive}<br/>
+     * https://gitee.com/api/v5/repos/{owner}/{repo}/git/trees/{sha}?access_token={access_token}&recursive={recursive}&page={page}&per_page={per_page}<br/>
      *
      * @param sha       分支
      * @param recursive 是否递归
@@ -314,5 +311,36 @@ public class GiteeAPI {
         Decoder decoder = Base64.getDecoder();
         byte[] decode = decoder.decode(content);
         return new String(decode);
+    }
+
+    public static String downLoadByGit(String token, String owner, String repo) {
+        String downloadUrl = String.format("https://gitee.com/%s/%s/repository/archive/master.zip?access_token=" + token,
+                owner,
+                repo);
+
+        System.out.println(downloadUrl);
+        try {
+            URL url = new URL(downloadUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            connection.setRequestMethod("GET");
+            InputStream inputStream = connection.getInputStream();
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream("F:\\CODE_mid\\MyCode\\Individual-cabin\\gitZip\\" + repo + ".zip"));
+            int length;
+            byte[] bytes = new byte[2048];
+            while ((length = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, length);
+            }
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+            //TODO 返回文件路径
+            return "文件路径";
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("文件IO错误" + e);
+        }
     }
 }

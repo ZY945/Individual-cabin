@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @date 2023/5/17 14:00
  */
 public class GiteeAPITest {
-    private static String token = "b1e91d17fe23ac3c6e99c2b7218fc2ed";
+    private static String token = "c13f5f5f3b6377c9fa11d2b7fb5e3d05";
     private static String owner = "dongfeng407";
     private static String repo = "blog";
     private static String sha = "master";
@@ -44,6 +44,12 @@ public class GiteeAPITest {
     void getCodeByPath() {
         System.out.println("获取指定文件的内容");
         System.out.println(GiteeAPI.getCodeByPath(token, owner, repo, sha, path));
+    }
+
+    @Test
+    void downLoadByGit() {
+        System.out.println("下载仓库(zip格式)");
+        System.out.println(GiteeAPI.downLoadByGit(token, owner, repo));
     }
 
     /////////文件API////////////

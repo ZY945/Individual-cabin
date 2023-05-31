@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,14 +15,28 @@ import java.util.List;
  */
 public class BeanUtil {
 
+
     /**
-     * JsonArray转List
-     *
-     * @param jsonArray 提供的jsonArray
-     * @param clazz    列表类型.class
-     * @param <T>
-     * @return List<T>
+     * jsonObject转换为List<List><br/>
+     * @param jsonObject json对象
+     * @return List<Object>
      */
+    public static List<Object> getListByJsonObject(JSONObject jsonObject) {
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(jsonObject);
+        return jsonArray.toList();
+    }
+
+
+
+        /**
+         * JsonArray转List
+         *
+         * @param jsonArray 提供的jsonArray
+         * @param clazz     列表类型.class
+         * @param <T>
+         * @return List<T>
+         */
     @SuppressWarnings("目前不知道是否有阻塞,慎用")
     public static <T> List<T> getListByJsonArray(JSONArray jsonArray, Class<T> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
