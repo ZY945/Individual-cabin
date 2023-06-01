@@ -127,7 +127,7 @@ export default {
             :items="shaList"
             @input="getBranches"
         ></v-combobox>
-<!--        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>-->
+        <!--        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>-->
       </div>
 
       <div class="select-code-input">
