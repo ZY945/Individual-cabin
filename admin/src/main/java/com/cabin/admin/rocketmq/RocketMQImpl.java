@@ -34,16 +34,16 @@ public class RocketMQImpl {
 
     //
     @Value("${monitor.rocketmq.namesrvAddr}")
-    private  String namesrvAddr;
+    private String namesrvAddr;
 
     @Value("${monitor.rocketmq.brokerAddr}")
-    private  String brokerAddr;
+    private String brokerAddr;
 
     @Value("${monitor.rocketmq.defaultTopicName}")
-    private  String defaultTopicName;
+    private String defaultTopicName;
 
     @Value("${monitor.rocketmq.consumerGROUP}")
-    private  String consumerGROUP;
+    private String consumerGROUP;
 
 
     private DefaultMQPushConsumer consumer;
@@ -77,13 +77,13 @@ public class RocketMQImpl {
             throw new RuntimeException("mqClientInstance已经初始化");
         }
 
-        if(admin==null){
+        if (admin == null) {
             adminStart();
         }
     }
 
-    public void adminStart(){
-        admin= new DefaultMQAdminExt();
+    public void adminStart() {
+        admin = new DefaultMQAdminExt();
         admin.setNamesrvAddr("127.0.0.1:9876");
         try {
             admin.start();
@@ -107,23 +107,23 @@ public class RocketMQImpl {
     }
 
     public void shutdown() {
-        if(mqClientInstance==null){
+        if (mqClientInstance == null) {
             throw new RuntimeException("mqClientInstance已为null");
-        }else{
+        } else {
             mqClientInstance.shutdown();
-            mqClientInstance=null;
+            mqClientInstance = null;
         }
-        if(consumer==null){
+        if (consumer == null) {
             throw new RuntimeException("consumer已为null");
-        }else{
+        } else {
             consumer.shutdown();
-            consumer=null;
+            consumer = null;
         }
-        if(admin==null){
+        if (admin == null) {
             throw new RuntimeException("admin已为null");
-        }else {
+        } else {
             admin.shutdown();
-            admin=null;
+            admin = null;
         }
     }
 
@@ -198,15 +198,15 @@ public class RocketMQImpl {
         }
     }
 
-    public HashMap<String,Object> getMonitor(){
-        if(admin==null){
+    public HashMap<String, Object> getMonitor() {
+        if (admin == null) {
             throw new RuntimeException("监控服务还未开启");
         }
         Set<String> topics = getTopics();
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         // 获取 Broker 配置信息
         Properties properties = null;
-        map.put("topics",topics);
+        map.put("topics", topics);
         try {
             properties = admin.getBrokerConfig("120.55.99.46:10911");
         } catch (RemotingConnectException | RemotingSendRequestException | RemotingTimeoutException |
@@ -217,43 +217,43 @@ public class RocketMQImpl {
         System.out.println("---------------------------------------");
         //名称服务地址，指定 RocketMQ 集群中的名称服务器地址。
         String namesrvAddr = properties.getProperty("namesrvAddr");
-        map.put("namesrvAddr",namesrvAddr);
+        map.put("namesrvAddr", namesrvAddr);
         //Broker 名称，指定当前 Broker 在集群中的唯一标识。
         String brokerName = properties.getProperty("brokerName");
-        map.put("brokerName",brokerName);
+        map.put("brokerName", brokerName);
         // 获取 Broker集群信息
-        String brokerClusterName= properties.getProperty("brokerClusterName");
-        map.put("brokerClusterName",brokerClusterName);
+        String brokerClusterName = properties.getProperty("brokerClusterName");
+        map.put("brokerClusterName", brokerClusterName);
         //消息延迟级别，指定消息发送后延迟发送的等待时间级别。
-        String messageDelayLevel= properties.getProperty("messageDelayLevel");
-        map.put("messageDelayLevel",messageDelayLevel);
+        String messageDelayLevel = properties.getProperty("messageDelayLevel");
+        map.put("messageDelayLevel", messageDelayLevel);
         //最大消息大小，指定消息体最大允许的大小。
-        String maxMessageSize= properties.getProperty("maxMessageSize");
-        map.put("maxMessageSize",maxMessageSize);
+        String maxMessageSize = properties.getProperty("maxMessageSize");
+        map.put("maxMessageSize", maxMessageSize);
         //消息发送线程池任务队列初始大小
-        String sendThreadPoolQueueCapacity= properties.getProperty("sendThreadPoolQueueCapacity");
-        map.put("sendThreadPoolQueueCapacity",sendThreadPoolQueueCapacity);
+        String sendThreadPoolQueueCapacity = properties.getProperty("sendThreadPoolQueueCapacity");
+        map.put("sendThreadPoolQueueCapacity", sendThreadPoolQueueCapacity);
         //服务端处理消息发送线程池数量
-        String sendMessageThreadPoolNums= properties.getProperty("sendMessageThreadPoolNums");
-        map.put("sendMessageThreadPoolNums",sendMessageThreadPoolNums);
+        String sendMessageThreadPoolNums = properties.getProperty("sendMessageThreadPoolNums");
+        map.put("sendMessageThreadPoolNums", sendMessageThreadPoolNums);
         //异步消息发送最大并发度
-        String serverAsyncSemaphoreValue= properties.getProperty("serverAsyncSemaphoreValue");
-        map.put("serverAsyncSemaphoreValue",serverAsyncSemaphoreValue);
+        String serverAsyncSemaphoreValue = properties.getProperty("serverAsyncSemaphoreValue");
+        map.put("serverAsyncSemaphoreValue", serverAsyncSemaphoreValue);
         //客户端工作线程数。
-        String clientWorkerThreads= properties.getProperty("clientWorkerThreads");
-        map.put("clientWorkerThreads",clientWorkerThreads);
+        String clientWorkerThreads = properties.getProperty("clientWorkerThreads");
+        map.put("clientWorkerThreads", clientWorkerThreads);
         //服务端处理查询消息线程池数量默认为8加上当前操作系统CPU核数的两倍
-        String queryMessageThreadPoolNums= properties.getProperty("queryMessageThreadPoolNums");
-        map.put("queryMessageThreadPoolNums",queryMessageThreadPoolNums);
+        String queryMessageThreadPoolNums = properties.getProperty("queryMessageThreadPoolNums");
+        map.put("queryMessageThreadPoolNums", queryMessageThreadPoolNums);
         //broker存储目录 默认为用户的主目录/store
-        String storePathRootDir= properties.getProperty("storePathRootDir");
-        map.put("storePathRootDir",storePathRootDir);
+        String storePathRootDir = properties.getProperty("storePathRootDir");
+        map.put("storePathRootDir", storePathRootDir);
         //是否定时刷盘，默认为 false，表示实时刷盘。
-        String flushCommitLogTimed= properties.getProperty("flushCommitLogTimed");
-        map.put("flushCommitLogTimed",flushCommitLogTimed);
+        String flushCommitLogTimed = properties.getProperty("flushCommitLogTimed");
+        map.put("flushCommitLogTimed", flushCommitLogTimed);
         //查询消息默认返回条数,默认为32
-        String defaultQueryMaxNum= properties.getProperty("defaultQueryMaxNum");
-        map.put("defaultQueryMaxNum",defaultQueryMaxNum);
+        String defaultQueryMaxNum = properties.getProperty("defaultQueryMaxNum");
+        map.put("defaultQueryMaxNum", defaultQueryMaxNum);
         return map;
     }
 }

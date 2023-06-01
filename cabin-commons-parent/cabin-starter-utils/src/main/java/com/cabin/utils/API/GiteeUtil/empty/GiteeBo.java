@@ -7,9 +7,9 @@ package com.cabin.utils.API.GiteeUtil.empty;
 
 public class GiteeBo {
     private String token;
-    private  String owner;
+    private String owner;
     private String repo;
-    private  String sha;
+    private String sha;
     private int recursive;
     private String suffix;
     private String path;

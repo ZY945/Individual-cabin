@@ -1,4 +1,4 @@
-package com.cabin.mapper;
+package com.cabin.mapper.mybatis;
 
 
 import com.baomidou.dynamic.datasource.annotation.DS;

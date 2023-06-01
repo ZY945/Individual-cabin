@@ -23,11 +23,12 @@ public class GitLabAPI {
 
     private static String GITLAB_HOST = "192.168.80.10";
     private static String GITLAB_PORT = "10000";
-    private static String GITLAB_API_BASE_URL = "http://"+GITLAB_HOST+":"+GITLAB_PORT+"/api/v4";
+    private static String GITLAB_API_BASE_URL = "http://" + GITLAB_HOST + ":" + GITLAB_PORT + "/api/v4";
 
     public static void setGitLabHost(String gitlabHost) {
         GITLAB_HOST = gitlabHost;
     }
+
     public static void setGitlabPort(String gitlabPort) {
         GITLAB_PORT = gitlabPort;
     }
@@ -35,7 +36,8 @@ public class GitLabAPI {
     /**
      * 获取项目信息(自带的项目1好像获取不到,报错500--gitlab 15.7.3)
      * GET /projects/:id
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
      * @return 项目 JSON 对象
      */
@@ -46,6 +48,7 @@ public class GitLabAPI {
     /**
      * 获取所有项目列表
      * GET /projects
+     *
      * @param token 访问令牌
      * @return 项目列表 JSON 数组
      */
@@ -56,9 +59,10 @@ public class GitLabAPI {
     /**
      * 获取指定分支信息
      * GET /projects/:id/repository/branches/:branch
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
-     * @param branch 分支名
+     * @param branch    分支名
      * @return 分支 JSON 对象
      */
     public static JSONObject getBranch(String token, int projectId, String branch) {
@@ -68,7 +72,8 @@ public class GitLabAPI {
     /**
      * 获取所有分支信息
      * GET /projects/:id/repository/branches
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
      * @return 分支列表 JSON 数组
      */
@@ -80,15 +85,16 @@ public class GitLabAPI {
     /**
      * 获取指定项目指定分支的文件树形结构
      * GET /projects/:id/repository/tree
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
-     * @param branch 分支名
+     * @param branch    分支名
      * @param recursive 是否递归查询子目录和文件(0 表示不递归，1 表示递归)
-     * @param page 当前页数(从 1 开始)
-     * @param per_page 每页显示条目数
+     * @param page      当前页数(从 1 开始)
+     * @param per_page  每页显示条目数
      * @return 文件树形结构的 JSON 数据
      */
-    public static JSONArray getFilesTree(String token, int projectId, String branch,int recursive ,int page, int per_page) {
+    public static JSONArray getFilesTree(String token, int projectId, String branch, int recursive, int page, int per_page) {
         String apiUrl = apiUrl(String.format("/projects/%d/repository/tree", projectId));
         Map<String, String> params = new HashMap<>();
         params.put("ref", branch);
@@ -102,9 +108,10 @@ public class GitLabAPI {
     /**
      * 获取指定文件内容       ----（Base64编码）待定
      * GET /projects/:id/repository/files/:file_path
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
-     * @param filePath 文件路径
+     * @param filePath  文件路径
      * @return 文件的 String 对象
      */
     public static String getFile(String token, int projectId, String filePath) {
@@ -114,7 +121,8 @@ public class GitLabAPI {
     /**
      * 获取所有提交信息
      * GET /projects/:id/repository/commits
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
      * @return 提交列表 JSON 数组
      */
@@ -125,9 +133,10 @@ public class GitLabAPI {
     /**
      * 获取指定提交信息
      * GET /projects/:id/repository/commits/:sha
-     * @param token 访问令牌
+     *
+     * @param token     访问令牌
      * @param projectId 项目 ID
-     * @param sha 提交 SHA1 值
+     * @param sha       提交 SHA1 值
      * @return 提交 JSON 对象
      */
     public static JSONObject getCommit(String token, int projectId, String sha) {
@@ -137,7 +146,8 @@ public class GitLabAPI {
     /**
      * 根据用户名查找用户信息
      * GET /users/:username
-     * @param token 访问令牌
+     *
+     * @param token    访问令牌
      * @param username 用户名
      * @return 用户 JSON 对象
      */
@@ -148,6 +158,7 @@ public class GitLabAPI {
     /**
      * 获取当前用户信息
      * GET /user
+     *
      * @param token 访问令牌
      * @return 用户 JSON 对象
      */
@@ -158,7 +169,8 @@ public class GitLabAPI {
     /**
      * 根据用户 ID 获取用户信息
      * GET /users/:id
-     * @param token 访问令牌
+     *
+     * @param token  访问令牌
      * @param userId 用户 ID
      * @return 用户 JSON 对象
      */
@@ -169,6 +181,7 @@ public class GitLabAPI {
     /**
      * 根据用户邮箱查找用户信息
      * GET /users?search=:email
+     *
      * @param token 访问令牌
      * @param email 用户邮箱
      * @return 包含查询到的所有用户信息的 JSON 数组
@@ -227,10 +240,10 @@ public class GitLabAPI {
                     sb.append(params.get(key));
                 }
                 urlWithParams += "?" + sb.substring(1);
-                if(!params.containsKey("per_page")||!params.containsKey("page")){
+                if (!params.containsKey("per_page") || !params.containsKey("page")) {
                     urlWithParams += "&per_page=100&page=" + page;
                 }
-            }else {
+            } else {
                 urlWithParams += "?per_page=100&page=" + page;
             }
 
@@ -293,6 +306,7 @@ public class GitLabAPI {
             }
         }
     }
+
     /**
      * 组装 API URL
      */

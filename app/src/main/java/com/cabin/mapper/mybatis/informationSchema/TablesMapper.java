@@ -1,4 +1,4 @@
-package com.cabin.mapper.informationSchema;
+package com.cabin.mapper.mybatis.informationSchema;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
 @DS("information")
+@Mapper
 public interface TablesMapper extends BaseMapper<Tables> {
     List<Tables> getTableNameByTableSchemas(String Schemas);
 }

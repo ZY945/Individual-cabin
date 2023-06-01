@@ -18,6 +18,7 @@ public class BeanUtil {
 
     /**
      * jsonObject转换为List<List><br/>
+     *
      * @param jsonObject json对象
      * @return List<Object>
      */
@@ -28,15 +29,14 @@ public class BeanUtil {
     }
 
 
-
-        /**
-         * JsonArray转List
-         *
-         * @param jsonArray 提供的jsonArray
-         * @param clazz     列表类型.class
-         * @param <T>
-         * @return List<T>
-         */
+    /**
+     * JsonArray转List
+     *
+     * @param jsonArray 提供的jsonArray
+     * @param clazz     列表类型.class
+     * @param <T>
+     * @return List<T>
+     */
     @SuppressWarnings("目前不知道是否有阻塞,慎用")
     public static <T> List<T> getListByJsonArray(JSONArray jsonArray, Class<T> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();

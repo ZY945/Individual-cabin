@@ -29,6 +29,9 @@
         <!--https://central.sonatype.com/artifact/de.codecentric/spring-boot-admin-starter-server/3.0.4/overview-->
         <spring-boot-admin.version>3.0.2</spring-boot-admin.version>
         <!--数据库-->
+
+        <!---->
+        <influxdb.version>0.0.6-RELEASE</influxdb.version>
         <!-- MyBatis -->
         <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <!-- https://oss.sonatype.org/content/repositories/public/org/mybatis/spring/boot/mybatis-spring-boot-starter -->
@@ -120,13 +123,13 @@
                 <scope>import</scope>
             </dependency>
 
-                <dependency>
-                    <groupId>de.codecentric</groupId>
-                    <artifactId>spring-boot-admin-dependencies</artifactId>
-                    <version>${spring-boot-admin.version}</version>
-                    <type>pom</type>
-                    <scope>import</scope>
-                </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-dependencies</artifactId>
+                <version>${spring-boot-admin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- 数据库 -->
             <!-- MyBatis -->
@@ -240,12 +243,22 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool-all.version}</version>
             </dependency>
-
+            <!--https://gitee.com/ruin97/spring-boot-starter-influxdb-->
+            <dependency>
+                <groupId>io.github.betacatcode</groupId>
+                <artifactId>spring-boot-starter-influxdb</artifactId>
+                <version>${influxdb.version}</version>
+            </dependency>
 
             <!--模块-->
             <dependency>
                 <groupId>com.cabin.commons</groupId>
                 <artifactId>cabin-starter-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cabin.influxDB</groupId>
+                <artifactId>cabin-start-influxDB</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -331,6 +344,22 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

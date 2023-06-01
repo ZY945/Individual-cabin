@@ -13,7 +13,9 @@
 - [spring-boot-starter-websocket](https://spring.io/guides/gs/messaging-stomp-websocket/#:~:text=In%20Spring%E2%80%99s%20approach%20to%20working%20with%20STOMP%20messaging)
     - 协议
     - [STOMP](https://docs.spring.io/spring-framework/docs/5.2.10.RELEASE/spring-framework-reference/web.html#websocket-stomp-benefits)
+
 # api接口文档
+
 - gitlab
-  - [封装好的API](https://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
-  - [官方文档](https://docs.gitlab.cn/jh/api/rest/)
+    - [封装好的API](https://mvnrepository.com/artifact/org.gitlab4j/gitlab4j-api)
+    - [官方文档](https://docs.gitlab.cn/jh/api/rest/)

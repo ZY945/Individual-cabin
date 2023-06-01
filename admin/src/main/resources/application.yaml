@@ -6,7 +6,7 @@ server:
 monitor:
   rocketmq:
     namesrvAddr: ${rocketmq.namesrvAddr:localhost:9876}
-    brokerAddr:  ${rocketmq.brokerAddr:localhost:10911}
+    brokerAddr: ${rocketmq.brokerAddr:localhost:10911}
     defaultTopicName: ${rocketmq.defaultTopicName:localhost}
     consumerGROUP: ${rocketmq.consumerGROUP:testGroup}
 

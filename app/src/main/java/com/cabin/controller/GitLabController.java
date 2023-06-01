@@ -50,7 +50,7 @@ public class GitLabController {
         try {
             JSONObject project = GitLabAPI.getProject(bo.getToken(), bo.getProjectId()); // 获取指定项目的信息
             Map<String, Object> projectMap = project.toMap(); // 转换为 Map 对象
-            return Result.success(projectMap, "projectId为"+bo.getProjectId()+"的项目信息");
+            return Result.success(projectMap, "projectId为" + bo.getProjectId() + "的项目信息");
         } catch (Exception e) {
             return Result.authFail(null, "错误");
         }
@@ -85,7 +85,7 @@ public class GitLabController {
         try {
             JSONObject projectsList = GitLabAPI.getBranch(bo.getToken(), bo.getProjectId(), bo.getBranch()); // 获取指定项目特定分支的信息
             Map<String, Object> paojectMap = projectsList.toMap(); // 转换为 Map 对象
-            return Result.success(paojectMap, "projectId为"+bo.getProjectId()+"项目"+bo.getBranch()+"分支的信息");
+            return Result.success(paojectMap, "projectId为" + bo.getProjectId() + "项目" + bo.getBranch() + "分支的信息");
         } catch (Exception e) {
             return Result.authFail(null, "错误");
         }
@@ -102,7 +102,7 @@ public class GitLabController {
         //TODO token应该都统一保存在用户表设置
         try {
             JSONArray branchJson = GitLabAPI.getBranchList(bo.getToken(), bo.getProjectId()); // 获取指定项目所有分支的信息
-            return Result.success(branchJson.toList(), "projectId为"+bo.getProjectId()+"项目所有分支的信息");
+            return Result.success(branchJson.toList(), "projectId为" + bo.getProjectId() + "项目所有分支的信息");
         } catch (Exception e) {
             return Result.authFail(null, "错误");
         }

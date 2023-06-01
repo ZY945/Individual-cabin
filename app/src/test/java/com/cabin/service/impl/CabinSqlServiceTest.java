@@ -1,14 +1,6 @@
 package com.cabin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.cabin.entity.Tables;
-import com.cabin.service.TablesService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 /**
  * @author 伍六七
@@ -16,18 +8,51 @@ import java.util.List;
  */
 @SpringBootTest
 public class CabinSqlServiceTest {
-
-
-    @Autowired
-    private TablesService tablesService;
-
-    @Test
-    void getTables() {
-//        List<String> cabin = cabinSqlService.findTablesName("cabin");
-//        System.out.println(cabin);
-        LambdaQueryWrapper<Tables> lqw = Wrappers.lambdaQuery();
-        lqw.eq(Tables::getTableSchema, "cabin");
-        List<Tables> list = tablesService.list(lqw);
-        System.out.println(list);
-    }
+//
+//    @Autowired
+//    StudentMapper studentMapper;
+//    //单条插入
+//    @Test
+//    void testInsertOne(){
+//        Student student1 = new Student();
+//        student1.setSname("ww");
+//        student1.setValue(235.12);
+//        student1.setTime(Instant.ofEpochMilli(1640966500000L));
+//        studentMapper.insertOne(student1);
+//    }
+//
+//    //批量插入
+//    @Test
+//    void testInsertBatch(){
+//        Student student1 = new Student();
+//        student1.setSname("zs");
+//        student1.setValue(123.45);
+//        student1.setTime(Instant.ofEpochMilli(1640966400000L));
+//
+//        Student student2 = new Student();
+//        student2.setSname("ls");
+//        student2.setValue(666.21);
+//        student2.setTime(Instant.ofEpochMilli(1640966300000L));
+//
+//        List<Student> studentList = new ArrayList<>();
+//
+//        studentList.add(student1);
+//        studentList.add(student2);
+//        studentMapper.insertBatch(studentList);
+//    }
+//
+//    //查询
+//    @Test
+//    void testSelect(){
+//        List<Student> studentList = studentMapper.selectByName("zs");
+//        for (Student student : studentList) {
+//            System.out.println(student);
+//        }
+//    }
+//
+//    //删除
+//    @Test
+//    void testDelete(){
+//        studentMapper.deleteAll();
+//    }
 }

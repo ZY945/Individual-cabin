@@ -45,7 +45,7 @@ public class RocketMQController {
 
             e.printStackTrace();
         }
-        topics.put("msg","服务未开启");
+        topics.put("msg", "服务未开启");
         return topics;
     }
 

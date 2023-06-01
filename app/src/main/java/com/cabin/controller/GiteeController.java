@@ -105,10 +105,9 @@ public class GiteeController {
     }
 
 
-
     @GetMapping("/pull")
-    public Result<String> downLoadByGit(GiteeBo bo){
+    public Result<String> downLoadByGit(GiteeBo bo) {
         String result = GiteeAPI.downLoadByGit(bo.getToken(), bo.getOwner(), bo.getRepo());
-        return Result.success(result,"下载结束");
+        return Result.success(result, "下载结束");
     }
 }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cabin.common.response.Result;
 import com.cabin.entity.Tables;
-import com.cabin.mapper.informationSchema.TablesMapper;
+import com.cabin.mapper.mybatis.informationSchema.TablesMapper;
 import com.cabin.service.TablesService;
 import org.springframework.stereotype.Service;
 

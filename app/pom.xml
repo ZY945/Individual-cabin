@@ -34,6 +34,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--日志监控-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>5.3</version>
+        </dependency>
+
         <!--开启admin监控-->
         <dependency>
             <groupId>de.codecentric</groupId>
@@ -68,6 +75,10 @@
         <dependency>
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cabin.influxDB</groupId>
+            <artifactId>cabin-start-influxDB</artifactId>
         </dependency>
         <dependency>
             <groupId>com.cabin.commons</groupId>
