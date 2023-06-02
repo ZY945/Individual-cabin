@@ -57,6 +57,11 @@ const routes = [
                 name: 'chatApp',
                 component: () => import('@/components/talk/chat-app.vue')
             },
+            {
+                path: '/shortUrl',
+                name: 'shortUrl',
+                component: () => import('@/components/url/short-url.vue')
+            },
 
         ],
 

@@ -1,7 +1,10 @@
 package com.cabin.utils.commonUtil;
 
+import cn.hutool.core.lang.hash.MurmurHash;
+
 import java.security.MessageDigest;
 import java.util.*;
+import java.util.random.RandomGenerator;
 
 /**
  * 字符串工具栏
@@ -13,6 +16,14 @@ import java.util.*;
  * @date 2023/5/17 15:15
  */
 public class StringUtil {
+
+
+    private static char[] CHARS = new char[]{
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+    };
+
 
     //TODO           语句
     //目前是匹配字符(文字和字母)，遇到符号就停止，
@@ -232,20 +243,19 @@ public class StringUtil {
     }
 
 
-    //TODO           功能型
+    // TODO           功能型
 
-    public String[] shortUrls(String url) {
+    /**
+     * 直接md5，唯一性不是很好
+     * @param url
+     * @return
+     */
+    @Deprecated()
+    public static String[] shortUrls(String url) {
         // 可以自定义生成 MD5 加密字符传前的混合 KEY
         String key = "test";
         // 要使用生成 URL 的字符
-        String[] chars = new String[]{"a", "b", "c", "d", "e", "f", "g", "h",
-                "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-                "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
-                "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H",
-                "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-                "U", "V", "W", "X", "Y", "Z"
 
-        };
         // 对传入网址进行 MD5 加密
         String hex = md5ByHex(key + url);
 
@@ -262,7 +272,7 @@ public class StringUtil {
                 // 把得到的值与 0x0000003D 进行位与运算，取得字符数组 chars 索引
                 long index = 0x0000003D & lHexLong;
                 // 把取得的字符相加
-                outChars += chars[(int) index];
+                outChars += CHARS[(int) index];
                 // 每次循环按位右移 5 位
                 lHexLong = lHexLong >> 5;
             }
@@ -272,13 +282,40 @@ public class StringUtil {
         return resUrl;
     }
 
+
+    public static int getRandomInt(){
+        RandomGenerator aDefault = RandomGenerator.getDefault();
+        return aDefault.nextInt();
+    }
+
+
+    /**
+     * 使用hutool的MurmurHash加密长连接,然后对chars进行取余
+     * @param longUrl
+     * @return
+     */
+    public static String shortUrl(String longUrl){
+        StringBuilder builder = new StringBuilder();
+        //伪随机数,其实我也不懂真随机和一一对应的哪个更好
+        int hash32 = MurmurHash.hash32(longUrl);
+        //用long是统一正数
+        long num = hash32<0?Integer.MAX_VALUE- (long)hash32:hash32;
+        while(num>0){
+            
+            long index = 0x0000003D & num;
+            char ch = CHARS[(int) index];
+            builder.append(ch);
+            num /= 0x0000003D;
+        }
+        return builder.toString();
+    }
     /**
      * MD5加密(32位大写)
      *
      * @param src
      * @return
      */
-    public String md5ByHex(String src) {
+    public static String md5ByHex(String src) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] b = src.getBytes();

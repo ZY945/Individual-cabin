@@ -1,3 +1,5 @@
+code:
+  host: ${host}
 server:
   port: 8080
 #admin监控
@@ -38,6 +40,14 @@ spring:
           url: jdbc:mysql://${host}:3306/information_schema?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
           username: ${mysql_username}
           password: ${mysql_password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
 #      # druid 全局配置
 #      druid:
 #        initial-size: 5
@@ -55,7 +65,7 @@ spring:
 spring:
   data:
     redis:
-      #      host: ${host}
+      host: ${host}
       password: ${redis_password}
 logging:
   config:
@@ -72,3 +82,16 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
   #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.cabin.entity
+
+---
+influxdb:
+  url: http://127.0.0.1:8086
+  username: root         #用户
+  password: 123          #密码
+  database: test         #库
+#spring:
+#  influx:
+#    url: http://120.55.99.46/:8086
+#    user: user
+#    password: zhangyang
+#    mapper-location: com.cabin.mapper.influxDB

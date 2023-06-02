@@ -92,9 +92,14 @@ public class RedisCacheManagerConfiguration {
         // 可以使用读写JSON
         Jackson2JsonRedisSerializer<?> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
-//        jackson2JsonRedisSerializer.setObjectMapper(objectMapper());
-        // springboot 3.0.2 'setObjectMapper(com.fasterxml.jackson.databind.ObjectMapper)' is deprecated and marked for removal
+//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+//        ObjectMapper build = builder.build();
 
+        //https://docs.spring.io/spring-data/redis/docs/3.0.2/reference/html/#redis:serializer
+        //TODO 需要手动去反序列化
+        //在get获取后,用Object封装,Object进行封装成指定类
+//        jackson2JsonRedisSerializer.setObjectMapper(objectMapper());
+//         springboot 3.0.2 'setObjectMapper(com.fasterxml.jackson.databind.ObjectMapper)' is deprecated and marked for removal
 
         // Redis 字符串：键、值序列化
         template.setKeySerializer(new StringRedisSerializer());

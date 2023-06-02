@@ -50,6 +50,11 @@ export default {
           "prepend-icon": "mdi-star",
           path: "/chatApp",
         },
+        {
+          title: "shortUrl",
+          "prepend-icon": "mdi-star",
+          path: "/shortUrl",
+        },
       ],
     }
   },

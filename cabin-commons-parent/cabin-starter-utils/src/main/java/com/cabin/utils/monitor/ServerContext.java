@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Properties;
@@ -162,11 +161,7 @@ public final class ServerContext implements Serializable {
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         String jsonStr = null;
 
-        try {
-            jsonStr = JsonUtil.toJSONString(operatingSystemMXBean);
-        } catch (IllegalAccessException | JSONException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        jsonStr = JsonUtil.toJSONString(operatingSystemMXBean);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonStr);
@@ -205,11 +200,7 @@ public final class ServerContext implements Serializable {
 
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         String jsonStr = null;
-        try {
-            jsonStr = JsonUtil.toJSONString(operatingSystemMXBean);
-        } catch (IllegalAccessException | JSONException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        jsonStr = JsonUtil.toJSONString(operatingSystemMXBean);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonStr);

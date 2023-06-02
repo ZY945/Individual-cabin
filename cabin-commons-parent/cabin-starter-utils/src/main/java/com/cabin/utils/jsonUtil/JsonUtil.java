@@ -65,13 +65,15 @@ public class JsonUtil {
     /**
      * <p>对象/数组列表转JSON字符串</p>
      */
-    public static String toJSONString(Object obj)
-            throws JSONException, IllegalAccessException, IllegalArgumentException,
-            InvocationTargetException, NoSuchMethodException, SecurityException {
+    public static String toJSONString(Object obj) {
         if (obj == null) {
             return null;
         }
-        return toJSONObject(obj).toString();
+        try {
+            return toJSONObject(obj).toString();
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

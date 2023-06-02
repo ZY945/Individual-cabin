@@ -1,18 +1,20 @@
 package com.cabin.controller;
 
+import com.cabin.common.Task.ShortTask;
 import com.cabin.common.config.PatchcaConfig;
 import com.cabin.common.response.Result;
+import com.cabin.service.UtilService;
+import com.cabin.utils.BeanUtils.ObjectUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;
 import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author 伍六七
@@ -20,7 +22,33 @@ import java.io.FileOutputStream;
  */
 @RestController
 @RequestMapping("/util")
-public class UtilController {
+public class IndexController {
+
+    @Autowired
+    private UtilService utilService;
+
+    /**
+     * 短链接获取
+     * @param url 原链接
+     * @return 短链接
+     */
+    @GetMapping("/shortUrl")
+    public Result<String> generatesShortUrl(@RequestParam String url) {
+        String shortUrl = utilService.setShortUrl(url);
+        return Result.success(shortUrl, "短链接");
+    }
+
+    /**
+     * 根据短链接重定向
+     * @param shortUrl 短链接
+     */
+    @GetMapping("/{shortUrl}")
+    public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+        String url = utilService.getShortUrl(shortUrl);
+        ObjectUtil.checkStrNonEmpty(url, "url");
+        response.sendRedirect(url);
+    }
+
 
     /**
      * 获取验证码(.png)
