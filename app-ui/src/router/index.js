@@ -50,7 +50,7 @@ const routes = [
             {
                 path: '/login',
                 name: 'login',
-                component: () => import('@/components/talk/chat-login.vue')
+                component: () => import('@/components/oauth2/login.vue')
             },
             {
                 path: '/chatApp',

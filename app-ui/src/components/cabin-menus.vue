@@ -101,7 +101,7 @@ export default {
       </v-navigation-drawer>
 
       <!-- 主要内容       -->
-      <v-main>
+      <v-main class="v-main">
         <router-view/>
       </v-main>
     </v-app>
@@ -109,10 +109,4 @@ export default {
 </template>
 
 <style scoped>
-.v-main {
-  height: 100%;
-  width: 100%;
-  background-color: #f2f2f2; /* 背景颜色*/
-  border: 1px solid #ccc; /* 实线围绕*/
-}
 </style>
