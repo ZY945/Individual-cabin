@@ -46,6 +46,11 @@ export default {
           path: "/login",
         },
         {
+          title: "feishu",
+          "prepend-icon": "mdi-star",
+          path: "/feishu",
+        },
+        {
           title: "chatApp",
           "prepend-icon": "mdi-star",
           path: "/chatApp",

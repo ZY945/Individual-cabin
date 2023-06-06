@@ -1,0 +1,30 @@
+server:
+  port: 9002
+---
+# 数据库
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${host}:3306/cabin?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: ${mysql_username}
+    password: ${mysql_password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+  data:
+    redis:
+      host: ${host}
+      password: ${redis_password}
+feishu:
+  client:
+    code_url_prefix: https://passport.feishu.cn/suite/passport/oauth/authorize
+    token_url_prefix: https://passport.feishu.cn/suite/passport/oauth/token
+    user_url_prefix: https://passport.feishu.cn/suite/passport/oauth/userinfo
+    client_id: ${client_id}
+    client_secret: ${client_secret}
+    redirect_url_get_token: ${redirect_url_get_token}

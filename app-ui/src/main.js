@@ -9,7 +9,6 @@ import 'highlight.js/lib/common'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import axios from "axios";
 
-
 const app = createApp(App);
 
 app.use(router);

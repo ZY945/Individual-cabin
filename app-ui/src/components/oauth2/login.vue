@@ -5,6 +5,7 @@ export default {
   name: "ChatLogin",
   data() {
     return {
+      feishuurl: '',
       username: '',
       password: '',
       usernameActive: false,
@@ -22,7 +23,7 @@ export default {
         alert('Invalid login credentials')
       })
     },
-    register() {
+    googlelogin() {
       axios.post('/cabinChat/api/login', {
         username: this.username,
         password: this.password
@@ -31,7 +32,36 @@ export default {
       }).catch(() => {
         alert('Invalid login credentials')
       })
-    }
+    },
+    githublogin() {
+      axios.post('/cabinChat/api/login', {
+        username: this.username,
+        password: this.password
+      }).then(() => {
+        this.$router.push('/')
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
+    dingtalklogin() {
+      axios.post('/cabinChat/api/login', {
+        username: this.username,
+        password: this.password
+      }).then(() => {
+        this.$router.push('/')
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
+    feishulogin() {
+      axios.get('/oauth2/feishu/code', {
+      }).then(response => {
+        this.feishuurl=response.data;
+        window.location.href = this.feishuurl;
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
   }
 }
 </script>
@@ -53,6 +83,15 @@ export default {
                                 @mouseleave="usernameActive = false"/>
                 </div>
               </div>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
               <div  class="form-text-wrapper">
                 <a class="form-label">password</a>
                 <div  class="form-text">
@@ -72,27 +111,21 @@ export default {
           <v-card-actions>
             <v-btn color="white" @click="register()" class="login-btn">Register</v-btn>
           </v-card-actions>
-          <div class="d-flex justify-center align-center" style=" width:30px;margin: 20px auto;">
-            <v-card-text>
-              <v-btn  @click="login()"  class="login-btn">
-                <v-icon left src="../../assets/img/google.png" width="30">
-                  mdi-google
-                </v-icon>
+          <div class="login-png-app">
+              <v-btn  @click="googlelogin()" class="login-png" >
+                <img src="../../assets/img/google.svg" alt="飞书扫码登录" width="30">
               </v-btn>
-            </v-card-text>
-            <v-card-text >
-              <v-btn  @click="login()" class="login-btn">
-                <v-icon left src="../../assets/img/github.png" width="30">
-                  mdi-github
-                </v-icon>
+              <v-btn  @click="githublogin()" class="login-png">
+                <img src="../../assets/img/github.svg" alt="飞书扫码登录" width="30">
               </v-btn>
-            </v-card-text>
-            <v-card-text>
-              <v-btn @click="login()" class="login-btn">
+              <v-btn @click="dingtalklogin()" class="login-png">
                 <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
-                <img src="../../assets/img/dingtalk.png" alt="钉钉扫码登录" width="30">
+                <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
               </v-btn>
-            </v-card-text>
+              <v-btn @click="feishulogin()" class="login-png">
+                <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
+                <img src="../../assets/img/feishu.svg" alt="飞书扫码登录" width="30">
+              </v-btn>
           </div>
         </v-card>
       </div>
@@ -113,6 +146,19 @@ export default {
   max-width: 98px;
   max-height: 44px;
   margin: 0 auto;
+  background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
+}
+.login-png-app{
+  display: flex;
+  justify-content: center;
+  width: 30px;
+  margin: 20px auto;
+}
+.login-png {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 50%;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
 .background {
@@ -139,5 +185,6 @@ export default {
   max-width: 236px;
   max-height: 44px;
   background-color: rgb(7, 7, 14);
+  color: white;
 }
 </style>

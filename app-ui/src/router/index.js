@@ -19,7 +19,7 @@ const routes = [
     {
         path: '/',
         component: cabinMenus,
-        redirect: 'home ',
+        redirect: 'home',
         children: [
             {
                 path: '/home',
@@ -51,6 +51,11 @@ const routes = [
                 path: '/login',
                 name: 'login',
                 component: () => import('@/components/oauth2/login.vue')
+            },
+            {
+                path: '/feishu',
+                name: 'feishu',
+                component: () => import('@/components/oauth2/feishu-login.vue')
             },
             {
                 path: '/chatApp',
