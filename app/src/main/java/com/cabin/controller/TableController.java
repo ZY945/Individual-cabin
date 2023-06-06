@@ -1,6 +1,6 @@
 package com.cabin.controller;
 
-import com.cabin.common.response.Result;
+import com.cabin.entity.response.Result;
 import com.cabin.entity.Tables;
 import com.cabin.service.TablesService;
 import org.springframework.beans.factory.annotation.Autowired;

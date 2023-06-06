@@ -71,7 +71,7 @@ logging:
   config:
     classpath: logback-spring.xml
   file:
-    path: F:\CODE_mid\MyCode\Individual-cabin\log
+    path: F:\study\code\java\Individual-cabin\logs
 
 
 mybatis-plus:

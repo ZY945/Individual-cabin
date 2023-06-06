@@ -16,6 +16,7 @@
         <module>app</module>
         <module>cabin-IM</module>
         <module>admin</module>
+        <module>cabin-oauth2</module>
     </modules>
 
 
@@ -24,7 +25,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>3.0.2</spring-boot.version>
+        <spring-boot.version>3.1.0</spring-boot.version>
         <!--需要与springboot版本对应2.x对应2.x-->
         <!--https://central.sonatype.com/artifact/de.codecentric/spring-boot-admin-starter-server/3.0.4/overview-->
         <spring-boot-admin.version>3.0.2</spring-boot-admin.version>

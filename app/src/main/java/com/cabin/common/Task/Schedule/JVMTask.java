@@ -1,4 +1,4 @@
-package com.cabin.common.Schedule.Task;
+package com.cabin.common.Task.Schedule;
 
 /**
  * @author 伍六七

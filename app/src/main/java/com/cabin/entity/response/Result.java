@@ -1,4 +1,4 @@
-package com.cabin.common.response;
+package com.cabin.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

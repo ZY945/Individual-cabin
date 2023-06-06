@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @DS("app")
-@Table(name = "cabini_util_shorturl")//注意name是表名
+@Table(name = "cabin_util_shorturl")//注意name是表名
 public class UrlMap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

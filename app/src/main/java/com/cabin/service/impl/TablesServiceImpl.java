@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cabin.common.response.Result;
+import com.cabin.entity.response.Result;
 import com.cabin.entity.Tables;
 import com.cabin.mapper.mybatis.informationSchema.TablesMapper;
 import com.cabin.service.TablesService;

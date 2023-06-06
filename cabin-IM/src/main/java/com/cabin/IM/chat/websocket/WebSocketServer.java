@@ -1,5 +1,6 @@
 package com.cabin.IM.chat.websocket;
 
+import com.cabin.IM.chat.empty.SessionWrap;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;

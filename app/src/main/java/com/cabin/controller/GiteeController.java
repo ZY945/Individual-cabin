@@ -1,6 +1,6 @@
 package com.cabin.controller;
 
-import com.cabin.common.response.Result;
+import com.cabin.entity.response.Result;
 import com.cabin.utils.API.GiteeUtil.GiteeAPI;
 import com.cabin.utils.API.GiteeUtil.empty.GiteeBo;
 import org.springframework.web.bind.annotation.GetMapping;

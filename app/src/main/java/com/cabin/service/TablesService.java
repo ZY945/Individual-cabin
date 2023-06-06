@@ -1,7 +1,7 @@
 package com.cabin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.cabin.common.response.Result;
+import com.cabin.entity.response.Result;
 import com.cabin.entity.Tables;
 
 import java.util.List;

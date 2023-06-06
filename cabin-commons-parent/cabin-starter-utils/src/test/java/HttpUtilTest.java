@@ -1,6 +1,8 @@
 import com.cabin.utils.http.HttpUtil;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 
 /**
  * @author 伍六七
@@ -9,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class HttpUtilTest {
     @Test
     void getStrResponse() {
-        String strResponse = HttpUtil.getStrResponse("https://www.baidu.com");
+        String strResponse = HttpUtil.get("https://www.baidu.com",new HashMap<>());
         System.out.println(strResponse);
         // 注意需要api返回的格式
 //        JSONArray jsonArrayResponse = HttpUtil.getJsonArrayResponse("https://www.baidu.com");

@@ -1,8 +1,7 @@
 package com.cabin.controller;
 
-import com.cabin.common.Task.ShortTask;
 import com.cabin.common.config.PatchcaConfig;
-import com.cabin.common.response.Result;
+import com.cabin.entity.response.Result;
 import com.cabin.service.UtilService;
 import com.cabin.utils.BeanUtils.ObjectUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;

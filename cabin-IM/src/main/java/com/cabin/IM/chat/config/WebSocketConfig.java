@@ -1,4 +1,4 @@
-package com.cabin.IM.chat.websocket;
+package com.cabin.IM.chat.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
