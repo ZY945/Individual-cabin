@@ -1,4 +1,4 @@
-package com.cabin.oauth2.empty;
+package com.cabin.oauth2.empty.feishu;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

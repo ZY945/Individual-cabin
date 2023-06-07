@@ -36,8 +36,17 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-
-
+        <!--发验证码-->
+        <!--MQ队列-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!--邮件服务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
         <!--钉钉第三方登录-->
         <dependency>

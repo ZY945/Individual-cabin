@@ -3,13 +3,19 @@ import axios from 'axios'
 
 export default {
   name: "ChatLogin",
+  components: {},
   data() {
     return {
-      feishuurl: '',
+      feiShuUrl: '',
+      email: '',
+      code: '',
       username: '',
       password: '',
-      usernameActive: false,
-      passwordActive: false,
+      emailActive: false,
+      codeActive: false,
+      userNameActive: false,
+      passWordActive: false,
+      loginType: 'account'
     }
   },
   methods: {
@@ -23,12 +29,37 @@ export default {
         alert('Invalid login credentials')
       })
     },
+    loginByEmail(){
+      axios.post('/oauth2/login/email', null,{
+        params:{
+          userEmail: this.email,
+          code: this.code
+        }
+      }).then(response => {
+        if(response.data.code===200){
+          this.$router.push('/chatApp')
+        }else{
+          alert('Captcha error')
+        }
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
+    sendCode(){
+      axios.get('/oauth2/login/email/sendCode', {
+        params:{
+          userEmail: this.email,
+        }
+      }).then(() => {
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
     googlelogin() {
       axios.post('/cabinChat/api/login', {
         username: this.username,
         password: this.password
       }).then(() => {
-        this.$router.push('/')
       }).catch(() => {
         alert('Invalid login credentials')
       })
@@ -56,8 +87,8 @@ export default {
     feishulogin() {
       axios.get('/oauth2/feishu/code', {
       }).then(response => {
-        this.feishuurl=response.data;
-        window.location.href = this.feishuurl;
+        this.feiShuUrl=response.data;
+        window.location.href = this.feiShuUrl;
       }).catch(() => {
         alert('Invalid login credentials')
       })
@@ -70,62 +101,85 @@ export default {
     <v-main>
       <div class="background">
         <v-card class="login-app">
-          <v-card-title class="form-label">Login</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
+          <div class="form-table-name">
+            <div class="Account_login_loginBox_tab">
+              <button  @click="loginType='account'">Login</button>
+            </div>
+            <div  class="Mail_login_loginBox_tab">
+              <button  @click="loginType='email'">Email</button>
+            </div>
+          </div>
+          <v-card-text class="form-account-app" v-if="loginType === 'account'">
             <v-form >
-              <div class="form-text-wrapper">
+              <div >
                 <a class="form-label">username</a>
                 <div class="form-text">
                   <v-text-field v-model="username"
-                                :class="{ 'form-text-active': usernameActive }"
-                                @mouseover="usernameActive = true"
-                                @mouseleave="usernameActive = false"/>
+                                :class="{ 'form-text-active': userNameActive }"
+                                @mouseover="userNameActive = true"
+                                @mouseleave="userNameActive = false"
+                                class="form-text-wrapper"/>
                 </div>
               </div>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <div  class="form-text-wrapper">
+              <div  class="form-text-wrapper" style="margin-top: 10px">
                 <a class="form-label">password</a>
                 <div  class="form-text">
                   <v-text-field v-model="password"
                                 type="password"
-                                :class="{ 'form-text-active': passwordActive }"
-                                @mouseover="passwordActive = true"
-                                @mouseleave="passwordActive = false"/>
+                                :class="{ 'form-text-active': passWordActive }"
+                                @mouseover="passWordActive = true"
+                                @mouseleave="passWordActive = false"/>
                 </div>
               </div>
             </v-form>
+            <v-card-actions>
+              <v-btn color="white" @click="login()" class="login-btn">Login</v-btn>
+            </v-card-actions>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-btn color="white" @click="login()" class="login-btn">Login</v-btn>
-          </v-card-actions>
-          <v-card-actions>
-            <v-btn color="white" @click="register()" class="login-btn">Register</v-btn>
-          </v-card-actions>
+          <v-card-text class="form-account-app" v-if="loginType === 'email'">
+            <v-form >
+              <div >
+                <a class="form-label">email</a>
+                <div class="form-text">
+                  <v-text-field v-model="email"
+                                :class="{ 'form-text-active': emailActive }"
+                                @mouseover="emailActive = true"
+                                @mouseleave="emailActive = false"
+                                class="form-text-wrapper"/>
+                </div>
+              </div>
+              <div  class="form-text-wrapper" >
+                <a class="form-label">code</a>
+                <div  class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
+                  <v-text-field v-model="code"
+                                type="password"
+                                :class="{ 'form-text-active': codeActive }"
+                                @mouseover="codeActive = true"
+                                @mouseleave="codeActive = false"
+                  />
+                  <v-btn color="white" style="margin-left: 10px;" @click="sendCode()">Send Code</v-btn>
+                </div>
+              </div>
+            </v-form>
+            <v-card-actions>
+              <v-btn color="white" @click="loginByEmail()" class="login-btn">Login</v-btn>
+            </v-card-actions>
+          </v-card-text>
           <div class="login-png-app">
-              <v-btn  @click="googlelogin()" class="login-png" >
-                <img src="../../assets/img/google.svg" alt="飞书扫码登录" width="30">
-              </v-btn>
-              <v-btn  @click="githublogin()" class="login-png">
-                <img src="../../assets/img/github.svg" alt="飞书扫码登录" width="30">
-              </v-btn>
-              <v-btn @click="dingtalklogin()" class="login-png">
-                <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
-                <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
-              </v-btn>
-              <v-btn @click="feishulogin()" class="login-png">
-                <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
-                <img src="../../assets/img/feishu.svg" alt="飞书扫码登录" width="30">
-              </v-btn>
+            <v-btn  @click="googlelogin()" class="login-png" >
+              <img src="../../assets/img/google.svg" alt="飞书扫码登录" width="30">
+            </v-btn>
+            <v-btn  @click="githublogin()" class="login-png">
+              <img src="../../assets/img/github.svg" alt="飞书扫码登录" width="30">
+            </v-btn>
+            <v-btn @click="dingtalklogin()" class="login-png">
+              <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
+              <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
+            </v-btn>
+            <v-btn @click="feishulogin()" class="login-png">
+              <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
+              <img src="../../assets/img/feishu.svg" alt="飞书扫码登录" width="30">
+            </v-btn>
           </div>
         </v-card>
       </div>
@@ -142,7 +196,52 @@ export default {
   padding: 20px;
   background-color: rgb(26, 26, 42);
 }
+
+.background {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(rgb(131,12,231), rgb(16,47,154)); /* 标准的语法 */
+}
+
+
+.form-account-app {
+  max-width: 260px;
+  max-height: 230px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgb(26, 26, 42);
+}
+
+.form-table-name {
+  display: flex;
+  justify-content: space-between; /* 将两个按钮左右分别对齐 */
+  align-items: flex-start; /* 将两个按钮顶部对齐 */
+}
+.Account_login_loginBox_tab {
+  display: inline-block;
+  max-width: 130px;
+  max-height: 245px;
+  font-size: 30px;
+  color: white;
+}
+
+.Mail_login_loginBox_tab {
+  display: inline-block;
+  max-width: 130px;
+  max-height: 245px;
+  font-size: 30px;
+  color: white;
+}
+
 .login-btn {
+  max-width: 98px;
+  max-height: 44px;
+  margin: 20px auto;
+  background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
+}
+.register-btn {
   max-width: 98px;
   max-height: 44px;
   margin: 0 auto;
@@ -161,13 +260,7 @@ export default {
   border-radius: 50%;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
-.background {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  background: linear-gradient(rgb(131,12,231), rgb(16,47,154)); /* 标准的语法 */
-}
+
 .form-label {
   color: white;
 }

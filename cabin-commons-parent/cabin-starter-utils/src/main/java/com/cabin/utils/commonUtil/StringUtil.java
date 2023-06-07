@@ -344,7 +344,7 @@ public class StringUtil {
      * @param n
      * @return
      */
-    public String creatCode(int n) {
+    public static String creatCode(int n) {
         //3、定义一个字符串变量记录生成的随机字符
         String code = "";
         Random r = new Random();

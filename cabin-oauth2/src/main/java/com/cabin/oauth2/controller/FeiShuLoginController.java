@@ -1,24 +1,18 @@
 package com.cabin.oauth2.controller;
 
 
-import com.cabin.oauth2.empty.FeiShuAccessToken;
-import com.cabin.oauth2.empty.FeiShuClient;
+import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
+import com.cabin.oauth2.empty.feishu.FeiShuClient;
 import com.cabin.oauth2.service.FeiShuService;
-import com.cabin.utils.http.HttpUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * @author 伍六七

@@ -1,6 +1,6 @@
 package com.cabin.oauth2.service;
 
-import com.cabin.oauth2.empty.FeiShuAccessToken;
+import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
 
 /**
  * @author 伍六七

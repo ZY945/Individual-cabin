@@ -1,6 +1,6 @@
 package com.cabin.oauth2.repository;
 
-import com.cabin.oauth2.empty.FeiShuUserInfo;
+import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.cabin.oauth2.empty;
+package com.cabin.oauth2.empty.feishu;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
