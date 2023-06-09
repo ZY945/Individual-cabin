@@ -46,4 +46,26 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!--包名-->
+        <!--        <finalName>${project.artifactId}</finalName>-->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 防止插件在父 pom 中被重复引用 -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <!--替换为你的应用程序主类-->
+                        <configuration>
+                            <mainClass>com.cabin.IM.CabinIMApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

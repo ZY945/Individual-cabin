@@ -1,4 +1,4 @@
-package com.cabin.IM.chat.empty;
+package com.cabin.IM.empty;
 
 import jakarta.websocket.Session;
 import lombok.AllArgsConstructor;

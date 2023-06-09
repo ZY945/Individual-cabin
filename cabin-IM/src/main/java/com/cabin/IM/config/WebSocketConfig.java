@@ -1,4 +1,4 @@
-package com.cabin.IM.chat.config;
+package com.cabin.IM.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
