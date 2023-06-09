@@ -1,51 +1,60 @@
-# 部分参考
+# 前端打包部署
+## 目录
+下面文件均在项目根目录下的docs文件夹内
 
-https://gitee.com/xuxiaowei-cloud/xuxiaowei-cloud
+部署时需要的文件放在同一个文件夹下,我这里是vue 
+- vue
+  - dist
+    - 自己打包
+  - nginx.conf
+    - 需要配置反向代理的ip为自己的服务器,本地就127.0.0.1
+  - Dockerfile
+    - 不需要修改
+  - vueBuild.sh
+    - 不需要修改
+  最终
+```text
+[root@iZbp1c400avts4bhhmibppZ vue]# ls
+dist  Dockerfile  nginx.conf  vueBuild.sh
+[root@iZbp1c400avts4bhhmibppZ vue]# chmod 744 vueBuild.sh 
+[root@iZbp1c400avts4bhhmibppZ vue]# ./vueBuild.sh 
+success
+...
+```
+## 打包
+在app-ui模块下执行
+```
+npm run build
+```
+## 设置sh文件权限
+```
+chmod 744 vueBuild.sh 
+```
+## 执行文件构建并允许docker容器
+```
+./vueBuild.sh
+```
+# 后端打包部署
+需要跳过测试,先打工具类的包(如果是idea,maven的右上角有跳过测试的按钮,点击即可)
+```text
+mvn install -Dmaven.test.skip=true
+```
+## 目录
 
-# 版本
-
-<spring-boot.version>3.0.2</spring-boot.version>
-<java.version>17</java.version>
-
-# url
-
-## 图标
-
-https://www.iconfont.cn/home/index?spm=a313x.7781069.1998910419.2 </br>
-
-## oauth2
-
-https://blog.csdn.net/weixin_47255175/article/details/122279964 </br>
-https://www.bilibili.com/video/BV1FL411h7es/?spm_id_from=333.851.b_7265636f6d6d656e64.5&vd_source=918234aac303a01ae2d14d0251c58d61 </br>
-
-## security:
-
-https://blog.csdn.net/hjg719/article/details/128302584
-
-## 分布式ID
-
-### UUID
-
-Java自带的生成一串唯一随机36位字符串（32个字符串+4个“-”）的算法。它可以保证唯一性，且据说够用N亿年，但是其业务可读性差，无法有序递增。 </br>
-
-### SnowFlake
-
-今天的主角雪花算法，它是Twitter开源的由64位整数组成分布式ID，性能较高，并且在单机上递增。  </br>
-https://github.com/twitter-archive/snowflake </br>
-
-### UidGenerator
-
-UidGenerator是百度开源的分布式ID生成器，其基于雪花算法实现。 </br>
-https://github.com/baidu/uid-generator/blob/master/README.zh_cn.md </br>
-
-### Leaf
-
-Leaf是美团开源的分布式ID生成器，能保证全局唯一，趋势递增，但需要依赖关系数据库、Zookeeper等中间件。 </br>
-https://tech.meituan.com/MT_Leaf.html </br>
-
-# 技巧
-
-## 正则
-
-行级注释 \/\/[^\n]*
-块级注释 \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/
+- jar
+  - app
+    - Dockerfile
+    - appBuild.sh
+      - 加上环境变量,在docker run (--name)前添加
+    - app-0.0.1-SNAPSHOT.jar
+  - admin
+    - ...
+    
+每个应用部署时需要配置各种环境变量,根据yaml需要的
+在docker run 后面加-e (是每个参数前都需要-e,可以在idea的启动类的环境变量复制下来,把;替换成 -e )
+然后进行仔细修改
+## app
+在idea执行app下的package
+## admin
+## cabin-IM
+## cabin-oauth2

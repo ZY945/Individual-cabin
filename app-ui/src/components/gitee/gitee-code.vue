@@ -12,12 +12,12 @@ export default {
   },
   data() {
     return {
-      token: 'e3b7041e8ffbddfac44ceb9a6f49c5f6',
-      owner: 'dongfeng407',
-      repo: 'springcloud-study',
-      sha: 'master',
+      token: '',
+      owner: '',
+      repo: '',
+      sha: '',
       suffix: 'java',
-      path: 'borrow-service/src/main/java/com/test/controller/BorrowController.java',
+      path: '',
       recursive: '1',
       code: '',
       isFile: '1',

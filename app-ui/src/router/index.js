@@ -53,11 +53,6 @@ const routes = [
                 component: () => import('@/components/oauth2/login.vue')
             },
             {
-                path: '/feishu',
-                name: 'feishu',
-                component: () => import('@/components/oauth2/feishu-login.vue')
-            },
-            {
                 path: '/chatApp',
                 name: 'chatApp',
                 component: () => import('@/components/talk/chat-app.vue')

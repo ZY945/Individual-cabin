@@ -7,7 +7,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:9001/admin
+        url: http://${host}:9001/admin
 # 开启监控所有项
 management:
   endpoints:
@@ -71,7 +71,7 @@ logging:
   config:
     classpath: logback-spring.xml
   file:
-    path: F:\study\code\java\Individual-cabin\logs
+    path: ${cabin_app_logs}
 
 
 mybatis-plus:
