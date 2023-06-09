@@ -1,5 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import cabinMenus from "@/components/cabin-menus.vue";
+import {isLogin} from "@/assets/js/utils";
 
 const routes = [
     // {
@@ -50,12 +51,13 @@ const routes = [
             {
                 path: '/login',
                 name: 'login',
-                component: () => import('@/components/oauth2/login.vue')
+                component: () => import('@/components/oauth2/login-home.vue')
             },
             {
                 path: '/chatApp',
                 name: 'chatApp',
-                component: () => import('@/components/talk/chat-app.vue')
+                component: () => import('@/components/talk/chat-app.vue'),
+                meta: { requiresAuth: true }, // 需要登录才能访问
             },
             {
                 path: '/shortUrl',
@@ -73,14 +75,14 @@ const router = createRouter({
     routes,
 });
 
+// 创建路由守卫
+router.beforeEach((to, from, next) => {
+    if (to.meta["requiresAuth"] && !isLogin()) { // 判断是否需要登录
+        next("/login"); // 跳转到登录页面
+    } else {
+        next(); // 继续访问当前页面
+    }
+});
 
-export default router
-//
-// const routes = [
-//     {
-//         path: '/',
-//         component: HelloWorld,
-//         children: [{ path: '', component: HelloWorld }],
-//     },
-// ]
+export default router;
 

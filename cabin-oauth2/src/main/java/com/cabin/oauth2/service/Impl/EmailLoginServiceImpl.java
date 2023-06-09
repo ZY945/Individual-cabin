@@ -7,12 +7,14 @@ import com.cabin.oauth2.empty.User;
 import com.cabin.oauth2.empty.mail.Vo.MailVo;
 import com.cabin.oauth2.repository.UserRepository;
 import com.cabin.oauth2.service.EmailLoginService;
+import com.cabin.utils.commonUtil.Base64Util;
 import com.cabin.utils.commonUtil.StringUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +38,6 @@ public class EmailLoginServiceImpl implements EmailLoginService {
     public String sendCode(String userEmail) {
         String code = StringUtil.creatCode(6);
         //消息队列发送验证码给用户邮件
-        System.out.println(code);
         MailVo mailVo = new MailVo();
         String Text = "<span>以下是登录相关信息</span>" +
                 "<table border=1>" +
@@ -52,7 +53,7 @@ public class EmailLoginServiceImpl implements EmailLoginService {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_INFORM, MQRoutingKeyEnum.SEND_CABIN_LOGIN_EMAIL.getRoutingKey(), JSON.toJSONString(mailVo));
 
         //存到redis里，限时1分钟内登录
-        redisTemplate.opsForValue().set(userEmail, code, 1, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("email:Code"+userEmail, code, 1, TimeUnit.MINUTES);
 
         return code;
     }
@@ -61,11 +62,17 @@ public class EmailLoginServiceImpl implements EmailLoginService {
     public String login(String userEmail, String code) {
         String redisCode = null;
         String token = null;
-        redisCode = redisTemplate.opsForValue().get(userEmail);
+        redisCode = redisTemplate.opsForValue().get("email:Code"+userEmail);
         if (code.equals(redisCode)) {
             //TODO jwt生成
             token = StringUtil.creatCode(6);
-            redisTemplate.opsForValue().set("token:" + userEmail, token, 5, TimeUnit.MINUTES);
+            String emailUTF;
+            try {
+                emailUTF = Base64Util.getEncoderByUtf8(userEmail);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+            redisTemplate.opsForValue().set("email:token:" + token, emailUTF, 5, TimeUnit.MINUTES);
         };
         User userByEmail = userRepository.getUserByEmail(userEmail);
         Date now = new Date();
@@ -97,5 +104,11 @@ public class EmailLoginServiceImpl implements EmailLoginService {
             return token;
         }
         return null;
+    }
+
+    @Override
+    public Boolean logout(String token) {
+        Boolean delete = redisTemplate.delete("email:token:" + token);
+        return delete;
     }
 }

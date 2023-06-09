@@ -12,4 +12,5 @@ public interface EmailLoginService {
     String savePassWord(String token,String passWord);
 
     String getToken(String userEmail, String token);
+    Boolean logout(String token);
 }

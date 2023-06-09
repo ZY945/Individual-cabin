@@ -23,20 +23,28 @@ export default {
       axios.post('/cabinChat/api/login', {
         username: this.username,
         password: this.password
-      }).then(() => {
-        this.$router.push('/')
+      }).then(response => {
+        if(response.data.code===200){
+          const token = response.data.data.token
+          localStorage.setItem("token",token)
+          this.$router.push('/chatApp')
+        }else{
+          alert('Login error')
+        }
       }).catch(() => {
         alert('Invalid login credentials')
       })
     },
     loginByEmail(){
-      axios.post('/oauth2/login/email', null,{
+      axios.post('/oauth2/user/login/email', null,{
         params:{
           userEmail: this.email,
           code: this.code
         }
       }).then(response => {
         if(response.data.code===200){
+          const token = response.data.data
+          localStorage.setItem("token",token)
           this.$router.push('/chatApp')
         }else{
           alert('Captcha error')
@@ -46,7 +54,7 @@ export default {
       })
     },
     sendCode(){
-      axios.get('/oauth2/login/email/sendCode', {
+      axios.get('/oauth2/user/login/email/sendCode', {
         params:{
           userEmail: this.email,
         }
@@ -55,8 +63,8 @@ export default {
         alert('Invalid login credentials')
       })
     },
-    googlelogin() {
-      axios.post('/cabinChat/api/login', {
+    googleLogin() {
+      axios.post('/oauth2/api/login', {
         username: this.username,
         password: this.password
       }).then(() => {
@@ -64,18 +72,8 @@ export default {
         alert('Invalid login credentials')
       })
     },
-    githublogin() {
-      axios.post('/cabinChat/api/login', {
-        username: this.username,
-        password: this.password
-      }).then(() => {
-        this.$router.push('/')
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    dingtalklogin() {
-      axios.post('/cabinChat/api/login', {
+    githubLogin() {
+      axios.post('/oauth2/api/login', {
         username: this.username,
         password: this.password
       }).then(() => {
@@ -84,7 +82,17 @@ export default {
         alert('Invalid login credentials')
       })
     },
-    feishulogin() {
+    dingtalkLogin() {
+      axios.post('/oauth2/api/login', {
+        username: this.username,
+        password: this.password
+      }).then(() => {
+        this.$router.push('/')
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
+    feishuLogin() {
       axios.get('/oauth2/feishu/code', {
       }).then(response => {
         this.feiShuUrl=response.data;
@@ -140,7 +148,7 @@ export default {
             <v-form >
               <div >
                 <a class="form-label">email</a>
-                <div class="form-text">
+                <div class="form-text" >
                   <v-text-field v-model="email"
                                 :class="{ 'form-text-active': emailActive }"
                                 @mouseover="emailActive = true"
@@ -148,7 +156,7 @@ export default {
                                 class="form-text-wrapper"/>
                 </div>
               </div>
-              <div  class="form-text-wrapper" >
+              <div  class="form-text-wrapper" style="margin-top: 10px">
                 <a class="form-label">code</a>
                 <div  class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
                   <v-text-field v-model="code"
@@ -166,17 +174,17 @@ export default {
             </v-card-actions>
           </v-card-text>
           <div class="login-png-app">
-            <v-btn  @click="googlelogin()" class="login-png" >
-              <img src="../../assets/img/google.svg" alt="飞书扫码登录" width="30">
+            <v-btn  @click="googleLogin()" class="login-png" >
+              <img src="../../assets/img/google.svg" alt="谷歌登录" width="30">
             </v-btn>
-            <v-btn  @click="githublogin()" class="login-png">
-              <img src="../../assets/img/github.svg" alt="飞书扫码登录" width="30">
+            <v-btn  @click="githubLogin()" class="login-png">
+              <img src="../../assets/img/github.svg" alt="github登录" width="30">
             </v-btn>
-            <v-btn @click="dingtalklogin()" class="login-png">
+            <v-btn @click="dingtalkLogin()" class="login-png">
               <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
               <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
             </v-btn>
-            <v-btn @click="feishulogin()" class="login-png">
+            <v-btn @click="feishuLogin()" class="login-png">
               <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
               <img src="../../assets/img/feishu.svg" alt="飞书扫码登录" width="30">
             </v-btn>

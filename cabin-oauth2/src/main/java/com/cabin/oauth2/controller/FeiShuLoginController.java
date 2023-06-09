@@ -3,16 +3,14 @@ package com.cabin.oauth2.controller;
 
 import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
 import com.cabin.oauth2.empty.feishu.FeiShuClient;
+import com.cabin.oauth2.empty.response.Result;
 import com.cabin.oauth2.service.FeiShuService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
 
 /**
  * @author 伍六七
@@ -38,10 +36,12 @@ public class FeiShuLoginController {
 
 
     @GetMapping("/access_token")
-    public void getAccessToken(@RequestParam String code, HttpServletResponse response) throws IOException {
+    public Result<String> getAccessToken(@RequestParam String code){
         FeiShuAccessToken token = feiShuService.getToken(code);
-        //异步去保存用户信息
-        feiShuService.saveUser(token);
-        response.sendRedirect("http://127.0.0.1:8085/");
+        //异步去保存用户信息,然后绑定是一个单独的接口
+        boolean exit = feiShuService.saveUser(token);
+        return exit ?Result.success("success","该用户首次登录,保存信息"):Result.success("success","该用户已存在,直接登录");
+        //前端去重定向
+//        response.sendRedirect("http://127.0.0.1:8085/");
     }
 }

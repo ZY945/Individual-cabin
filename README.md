@@ -99,3 +99,15 @@ https://tech.meituan.com/MT_Leaf.html </br>
 
 行级注释 \/\/[^\n]*
 块级注释 \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/
+
+private下面统一空一行
+private\s+(\S+)\s+(\S+)\s*;
+private $1 $2;\n
+
+在private上加@JsonProperty
+private\s+(\S+)\s+(\S+)\s*;
+@JsonProperty("$2")\nprivate $1 $2;
+
+在@Column上加@JsonProperty
+@Column\(name\s*=\s*"(\w+)"\s*\)\s*(private|public)\s+(\S+)\s+(\w+)\s*;
+@Column\(name = "$1"\)\n@JsonProperty("$1")\nprivate $3 $4;

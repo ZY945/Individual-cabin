@@ -9,6 +9,11 @@
               <div>
                 <h3 class="headline mb-0">Chat Room</h3>
               </div>
+              <div class="Mail_login_loginBox_tab" >
+                <v-btn  @click="logout()" color="primary">
+                  logout
+                </v-btn>
+              </div>
             </v-card-title>
           </v-card>
 
@@ -65,8 +70,21 @@
     </v-container>
   </v-app>
 </template>
+<style>
+.Mail_login_loginBox_tab {
+  display: inline-block;
+  max-width: 130px;
+  max-height: 245px;
+  font-size: 30px;
+  color: white;
+}
+</style>
 <script>
 
+
+import {useRouter} from "vue-router";
+import {isLogin} from "@/assets/js/utils";
+import axios from "axios";
 
 export default {
   name: "ChatApp",
@@ -85,12 +103,34 @@ export default {
     };
   },
   mounted() {
-    this.connect(); // 组件挂载后自动连接 WebSocket
+    const router = useRouter();
+    if (router.currentRoute.value.meta.requiresAuth && !isLogin()) {
+      // 如果当前路由需要登录但用户未登录，则跳转到登录页面
+      router.push("/login");
+    } else {
+      // 连接 WebSocket
+      this.connect(); // 组件挂载后自动连接 WebSocket
+    }
   },
   beforeUnmount() {
     this.disconnect(); // 组件销毁前断开 WebSocket 连接
   },
   methods: {
+    logout(){
+      const userToken = localStorage.getItem("token");
+      axios.post('/oauth2/user/logout',null, {
+            params: {
+              token: userToken,
+            }
+          }).then(response => {
+            if(response.data.code===200){
+              localStorage.removeItem("token");
+              this.$router.push('/login')
+            }
+          }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
     // 连接 WebSocket
     connect() {
       this.socket = new WebSocket(
