@@ -3,16 +3,15 @@ import App from "@/App.vue";
 import router from "@/router/index";
 import vuetify from "@/types/vuetify";
 
-import '@mdi/font/css/materialdesignicons.css'
-import 'highlight.js/styles/atom-one-dark.css'
-import 'highlight.js/lib/common'
+//彩色class
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import axios from "axios";
+import hljs from "highlight.js";
 
 const app = createApp(App);
-
 app.use(router);
 app.use(hljsVuePlugin)
+app.use(hljs)
 app.use(vuetify);
 app.config.globalProperties.$axios = axios
 app.mount('#app');

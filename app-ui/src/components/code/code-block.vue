@@ -1,8 +1,10 @@
 <script>
 
-
+//引入code模块
+import 'highlight.js/lib/common';
+import '@mdi/font/css/materialdesignicons.css';
+import 'highlight.js/styles/androidstudio.css';
 import vCode from "@/assets/js/codeblock";
-
 export default {
   name: "CodeBlock",
   props: {
@@ -22,27 +24,24 @@ export default {
 <template>
 
   <div class="hljs-container" codetype="java" v-code>
-    <highlightjs class="hljs Java" language="Java" :autodetect="false" :code="code">
+    <highlightjs class="hljs" language="Java" :autodetect="false" :code="code">
     </highlightjs>
   </div>
 
 </template>
 
 
-<style>
-@import "/src/assets/css/code.scss";
-/* 修改包裹代码块的div元素，使其高度和宽度都为100% */
+<style lang="scss">
+@import "src/assets/css/code.scss";
+/* 组件的其他样式 */
 .hljs {
   display: block;
   overflow-x: auto;
   width: 100%;
   height: 100%;
 }
-
-
 .select-code-input input {
   color: #333333;
 }
-
 
 </style>

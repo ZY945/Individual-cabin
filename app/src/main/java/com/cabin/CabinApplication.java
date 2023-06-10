@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author 伍六七
  * @date 2023/5/21 22:00
  */
-@SpringBootApplication()//
+@SpringBootApplication//
 //@EnableScheduling
 public class CabinApplication {
     public static void main(String[] args) {

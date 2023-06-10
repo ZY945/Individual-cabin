@@ -36,5 +36,21 @@ module.exports = {
                 pathRewrite: {"^/oauth2": ""}
             },
         }
+    },
+    configureWebpack: config => {
+        // entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+        // 不是开发环境时
+        config['performance'] = {
+            // 警告 webpack 的性能提示
+            hints: 'warning',
+            // 入口起点的最大体积
+            maxEntrypointSize: 50000000,
+            // 生成文件的最大体积
+            maxAssetSize: 30000000,
+            // 只给出 js 文件的性能提示
+            assetFilter: function (assetFilename) {
+                return assetFilename.endsWith('.js')
+            }
+        }
     }
 }
