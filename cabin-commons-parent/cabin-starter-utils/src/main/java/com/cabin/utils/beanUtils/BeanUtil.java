@@ -1,4 +1,4 @@
-package com.cabin.utils.BeanUtils;
+package com.cabin.utils.beanUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;

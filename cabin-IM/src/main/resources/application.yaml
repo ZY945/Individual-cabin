@@ -1,9 +1,26 @@
+spring:
+  application:
+    name: cabin-IM
 server:
   port: 8081
   http:
     enabled: false
   netty:
     worker-count: 4
+
+---
+#admin监控
+spring:
+  boot:
+    admin:
+      client:
+        url: http://${admin-host:127.0.0.1}:9001
+# 开启监控所有项
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 #spring:
 #  security:
 #    user:

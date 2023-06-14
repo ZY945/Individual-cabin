@@ -1,5 +1,5 @@
 
-import com.cabin.utils.API.GiteeUtil.GiteeAPI;
+import com.cabin.utils.api.GiteeUtil.GiteeAPI;
 import com.cabin.utils.fileUtil.FileUtil;
 import com.cabin.utils.fileUtil.empty.FileAbsolutePath;
 import org.junit.jupiter.api.Test;

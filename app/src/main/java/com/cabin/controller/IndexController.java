@@ -3,7 +3,7 @@ package com.cabin.controller;
 import com.cabin.common.config.PatchcaConfig;
 import com.cabin.entity.response.Result;
 import com.cabin.service.UtilService;
-import com.cabin.utils.BeanUtils.ObjectUtil;
+import com.cabin.utils.beanUtils.ObjectUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;
 import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;

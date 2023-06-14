@@ -1,4 +1,4 @@
-package com.cabin.utils.API.GitLabUtil;
+package com.cabin.utils.api.GitLabUtil;
 
 /**
  * @author 伍六七

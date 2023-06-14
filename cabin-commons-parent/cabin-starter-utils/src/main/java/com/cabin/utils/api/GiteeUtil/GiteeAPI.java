@@ -1,8 +1,8 @@
-package com.cabin.utils.API.GiteeUtil;
+package com.cabin.utils.api.GiteeUtil;
 
 
-import com.cabin.utils.API.GiteeUtil.empty.Branch;
-import com.cabin.utils.API.GiteeUtil.empty.PathTree;
+import com.cabin.utils.api.GiteeUtil.empty.Branch;
+import com.cabin.utils.api.GiteeUtil.empty.PathTree;
 import com.cabin.utils.fileUtil.FileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

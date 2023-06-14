@@ -28,7 +28,7 @@
         <spring-boot.version>3.1.0</spring-boot.version>
         <!--需要与springboot版本对应2.x对应2.x-->
         <!--https://central.sonatype.com/artifact/de.codecentric/spring-boot-admin-starter-server/3.0.4/overview-->
-        <spring-boot-admin.version>3.0.2</spring-boot-admin.version>
+        <spring-boot-admin.version>3.0.4</spring-boot-admin.version>
         <!--数据库-->
 
         <!---->
@@ -251,6 +251,41 @@
                 <version>${influxdb.version}</version>
             </dependency>
 
+            <!--javacv-->
+            <!--图像处理-->
+            <!--https://github.com/bytedeco/javacv-->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>javacv-platform</artifactId>
+                <version>1.5.9</version>
+            </dependency>
+
+            <!--视频处理-->
+            <!--https://www.ffmpeg.org/ffmpeg.html-->
+            <dependency>
+                <groupId>ws.schild</groupId>
+                <artifactId>jave-all-deps</artifactId>
+                <version>3.0.1</version>
+                <exclusions>
+                    <!--  排除windows 32位系统      -->
+                    <exclusion>
+                        <groupId>ws.schild</groupId>
+                        <artifactId>jave-nativebin-win32</artifactId>
+                    </exclusion>
+                    <!--  排除linux 32位系统      -->
+                    <exclusion>
+                        <groupId>ws.schild</groupId>
+                        <artifactId>jave-nativebin-linux32</artifactId>
+                    </exclusion>
+                    <!-- 排除Mac系统-->
+                    <exclusion>
+                        <groupId>ws.schild</groupId>
+                        <artifactId>jave-nativebin-osx64</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
             <!--模块-->
             <dependency>
                 <groupId>com.cabin.commons</groupId>
@@ -357,39 +392,81 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                </configuration>
-            </plugin>
 
         </plugins>
     </build>
 
-
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>spring-milestone</id>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--            <url>http://repo.spring.io/milestone</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>spring-snapshot</id>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--            <url>http://repo.spring.io/snapshot</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>sonatype-nexus-snapshots</id>-->
+<!--            <name>Sonatype Nexus Snapshots</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--            <releases>-->
+<!--                <enabled>false</enabled>-->
+<!--            </releases>-->
+<!--        </repository>-->
+<!--    </repositories>-->
     <profiles>
         <profile>
+            <!-- 使用 -Papache 激活阿里云仓库下载依赖 -->
+            <id>default</id>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </repository>
+            </repositories>
+
+        </profile>
+        <profile>
             <!-- 使用 -Paliyun 激活阿里云仓库下载依赖 -->
+            <!--https://developer.aliyun.com/mvn/guide-->
             <id>aliyun</id>
             <repositories>
                 <repository>
                     <id>aliyun-pom</id>
-                    <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+                    <url>https://maven.aliyun.com/repository/central/</url>
                 </repository>
             </repositories>
         </profile>
 
         <profile>
             <!-- 使用 -Ptencentyun 激活腾讯云仓库下载依赖 -->
+            <!--http://mirrors.tencent.com/-->
             <id>tencentyun</id>
             <repositories>
                 <repository>
                     <id>tencentyun-pom</id>
                     <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
+                </repository>
+            </repositories>
+        </profile>
+
+        <profile>
+            <!-- 使用 -Phuaweicloud 激活华为云仓库下载依赖 -->
+            <!--https://repo.huaweicloud.com/repository/maven/-->
+            <id>huaweicloud</id>
+            <repositories>
+                <repository>
+                    <id>huaweicloud-pom</id>
+                    <url>https://repo.huaweicloud.com/repository/maven/</url>
                 </repository>
             </repositories>
         </profile>

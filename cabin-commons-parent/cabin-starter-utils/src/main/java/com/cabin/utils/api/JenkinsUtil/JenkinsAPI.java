@@ -1,4 +1,4 @@
-package com.cabin.utils.API.JenkinsUtil;
+package com.cabin.utils.api.JenkinsUtil;
 
 import org.json.JSONObject;
 

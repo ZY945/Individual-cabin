@@ -1,8 +1,8 @@
 package com.cabin.controller;
 
 import com.cabin.entity.response.Result;
-import com.cabin.utils.API.GitLabUtil.API.GitLabAPI;
-import com.cabin.utils.API.GitLabUtil.empty.GitLabBo;
+import com.cabin.utils.api.GitLabUtil.API.GitLabAPI;
+import com.cabin.utils.api.GitLabUtil.empty.GitLabBo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;

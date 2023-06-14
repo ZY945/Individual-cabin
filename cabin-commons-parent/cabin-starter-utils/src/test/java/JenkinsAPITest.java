@@ -1,4 +1,4 @@
-import com.cabin.utils.API.JenkinsUtil.JenkinsAPI;
+import com.cabin.utils.api.JenkinsUtil.JenkinsAPI;
 import com.cabin.utils.jsonUtil.JsonUtil;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;

@@ -28,7 +28,7 @@ public class HttpUtil {
             }
             reader.close();
 
-            jsonObject = new org.json.JSONObject(response.toString());
+            jsonObject = new JSONObject(response.toString());
         }
         return jsonObject;
     }

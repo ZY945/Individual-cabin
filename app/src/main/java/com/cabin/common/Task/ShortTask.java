@@ -1,7 +1,7 @@
 package com.cabin.common.Task;
 
 import com.cabin.service.UtilService;
-import com.cabin.utils.BeanUtils.ObjectUtil;
+import com.cabin.utils.beanUtils.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

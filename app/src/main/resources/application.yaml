@@ -1,13 +1,18 @@
 code:
   host: ${host}
+spring:
+  application:
+    name: cabin
 server:
   port: 8080
+
+---
 #admin监控
 spring:
   boot:
     admin:
       client:
-        url: http://${host}:9001/admin
+        url: http://${admin-host:127.0.0.1}:9001
 # 开启监控所有项
 management:
   endpoints:
@@ -19,8 +24,6 @@ spring:
   # 配置时区
   jackson:
     time-zone: GMT+8
-  application:
-    name: cabin
   datasource:
     dynamic:
       # 主数据源

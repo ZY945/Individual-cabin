@@ -123,5 +123,6 @@ public class FileUtil {
         return fileAbsolutePath;
     }
 
-
+    public static void fileUpload(){
+    }
 }
