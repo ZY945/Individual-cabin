@@ -28,6 +28,7 @@ public class IndexController {
 
     /**
      * 短链接获取
+     *
      * @param url 原链接
      * @return 短链接
      */
@@ -39,6 +40,7 @@ public class IndexController {
 
     /**
      * 根据短链接重定向
+     *
      * @param shortUrl 短链接
      */
     @GetMapping("/{shortUrl}")

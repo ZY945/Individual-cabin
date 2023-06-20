@@ -247,6 +247,7 @@ public class StringUtil {
 
     /**
      * 直接md5，唯一性不是很好
+     *
      * @param url
      * @return
      */
@@ -283,7 +284,7 @@ public class StringUtil {
     }
 
 
-    public static int getRandomInt(){
+    public static int getRandomInt() {
         RandomGenerator aDefault = RandomGenerator.getDefault();
         return aDefault.nextInt();
     }
@@ -291,17 +292,18 @@ public class StringUtil {
 
     /**
      * 使用hutool的MurmurHash加密长连接,然后对chars进行取余
+     *
      * @param longUrl
      * @return
      */
-    public static String shortUrl(String longUrl){
+    public static String shortUrl(String longUrl) {
         StringBuilder builder = new StringBuilder();
         //伪随机数,其实我也不懂真随机和一一对应的哪个更好
         int hash32 = MurmurHash.hash32(longUrl);
         //用long是统一正数
-        long num = hash32<0?Integer.MAX_VALUE- (long)hash32:hash32;
-        while(num>0){
-            
+        long num = hash32 < 0 ? Integer.MAX_VALUE - (long) hash32 : hash32;
+        while (num > 0) {
+
             long index = 0x0000003D & num;
             char ch = CHARS[(int) index];
             builder.append(ch);
@@ -309,6 +311,7 @@ public class StringUtil {
         }
         return builder.toString();
     }
+
     /**
      * MD5加密(32位大写)
      *

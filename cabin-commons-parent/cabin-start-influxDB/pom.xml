@@ -10,7 +10,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.cabin.influxDB</groupId>
+    <groupId>com.cabin.commons</groupId>
     <artifactId>cabin-start-influxDB</artifactId>
 
     <name>cabin-starter-influxDB</name>

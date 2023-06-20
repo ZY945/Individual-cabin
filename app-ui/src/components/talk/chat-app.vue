@@ -9,8 +9,8 @@
               <div>
                 <h3 class="headline mb-0">Chat Room</h3>
               </div>
-              <div class="Mail_login_loginBox_tab" >
-                <v-btn  @click="logout()" color="primary">
+              <div class="Mail_login_loginBox_tab">
+                <v-btn @click="logout()" color="primary">
                   logout
                 </v-btn>
               </div>
@@ -116,18 +116,18 @@ export default {
     this.disconnect(); // 组件销毁前断开 WebSocket 连接
   },
   methods: {
-    logout(){
+    logout() {
       const userToken = localStorage.getItem("token");
-      axios.post('/oauth2/user/logout',null, {
-            params: {
-              token: userToken,
-            }
-          }).then(response => {
-            if(response.data.code===200){
-              localStorage.removeItem("token");
-              this.$router.push('/login')
-            }
-          }).catch(() => {
+      axios.post('/oauth2/user/logout', null, {
+        params: {
+          token: userToken,
+        }
+      }).then(response => {
+        if (response.data.code === 200) {
+          localStorage.removeItem("token");
+          this.$router.push('/login')
+        }
+      }).catch(() => {
         alert('Invalid login credentials')
       })
     },

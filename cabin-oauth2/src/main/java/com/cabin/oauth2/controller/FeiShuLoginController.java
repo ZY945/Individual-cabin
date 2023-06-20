@@ -27,20 +27,21 @@ public class FeiShuLoginController {
 
     /**
      * 不能是void
+     *
      * @return
      */
     @GetMapping("/code")
-    public String toRequestWithCode(){
+    public String toRequestWithCode() {
         return feiShuService.getCodeUrl();
     }
 
 
     @GetMapping("/access_token")
-    public Result<String> getAccessToken(@RequestParam String code){
+    public Result<String> getAccessToken(@RequestParam String code) {
         FeiShuAccessToken token = feiShuService.getToken(code);
         //异步去保存用户信息,然后绑定是一个单独的接口
         boolean exit = feiShuService.saveUser(token);
-        return exit ?Result.success("success","该用户首次登录,保存信息"):Result.success("success","该用户已存在,直接登录");
+        return exit ? Result.success("success", "该用户首次登录,保存信息") : Result.success("success", "该用户已存在,直接登录");
         //前端去重定向
 //        response.sendRedirect("http://127.0.0.1:8085/");
     }

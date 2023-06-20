@@ -30,11 +30,6 @@
 
         <dependency>
             <groupId>com.cabin.commons</groupId>
-            <artifactId>cabin-starter-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-utils</artifactId>
         </dependency>
         <!-- Redis -->

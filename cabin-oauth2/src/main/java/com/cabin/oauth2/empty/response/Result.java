@@ -19,9 +19,11 @@ public class Result<T> {
     public static <T> Result<T> success(T data, String msg) {
         return new Result<>(200, data, msg);
     }
+
     public static <T> Result<T> fail(T data, String msg) {
         return new Result<>(500, data, msg);
     }
+
     public static <T> Result<T> fail(String msg) {
         return new Result<>(500, null, msg);
     }

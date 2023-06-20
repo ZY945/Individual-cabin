@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @date 2023/6/6 17:10
  */
 @Repository
-public interface FeiShuUserRepository extends JpaRepository<FeiShuUserInfo,Long> {
+public interface FeiShuUserRepository extends JpaRepository<FeiShuUserInfo, Long> {
 
     FeiShuUserInfo getFeiShuUserInfoByOpenId(@Param("open_id") String openId);
 }

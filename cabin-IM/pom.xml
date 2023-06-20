@@ -12,7 +12,10 @@
 
     <groupId>com.cabin.IM</groupId>
     <artifactId>cabin-IM</artifactId>
+    <packaging>jar</packaging>
 
+    <name>cabin-IM</name>
+    <description>cabin-IM</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -68,16 +71,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--替换为你的应用程序主类-->
+                <configuration>
+                    <mainClass>com.cabin.IM.CabinIMApplication</mainClass>
+                </configuration>
                 <!-- 防止插件在父 pom 中被重复引用 -->
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                        <!--替换为你的应用程序主类-->
-                        <configuration>
-                            <mainClass>com.cabin.IM.CabinIMApplication</mainClass>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

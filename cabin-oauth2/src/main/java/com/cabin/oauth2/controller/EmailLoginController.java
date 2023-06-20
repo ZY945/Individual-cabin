@@ -19,20 +19,20 @@ public class EmailLoginController {
     public Result<String> sendCode(@RequestParam("userEmail") String userEmail) {
         String s = null;
         s = emailLoginService.sendCode(userEmail);
-        return s == null ? Result.fail("发送验证码失败，请稍后重新发送") : Result.success("验证码在邮箱","邮箱验证码发送成功");
+        return s == null ? Result.fail("发送验证码失败，请稍后重新发送") : Result.success("验证码在邮箱", "邮箱验证码发送成功");
     }
 
     @PostMapping("/login/email")
     public Result<String> login(@RequestParam("userEmail") String userEmail, @RequestParam("code") String code) {
         String token = emailLoginService.login(userEmail, code);
-        return token == null ? Result.fail(code,"该验证码登录失败") : Result.success(token,"登录成功");
+        return token == null ? Result.fail(code, "该验证码登录失败") : Result.success(token, "登录成功");
     }
 
     @GetMapping("/login/getToken")
     public Result<String> getToken(@RequestParam("userEmail") String userEmail, @RequestParam("token") String token) {
         String newToken = null;
         newToken = emailLoginService.getToken(userEmail, token);
-        return newToken == null ? Result.authFail(token,"token错误") : Result.success(token,"token存在");
+        return newToken == null ? Result.authFail(token, "token错误") : Result.success(token, "token存在");
     }
 
 //    @GetMapping("/login/email/new")
@@ -46,6 +46,6 @@ public class EmailLoginController {
     public Result<String> logout(@RequestParam("token") String token) {
         Boolean success = null;
         success = emailLoginService.logout(token);
-        return success ? Result.success("token已删除","登出成功"):Result.fail("登出失败");
+        return success ? Result.success("token已删除", "登出成功") : Result.fail("登出失败");
     }
 }

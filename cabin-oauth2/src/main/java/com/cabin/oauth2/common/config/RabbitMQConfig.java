@@ -32,7 +32,6 @@ public class RabbitMQConfig {
     }
 
 
-
     //声明QUEUE_INFORM_EMAIL队列
     @Bean(QUEUE_INFORM_EMAIL)
     public Queue QUEUE_INFORM_EMAIL() {
@@ -52,8 +51,9 @@ public class RabbitMQConfig {
     }
 
     @Bean(QUEUE_INFORM_DingDing)
-    public Queue QUEUE_INFORM_DingDing(){return new Queue(QUEUE_INFORM_DingDing);}
-
+    public Queue QUEUE_INFORM_DingDing() {
+        return new Queue(QUEUE_INFORM_DingDing);
+    }
 
 
     //ROUTING_KEY_EMAIL队列绑定交换机，指定routingKey
@@ -66,20 +66,20 @@ public class RabbitMQConfig {
     //ROUTING_KEY_SMS队列绑定交换机，指定routingKey
     @Bean
     public Binding BINDING_QUEUE_INFORM_SMS(@Qualifier(QUEUE_INFORM_SMS) Queue queue,
-                                          @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
+                                            @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_SMS).noargs();
     }
 
     //ROUTING_KEY_WX队列绑定交换机，指定routingKey
     @Bean
     public Binding BINDING_QUEUE_INFORM_WX(@Qualifier(QUEUE_INFORM_WX) Queue queue,
-                                         @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
+                                           @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_WX).noargs();
     }
 
     @Bean
     public Binding BINDING_QUEUE_INFORM_DINGDING(@Qualifier(QUEUE_INFORM_DingDing) Queue queue,
-                                                 @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange){
+                                                 @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTINGKEY_DingDing).noargs();
     }
 

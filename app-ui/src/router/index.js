@@ -57,7 +57,7 @@ const routes = [
                 path: '/chatApp',
                 name: 'chatApp',
                 component: () => import('@/components/talk/chat-app.vue'),
-                meta: { requiresAuth: true }, // 需要登录才能访问
+                meta: {requiresAuth: true}, // 需要登录才能访问
             },
             {
                 path: '/shortUrl',

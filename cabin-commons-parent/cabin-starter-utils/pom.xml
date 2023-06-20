@@ -50,10 +50,28 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <!--JavaCV-->
+        <!--根据需要引入,全部引入700多M-->
         <!--https://github.com/bytedeco/javacv-->
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
+            <artifactId>javacpp</artifactId>
+            <classifier>${javacpp.platform.windows-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+        </dependency>
+        <!--部署linux版-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <classifier>${javacpp.platform.linux-x86_64}</classifier>
+        </dependency>
+        <!--开发测试windows版-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <classifier>${javacpp.platform.windows-x86_64}</classifier>
         </dependency>
 
         <!--视频处理-->

@@ -23,42 +23,43 @@ import java.io.UnsupportedEncodingException;
 public class OauthBindServiceImpl implements OauthBindService {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private OauthBindRepository oauthRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private FeiShuUserRepository feiShuUserRepository;
+
     @Override
     public Oauth BindFeiShu(String emailToken, String feiShuToken) {
         String email = redisTemplate.opsForValue().get("email:token:" + emailToken);
         String openId = redisTemplate.opsForValue().get("feishu:token:" + feiShuToken);
-        if (email==null){
+        if (email == null) {
             return Oauth.ISNOTUSER;
         }
-        if (openId==null){
+        if (openId == null) {
             return Oauth.ISNOTFEISHUUSER;
         }
         //解密
         try {
-            email = Base64Util.getDecoderByUtf8(email);
-            openId = Base64Util.getDecoderByUtf8(openId);
+            email = Base64Util.decoderGetStrByStr(email);
+            openId = Base64Util.decoderGetStrByStr(openId);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
         //根据email获取用户
         User user = userRepository.getUserByEmail(email);
-        if(user==null){
+        if (user == null) {
             return Oauth.ISNOTUSER;
         }
         //根据openID获取飞书用户
         FeiShuUserInfo feiShuUser = feiShuUserRepository.getFeiShuUserInfoByOpenId(openId);
-        if (feiShuUser==null){
+        if (feiShuUser == null) {
             return Oauth.ISNOTFEISHUUSER;
         }
         OauthBind oauthBind = oauthRepository.getOauthByFeiShuOpenId(openId);
-        if(oauthBind!=null){
+        if (oauthBind != null) {
             //已绑定
             return Oauth.OLDBIND;
         }

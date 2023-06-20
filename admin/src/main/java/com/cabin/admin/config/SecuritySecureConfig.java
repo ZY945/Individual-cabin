@@ -82,7 +82,7 @@ public class SecuritySecureConfig {
     // Required to provide UserDetailsService for "remember functionality"
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.withUsername("user").password(passwordEncoder.encode("password")).roles("USER").build();
+        UserDetails user = User.withUsername("user").password(passwordEncoder.encode("zhangyang")).roles("USER").build();
         return new InMemoryUserDetailsManager(user);
     }
 

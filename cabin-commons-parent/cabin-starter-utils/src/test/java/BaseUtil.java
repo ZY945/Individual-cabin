@@ -11,9 +11,9 @@ public class BaseUtil {
 
     @Test
     void encoder() throws UnsupportedEncodingException {
-        String encoderByUtf8 = Base64Util.getEncoderByUtf8("陈哈哈\uD83D\uDE13");
+        String encoderByUtf8 = Base64Util.encoderGetStrByStr("陈哈哈\uD83D\uDE13");
         System.out.println(encoderByUtf8);
-        String decoderByUtf8 = Base64Util.getDecoderByUtf8(encoderByUtf8);
+        String decoderByUtf8 = Base64Util.decoderGetStrByStr(encoderByUtf8);
         System.out.println(decoderByUtf8);
     }
 }

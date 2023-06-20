@@ -84,6 +84,7 @@ public class HttpUtil {
 
     /**
      * post请求错误
+     *
      * @param url
      * @param params
      * @return
@@ -142,7 +143,7 @@ public class HttpUtil {
             }
             reader.close();
             return response.toString();
-        }else{
+        } else {
             return "post请求失败";
         }
         //不要在finally里return throw,会导致try和throw的return和throw失效

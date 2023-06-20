@@ -7,11 +7,15 @@
         <groupId>com.cabin</groupId>
         <artifactId>Individual-cabin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.cabin.oauth</groupId>
     <artifactId>cabin-oauth2</artifactId>
+    <packaging>jar</packaging>
 
+    <name>oauth2</name>
+    <description>oauth2</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -36,6 +40,7 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+
         <!--发验证码-->
         <!--MQ队列-->
         <dependency>
@@ -47,6 +52,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+
 
         <!--钉钉第三方登录-->
         <dependency>
@@ -63,6 +69,7 @@
             <version>1.1.86</version>
         </dependency>
 
+
         <dependency>
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-redis</artifactId>
@@ -71,28 +78,39 @@
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-utils</artifactId>
         </dependency>
+        <!--开启admin监控-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+        <!--开启端点-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!--2023.6.3目前不知道springboot3.0.2是否整合该依赖-->
         <!--https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html-->
         <!--https://github.com/spring-projects/spring-authorization-server-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-oauth2-authorization-server</artifactId>-->
-<!--            <version>1.1.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.security</groupId>-->
+        <!--            <artifactId>spring-security-oauth2-authorization-server</artifactId>-->
+        <!--            <version>1.1.0</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-security</artifactId>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-oauth2-client</artifactId>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -102,16 +120,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- 防止插件在父 pom 中被重复引用 -->
+                <!--替换为你的应用程序主类-->
+                <configuration>
+                    <mainClass>com.cabin.oauth2.Oauth2Application</mainClass>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                        <!--替换为你的应用程序主类-->
-                        <configuration>
-                            <mainClass>com.cabin.oauth2.Oauth2Application</mainClass>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

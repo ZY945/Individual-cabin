@@ -9,6 +9,8 @@ import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
 public interface FeiShuService {
 
     String getCodeUrl();
+
     FeiShuAccessToken getToken(String code);
+
     boolean saveUser(FeiShuAccessToken token);
 }

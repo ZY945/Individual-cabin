@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class HttpUtilTest {
     @Test
     void getStrResponse() {
-        String strResponse = HttpUtil.get("https://www.baidu.com",new HashMap<>());
+        String strResponse = HttpUtil.get("https://www.baidu.com", new HashMap<>());
         System.out.println(strResponse);
         // 注意需要api返回的格式
 //        JSONArray jsonArrayResponse = HttpUtil.getJsonArrayResponse("https://www.baidu.com");

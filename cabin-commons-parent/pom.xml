@@ -15,7 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-
     <name>cabin-commons-parent</name>
     <description>cabin公共组件父模块</description>
 
@@ -92,5 +91,4 @@
         <!--            <optional>true</optional>-->
         <!--        </dependency>-->
     </dependencies>
-
 </project>

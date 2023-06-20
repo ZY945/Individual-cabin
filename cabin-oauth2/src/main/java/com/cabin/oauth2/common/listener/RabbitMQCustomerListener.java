@@ -21,7 +21,7 @@ public class RabbitMQCustomerListener {
 
     //监听email队列
     @RabbitListener(queues = {RabbitMQConfig.QUEUE_INFORM_EMAIL})
-    public void receive_email(Object msg, Message message, Channel channel){
+    public void receive_email(Object msg, Message message, Channel channel) {
         //用于解决消息阻塞,手动确认
 //        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 //        String body = new String(message.getBody());

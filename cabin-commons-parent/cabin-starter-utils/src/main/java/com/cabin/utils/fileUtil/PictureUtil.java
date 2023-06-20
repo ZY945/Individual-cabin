@@ -7,6 +7,7 @@ import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.Size;
 
 import java.io.File;
+
 /**
  * 图片命名修改
  *
@@ -36,46 +37,48 @@ public class PictureUtil {
         }
     }
 
-    public static Mat getMat (String inputImgPath){
+    public static Mat getMat(String inputImgPath) {
         //加载图片
         return opencv_imgcodecs.imread(inputImgPath);
     }
-    public static void changeMat (String inputImgPath,
+
+    public static void changeMat(String inputImgPath,
                                  String outputImgPath,
                                  Integer color,
                                  Boolean gaussianBlur,
-                                 Boolean Canny){
+                                 Boolean Canny) {
         //加载图片
         Mat image = getMat(inputImgPath);
-        if(color!=null){
+        if (color != null) {
             image = changeColor(image, color);
         }
-        if(gaussianBlur){
+        if (gaussianBlur) {
             image = toBeGaussianBlur(image);
         }
-        if(Canny){
+        if (Canny) {
             image = toCanny(image);
         }
-        opencv_imgcodecs.imwrite(outputImgPath,image);
+        opencv_imgcodecs.imwrite(outputImgPath, image);
     }
 
-    public static Mat changeColor (Mat image,int color){
+    public static Mat changeColor(Mat image, int color) {
         //加载图片
 
         Mat grayImage = new Mat();
-        opencv_imgproc.cvtColor(image,grayImage,color);
+        opencv_imgproc.cvtColor(image, grayImage, color);
         return grayImage;
     }
-    public static Mat toBeGaussianBlur (Mat image){
+
+    public static Mat toBeGaussianBlur(Mat image) {
         Mat blurredImage = new Mat();
-        opencv_imgproc.GaussianBlur(image,blurredImage,new Size(5,5),0);
+        opencv_imgproc.GaussianBlur(image, blurredImage, new Size(5, 5), 0);
         return blurredImage;
     }
 
-    public static Mat toCanny(Mat image){
+    public static Mat toCanny(Mat image) {
 
         Mat cannyImage = new Mat();
-        opencv_imgproc.Canny(image,cannyImage,50,150);
+        opencv_imgproc.Canny(image, cannyImage, 50, 150);
         return cannyImage;
     }
 

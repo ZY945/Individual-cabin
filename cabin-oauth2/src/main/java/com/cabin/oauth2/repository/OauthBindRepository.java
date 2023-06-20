@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * @date 2023/6/9 14:08
  */
 @Repository
-public interface OauthBindRepository extends JpaRepository<OauthBind,Long> {
+public interface OauthBindRepository extends JpaRepository<OauthBind, Long> {
     OauthBind getOauthByFeiShuOpenId(String openId);
 }

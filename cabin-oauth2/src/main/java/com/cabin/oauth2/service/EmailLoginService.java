@@ -9,8 +9,9 @@ public interface EmailLoginService {
 
     String login(String userEmail, String code);
 
-    String savePassWord(String token,String passWord);
+    String savePassWord(String token, String passWord);
 
     String getToken(String userEmail, String token);
+
     Boolean logout(String token);
 }

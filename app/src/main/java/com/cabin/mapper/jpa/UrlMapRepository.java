@@ -13,6 +13,7 @@ public interface UrlMapRepository extends JpaRepository<UrlMap, Long> {
     UrlMap findUrlMapByShortUrl(String shortUrl);
 
     boolean existsUrlMapByShortUrl(String shortUrl);
+
     UrlMap queryUrlMapsByLongUrl(String longUrl);
 
 //    @Modifying

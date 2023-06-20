@@ -7,6 +7,7 @@ import java.util.UUID;
 public final class RandomUtil {
     private static final int SHORT_MAX = 65536;
     private static int counter = -1;
+
     private RandomUtil() {
     }
 

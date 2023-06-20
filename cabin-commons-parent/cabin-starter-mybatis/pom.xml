@@ -80,12 +80,6 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <!--Mybatis-Plus进阶之扩展插件
             1、逻辑删除
             2、自动填充

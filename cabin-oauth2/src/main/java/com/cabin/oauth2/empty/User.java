@@ -23,7 +23,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    @Column(name = "username")
     private String userName;
+    @Column(name = "password")
     private String passWord;
     //与数据库的datetime对应
     @Temporal(value = TemporalType.TIMESTAMP)
@@ -31,8 +33,9 @@ public class User {
     //与数据库的datetime对应
     @DateTimeFormat(pattern = "yyyy-MM-dd")//设置接收日期参数时的格式
     @Temporal(value = TemporalType.TIMESTAMP)//数据库返回的格式
+    @Column(name = "lastlogin_time")
     private Date lastLoginTime;
 
-    @Column(columnDefinition = "int default 0 comment '是否注销(0未注销)'" )
+    @Column(columnDefinition = "int default 0 comment '是否注销(0未注销)'")
     private int deleted;
 }

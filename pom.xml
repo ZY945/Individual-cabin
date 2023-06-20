@@ -6,6 +6,7 @@
     <groupId>com.cabin</groupId>
     <artifactId>Individual-cabin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!--父模块-->
     <packaging>pom</packaging>
 
     <name>Individual-cabin</name>
@@ -109,6 +110,31 @@
 
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback-classic.version>1.2.3</logback-classic.version>
+
+
+        <!--javacv-->
+        <!--版本根据jar包的版本来写-->
+        <javacv.version>1.5.9</javacv.version>
+        <javacv.opencv.version>4.7.0-1.5.9</javacv.opencv.version>
+        <javacv.ffmpeg.version>6.0-1.5.9</javacv.ffmpeg.version>
+        <javacv.openblas.version>0.3.23-1.5.9</javacv.openblas.version>
+
+        <javacpp.platform.android-arm>android-arm</javacpp.platform.android-arm>
+        <javacpp.platform.android-arm64>android-arm64</javacpp.platform.android-arm64>
+        <javacpp.platform.android-x86>android-x86</javacpp.platform.android-x86>
+        <javacpp.platform.android-x86_64>android-x86_64</javacpp.platform.android-x86_64>
+        <javacpp.platform.ios-arm>ios-arm</javacpp.platform.ios-arm>
+        <javacpp.platform.ios-arm64>ios-arm64</javacpp.platform.ios-arm64>
+        <javacpp.platform.ios-x86>ios-x86</javacpp.platform.ios-x86>
+        <javacpp.platform.ios-x86_64>ios-x86_64</javacpp.platform.ios-x86_64>
+        <javacpp.platform.macosx-x86_64>macosx-x86_64</javacpp.platform.macosx-x86_64>
+        <javacpp.platform.linux-armhf>linux-armhf</javacpp.platform.linux-armhf>
+        <javacpp.platform.linux-arm64>linux-arm64</javacpp.platform.linux-arm64>
+        <javacpp.platform.linux-ppc64le>linux-ppc64le</javacpp.platform.linux-ppc64le>
+        <javacpp.platform.linux-x86>linux-x86</javacpp.platform.linux-x86>
+        <javacpp.platform.linux-x86_64>linux-x86_64</javacpp.platform.linux-x86_64>
+        <javacpp.platform.windows-x86>windows-x86</javacpp.platform.windows-x86>
+        <javacpp.platform.windows-x86_64>windows-x86_64</javacpp.platform.windows-x86_64>
     </properties>
 
 
@@ -252,15 +278,58 @@
             </dependency>
 
             <!--javacv-->
-            <!--图像处理-->
+            <!--对图片或视频进行处理，或者需要利用本地库对数据进行加速计算-->
             <!--https://github.com/bytedeco/javacv-->
+            <!--            <dependency>-->
+            <!--                <groupId>org.bytedeco</groupId>-->
+            <!--                <artifactId>javacv-platform</artifactId>-->
+            <!--                <version>1.5.9</version>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>org.bytedeco</groupId>
-                <artifactId>javacv-platform</artifactId>
-                <version>1.5.9</version>
+                <artifactId>javacpp</artifactId>
+                <version>${javacv.version}</version>
+                <classifier>${javacpp.platform.windows-x86_64}</classifier>
+            </dependency>
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>opencv</artifactId>
+                <version>${javacv.opencv.version}</version>
             </dependency>
 
             <!--视频处理-->
+            <!--ffmpeg-->
+            <!--部署linux版-->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <version>${javacv.ffmpeg.version}</version>
+                <classifier>${javacpp.platform.linux-x86_64}</classifier>
+                <scope>runtime</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.bytedeco</groupId>
+                        <artifactId>javacpp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--开发测试windows版-->
+            <dependency>
+                <groupId>org.bytedeco</groupId>
+                <artifactId>ffmpeg</artifactId>
+                <version>${javacv.ffmpeg.version}</version>
+                <classifier>${javacpp.platform.windows-x86_64}</classifier>
+                <scope>runtime</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.bytedeco</groupId>
+                        <artifactId>javacpp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--视频处理-->
+            <!--开发 GUI 应用程序-->
             <!--https://www.ffmpeg.org/ffmpeg.html-->
             <dependency>
                 <groupId>ws.schild</groupId>
@@ -293,18 +362,13 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.cabin.greptimeDB</groupId>
+                <groupId>com.cabin.commons</groupId>
                 <artifactId>cabin-start-greptimeDB</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.cabin.influxDB</groupId>
-                <artifactId>cabin-start-influxDB</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.cabin.commons</groupId>
-                <artifactId>cabin-starter-core</artifactId>
+                <artifactId>cabin-start-influxDB</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -362,67 +426,69 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <version>${spring-boot.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>repackage</id>-->
-<!--                        <goals>-->
-<!--                            <goal>repackage</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+        <!--        <plugins>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.apache.maven.plugins</groupId>-->
+        <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+        <!--                <version>3.8.1</version>-->
+        <!--                <configuration>-->
+        <!--                    <source>17</source>-->
+        <!--                    <target>17</target>-->
+        <!--                    <encoding>UTF-8</encoding>-->
+        <!--                </configuration>-->
+        <!--            </plugin>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.apache.maven.plugins</groupId>-->
+        <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+        <!--                <version>2.22.2</version>-->
+        <!--                <configuration>-->
+        <!--                    <skipTests>true</skipTests>    &lt;!&ndash;默认关掉单元测试 &ndash;&gt;-->
+        <!--                </configuration>-->
+        <!--            </plugin>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--                <version>${spring-boot.version}</version>-->
+        <!--                <executions>-->
+        <!--                    <execution>-->
+        <!--                        <id>repackage</id>-->
+        <!--                        <goals>-->
+        <!--                            <goal>repackage</goal>-->
+        <!--                        </goals>-->
+        <!--                    </execution>-->
+        <!--                </executions>-->
+        <!--            </plugin>-->
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
-
-        </plugins>
+        <!--        </plugins>-->
     </build>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>spring-milestone</id>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
-<!--            <url>http://repo.spring.io/milestone</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>spring-snapshot</id>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--            <url>http://repo.spring.io/snapshot</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>sonatype-nexus-snapshots</id>-->
-<!--            <name>Sonatype Nexus Snapshots</name>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>spring-milestone</id>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>false</enabled>-->
+    <!--            </snapshots>-->
+    <!--            <url>http://repo.spring.io/milestone</url>-->
+    <!--        </repository>-->
+    <!--        <repository>-->
+    <!--            <id>spring-snapshot</id>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>true</enabled>-->
+    <!--            </snapshots>-->
+    <!--            <url>http://repo.spring.io/snapshot</url>-->
+    <!--        </repository>-->
+    <!--        <repository>-->
+    <!--            <id>sonatype-nexus-snapshots</id>-->
+    <!--            <name>Sonatype Nexus Snapshots</name>-->
+    <!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>true</enabled>-->
+    <!--            </snapshots>-->
+    <!--            <releases>-->
+    <!--                <enabled>false</enabled>-->
+    <!--            </releases>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
     <profiles>
         <profile>
             <!-- 使用 -Papache 激活阿里云仓库下载依赖 -->

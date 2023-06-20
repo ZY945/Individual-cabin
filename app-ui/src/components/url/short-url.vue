@@ -78,7 +78,7 @@ export default {
     },
     goBack() {
       this.dialog = false
-      this.limit=false
+      this.limit = false
     }
   }
 }

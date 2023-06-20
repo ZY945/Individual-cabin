@@ -24,38 +24,38 @@ export default {
         username: this.username,
         password: this.password
       }).then(response => {
-        if(response.data.code===200){
+        if (response.data.code === 200) {
           const token = response.data.data.token
-          localStorage.setItem("token",token)
+          localStorage.setItem("token", token)
           this.$router.push('/chatApp')
-        }else{
+        } else {
           alert('Login error')
         }
       }).catch(() => {
         alert('Invalid login credentials')
       })
     },
-    loginByEmail(){
-      axios.post('/oauth2/user/login/email', null,{
-        params:{
+    loginByEmail() {
+      axios.post('/oauth2/user/login/email', null, {
+        params: {
           userEmail: this.email,
           code: this.code
         }
       }).then(response => {
-        if(response.data.code===200){
+        if (response.data.code === 200) {
           const token = response.data.data
-          localStorage.setItem("token",token)
+          localStorage.setItem("token", token)
           this.$router.push('/chatApp')
-        }else{
+        } else {
           alert('Captcha error')
         }
       }).catch(() => {
         alert('Invalid login credentials')
       })
     },
-    sendCode(){
+    sendCode() {
       axios.get('/oauth2/user/login/email/sendCode', {
-        params:{
+        params: {
           userEmail: this.email,
         }
       }).then(() => {
@@ -93,9 +93,8 @@ export default {
       })
     },
     feishuLogin() {
-      axios.get('/oauth2/feishu/code', {
-      }).then(response => {
-        this.feiShuUrl=response.data;
+      axios.get('/oauth2/feishu/code', {}).then(response => {
+        this.feiShuUrl = response.data;
         window.location.href = this.feiShuUrl;
       }).catch(() => {
         alert('Invalid login credentials')
@@ -111,15 +110,15 @@ export default {
         <v-card class="login-app">
           <div class="form-table-name">
             <div class="Account_login_loginBox_tab">
-              <button  @click="loginType='account'">Login</button>
+              <button @click="loginType='account'">Login</button>
             </div>
-            <div  class="Mail_login_loginBox_tab">
-              <button  @click="loginType='email'">Email</button>
+            <div class="Mail_login_loginBox_tab">
+              <button @click="loginType='email'">Email</button>
             </div>
           </div>
           <v-card-text class="form-account-app" v-if="loginType === 'account'">
-            <v-form >
-              <div >
+            <v-form>
+              <div>
                 <a class="form-label">username</a>
                 <div class="form-text">
                   <v-text-field v-model="username"
@@ -129,9 +128,9 @@ export default {
                                 class="form-text-wrapper"/>
                 </div>
               </div>
-              <div  class="form-text-wrapper" style="margin-top: 10px">
+              <div class="form-text-wrapper" style="margin-top: 10px">
                 <a class="form-label">password</a>
-                <div  class="form-text">
+                <div class="form-text">
                   <v-text-field v-model="password"
                                 type="password"
                                 :class="{ 'form-text-active': passWordActive }"
@@ -145,10 +144,10 @@ export default {
             </v-card-actions>
           </v-card-text>
           <v-card-text class="form-account-app" v-if="loginType === 'email'">
-            <v-form >
-              <div >
+            <v-form>
+              <div>
                 <a class="form-label">email</a>
-                <div class="form-text" >
+                <div class="form-text">
                   <v-text-field v-model="email"
                                 :class="{ 'form-text-active': emailActive }"
                                 @mouseover="emailActive = true"
@@ -156,9 +155,9 @@ export default {
                                 class="form-text-wrapper"/>
                 </div>
               </div>
-              <div  class="form-text-wrapper" style="margin-top: 10px">
+              <div class="form-text-wrapper" style="margin-top: 10px">
                 <a class="form-label">code</a>
-                <div  class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
+                <div class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
                   <v-text-field v-model="code"
                                 type="password"
                                 :class="{ 'form-text-active': codeActive }"
@@ -174,10 +173,10 @@ export default {
             </v-card-actions>
           </v-card-text>
           <div class="login-png-app">
-            <v-btn  @click="googleLogin()" class="login-png" >
+            <v-btn @click="googleLogin()" class="login-png">
               <img src="../../assets/img/google.svg" alt="谷歌登录" width="30">
             </v-btn>
-            <v-btn  @click="githubLogin()" class="login-png">
+            <v-btn @click="githubLogin()" class="login-png">
               <img src="../../assets/img/github.svg" alt="github登录" width="30">
             </v-btn>
             <v-btn @click="dingtalkLogin()" class="login-png">
@@ -210,7 +209,7 @@ export default {
   height: 100%;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(rgb(131,12,231), rgb(16,47,154)); /* 标准的语法 */
+  background: linear-gradient(rgb(131, 12, 231), rgb(16, 47, 154)); /* 标准的语法 */
 }
 
 
@@ -227,6 +226,7 @@ export default {
   justify-content: space-between; /* 将两个按钮左右分别对齐 */
   align-items: flex-start; /* 将两个按钮顶部对齐 */
 }
+
 .Account_login_loginBox_tab {
   display: inline-block;
   max-width: 130px;
@@ -249,18 +249,21 @@ export default {
   margin: 20px auto;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
+
 .register-btn {
   max-width: 98px;
   max-height: 44px;
   margin: 0 auto;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
-.login-png-app{
+
+.login-png-app {
   display: flex;
   justify-content: center;
   width: 30px;
   margin: 20px auto;
 }
+
 .login-png {
   width: 30px;
   height: 30px;
@@ -272,16 +275,19 @@ export default {
 .form-label {
   color: white;
 }
-.form-text-wrapper{
+
+.form-text-wrapper {
   max-width: 236px;
   max-height: 88px;
   position: relative;
 }
+
 .form-text-active {
   max-width: 236px;
   max-height: 44px;
   background-color: rgb(58, 58, 72);
 }
+
 .form-text {
   max-width: 236px;
   max-height: 44px;

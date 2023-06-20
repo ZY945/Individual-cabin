@@ -53,7 +53,7 @@ public class EmailLoginServiceImpl implements EmailLoginService {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_INFORM, MQRoutingKeyEnum.SEND_CABIN_LOGIN_EMAIL.getRoutingKey(), JSON.toJSONString(mailVo));
 
         //存到redis里，限时1分钟内登录
-        redisTemplate.opsForValue().set("email:Code"+userEmail, code, 1, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("email:Code" + userEmail, code, 1, TimeUnit.MINUTES);
 
         return code;
     }
@@ -62,27 +62,28 @@ public class EmailLoginServiceImpl implements EmailLoginService {
     public String login(String userEmail, String code) {
         String redisCode = null;
         String token = null;
-        redisCode = redisTemplate.opsForValue().get("email:Code"+userEmail);
+        redisCode = redisTemplate.opsForValue().get("email:Code" + userEmail);
         if (code.equals(redisCode)) {
             //TODO jwt生成
             token = StringUtil.creatCode(6);
             String emailUTF;
             try {
-                emailUTF = Base64Util.getEncoderByUtf8(userEmail);
+                emailUTF = Base64Util.encoderGetStrByStr(userEmail);
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }
             redisTemplate.opsForValue().set("email:token:" + token, emailUTF, 5, TimeUnit.MINUTES);
-        };
+        }
+        ;
         User userByEmail = userRepository.getUserByEmail(userEmail);
         Date now = new Date();
-        if(userByEmail==null){
+        if (userByEmail == null) {
             User user = new User();
             user.setEmail(userEmail);
             user.setCreatTime(now);
             user.setLastLoginTime(now);
             userRepository.save(user);
-        }else{
+        } else {
             userByEmail.setLastLoginTime(now);
             userRepository.save(userByEmail);
         }

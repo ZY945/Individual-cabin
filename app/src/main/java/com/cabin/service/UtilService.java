@@ -7,5 +7,6 @@ package com.cabin.service;
 public interface UtilService {
 
     String getShortUrl(String shortUrl);
+
     String setShortUrl(String longUrl);
 }

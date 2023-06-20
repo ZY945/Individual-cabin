@@ -1,5 +1,24 @@
+spring:
+  application:
+    name: cabin-oauth2
 server:
   port: 9002
+
+---
+#admin监控
+spring:
+  boot:
+    admin:
+      client:
+        url: http://${admin_host:127.0.0.1}:9001
+        username: user
+        password: zhangyang
+# 开启监控所有项
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 ---
 # 数据库
 spring:
@@ -11,11 +30,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      # create：每次启动时都重新创建数据库表结构，这会导致现有数据的清除。
+      # create-drop：在应用程序关闭时删除数据库表结构。
+      # validate：验证实体类与数据库表结构是否一致，不一致则抛出异常。
+      # update：根据实体类更新数据库表结构。
+      # none：不自动处理。
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        show_sql: true
-        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect # 使用的数据库方言
+        show_sql: true # 显示执行的 SQL 语句。
+        format_sql: true # 格式化 SQL 语句以便阅读
   data:
     redis:
       host: ${host}

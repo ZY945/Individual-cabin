@@ -5,6 +5,7 @@ import 'highlight.js/lib/common';
 import '@mdi/font/css/materialdesignicons.css';
 import 'highlight.js/styles/androidstudio.css';
 import vCode from "@/assets/js/codeblock";
+
 export default {
   name: "CodeBlock",
   props: {
@@ -40,6 +41,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .select-code-input input {
   color: #333333;
 }

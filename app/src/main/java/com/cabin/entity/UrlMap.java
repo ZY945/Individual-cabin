@@ -38,7 +38,7 @@ public class UrlMap {
     private Date lastVisitTime;
 
 
-    @Column(columnDefinition = "int default 1 comment '点击次数'" )
+    @Column(columnDefinition = "int default 1 comment '点击次数'")
     private long clickCount;
     /**
      * 1 表示启动 0 表示关闭

@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class UtilServiceImpl implements UtilService {
 
 
-
     @Value("${code.host}")
     private String host;
 
@@ -45,7 +44,7 @@ public class UtilServiceImpl implements UtilService {
      * @return
      */
     @Override
-    public String getShortUrl(String shortUrl){
+    public String getShortUrl(String shortUrl) {
         String key = "shortUrl:" + shortUrl;
         UrlMap urlMap = null;
         //想实现保存访问时间和访问次数,可以先存在redis,然后夜晚定时任务去跟新数据库,这样的话redis保存时间就需要长了
@@ -68,15 +67,15 @@ public class UtilServiceImpl implements UtilService {
 
         } else {
             urlMap = urlMapRepository.findUrlMapByShortUrl(shortUrl);
-            urlMap.setClickCount(urlMap.getClickCount()+1);
+            urlMap.setClickCount(urlMap.getClickCount() + 1);
             urlMap.setLastVisitTime(new Date());
             urlMapRepository.save(urlMap);
-            redisTemplate.opsForValue().set(key, urlMap,TIMEOUT, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(key, urlMap, TIMEOUT, TimeUnit.HOURS);
 
         }
-        if(urlMap!=null){
+        if (urlMap != null) {
             return urlMap.getLongUrl();
-        }else{
+        } else {
             return null;
         }
     }
@@ -84,10 +83,10 @@ public class UtilServiceImpl implements UtilService {
     @Override
     public String setShortUrl(String longUrl) {
         UrlMap existed = urlMapRepository.queryUrlMapsByLongUrl(longUrl);
-        if (existed!=null){
+        if (existed != null) {
             String key = "shortUrl:" + existed.getShortUrl();
             //添加缓存
-            redisTemplate.opsForValue().set(key, existed,TIMEOUT,TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(key, existed, TIMEOUT, TimeUnit.HOURS);
             return existed.getShortUrl();
         }
         UrlMap urlMap = new UrlMap();
@@ -96,9 +95,9 @@ public class UtilServiceImpl implements UtilService {
         //如果重复了
         boolean shortUrlExi = urlMapRepository.existsUrlMapByShortUrl(random);
         String newLongUrl;
-        while(shortUrlExi){
+        while (shortUrlExi) {
             //加上jdk17生成的随机数
-            newLongUrl=longUrl+StringUtil.getRandomInt();
+            newLongUrl = longUrl + StringUtil.getRandomInt();
             random = StringUtil.shortUrl(newLongUrl);
             shortUrlExi = urlMapRepository.existsUrlMapByShortUrl(random);
         }
@@ -110,7 +109,7 @@ public class UtilServiceImpl implements UtilService {
         //保存到数据库
         UrlMap save = urlMapRepository.save(urlMap);
         //添加缓存
-        redisTemplate.opsForValue().set(key, urlMap,TIMEOUT,TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(key, urlMap, TIMEOUT, TimeUnit.HOURS);
         random = host + ":8080/util/" + random;
         return random;
     }

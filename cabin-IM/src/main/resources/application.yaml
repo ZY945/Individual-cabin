@@ -14,7 +14,9 @@ spring:
   boot:
     admin:
       client:
-        url: http://${admin-host:127.0.0.1}:9001
+        url: http://${admin_host:127.0.0.1}:9001
+        username: user
+        password: zhangyang
 # 开启监控所有项
 management:
   endpoints:
