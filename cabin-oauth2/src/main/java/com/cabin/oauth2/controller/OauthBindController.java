@@ -1,11 +1,11 @@
 package com.cabin.oauth2.controller;
 
 import com.cabin.oauth2.common.enums.Oauth;
-import com.cabin.oauth2.empty.BindAccount;
+import com.cabin.oauth2.empty.bindAccount.BindAccount;
+import com.cabin.oauth2.empty.bindAccount.BindAccountVo;
 import com.cabin.oauth2.empty.response.Result;
 import com.cabin.oauth2.service.OauthBindService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +22,21 @@ public class OauthBindController {
 
     @Autowired
     private OauthBindService oauthBindService;
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     @PostMapping("/feishu")
-    public Result<Oauth> bind(@RequestBody BindAccount bindAccount) {
-        String emailToken = bindAccount.getEmailToken();
-        String feiShuToken = bindAccount.getFeiShuToken();
-        Oauth oauth = oauthBindService.BindFeiShu(emailToken, feiShuToken);
+    public Result<BindAccountVo> bind(@RequestBody BindAccount bindAccount) {
+        String emailToken = bindAccount.getUserEmail();
+        String code = bindAccount.getCode();
+        Long feiShuUserId = bindAccount.getFeiShuUserId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindFeiShuByEmail(emailToken, code, feiShuUserId);
+        Oauth oauth = vo.getOauth();
+        //获取token
         if (oauth.equals(Oauth.OLDBIND)) {
-            return Result.success(oauth, "用户之前已绑定");
+            return Result.success(vo, "用户之前已绑定");
         } else if (oauth.equals(Oauth.NEWBIND)) {
-            return Result.success(oauth, "用户绑定成功");
+            return Result.success(vo, "用户绑定成功");
         } else if (oauth.equals(Oauth.ISNOTUSER)) {
             return Result.fail("没有该用户");
         } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {

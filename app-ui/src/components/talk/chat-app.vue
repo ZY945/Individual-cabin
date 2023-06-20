@@ -117,14 +117,15 @@ export default {
   },
   methods: {
     logout() {
-      const userToken = localStorage.getItem("token");
+      const userToken = JSON.parse(window.localStorage.getItem("token"));
       axios.post('/oauth2/user/logout', null, {
         params: {
           token: userToken,
         }
       }).then(response => {
         if (response.data.code === 200) {
-          localStorage.removeItem("token");
+          window.localStorage.removeItem("token");
+
           this.$router.push('/login')
         }
       }).catch(() => {

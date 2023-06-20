@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cabin_user_oauth")
+@Table(name = "cabin_user_bind")
 public class OauthBind {
 
     @Id
@@ -21,5 +21,6 @@ public class OauthBind {
     private Long id;
 
     private Long userId;
+    @Column(name = "feishu_openid")
     private String feiShuOpenId;
 }

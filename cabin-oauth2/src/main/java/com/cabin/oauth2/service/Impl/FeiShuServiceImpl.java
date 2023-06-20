@@ -5,7 +5,6 @@ import com.cabin.oauth2.empty.feishu.FeiShuClient;
 import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
 import com.cabin.oauth2.repository.FeiShuUserRepository;
 import com.cabin.oauth2.service.FeiShuService;
-import com.cabin.utils.commonUtil.Base64Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,12 +14,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 伍六七
@@ -82,7 +79,7 @@ public class FeiShuServiceImpl implements FeiShuService {
     }
 
     @Override
-    public boolean saveUser(FeiShuAccessToken token) {
+    public FeiShuUserInfo saveUser(FeiShuAccessToken token) {
         String url = feiShuClient.getUserUrlPrefix();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", "Bearer " + token.getAccess_token());
@@ -92,26 +89,26 @@ public class FeiShuServiceImpl implements FeiShuService {
         if (body == null) {
             throw new RuntimeException("飞书用户信息获取失败");
         }
-        //将openId存入redis
-        String openIdEncoder;
-        try {
-            openIdEncoder = Base64Util.encoderGetStrByStr(body.getOpenId());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("openId加密失败" + e);
-        }
-        if (openIdEncoder == null) {
-            throw new RuntimeException("openId未加密成功");
-        }
+//        //将openId存入redis
+//        String openIdEncoder;
+//        try {
+//            openIdEncoder = Base64Util.encoderGetStrByStr(body.getOpenId());
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException("openId加密失败" + e);
+//        }
+//        if (openIdEncoder == null) {
+//            throw new RuntimeException("openId未加密成功");
+//        }
         //该用户已存在
-        FeiShuUserInfo exit = feiShuUserRepository.getFeiShuUserInfoByOpenId(body.getOpenId());
-        if (exit == null) {
-            System.out.println("该用户首次登录,保存信息");
-            FeiShuUserInfo save = feiShuUserRepository.save(body);
-            redisTemplate.opsForValue().set("feishu:token:" + save.getId(), openIdEncoder, 5, TimeUnit.MINUTES);
-            return true;
-        }
-        redisTemplate.opsForValue().set("feishu:token:" + exit.getId(), openIdEncoder, 5, TimeUnit.MINUTES);
-        System.out.println("该用户已存在,直接登录");
-        return false;
+        return feiShuUserRepository.getFeiShuUserInfoByOpenId(body.getOpenId());
+//        if (exit == null) {
+//            System.out.println("该用户首次登录,保存信息");
+//            FeiShuUserInfo save = feiShuUserRepository.save(body);
+//            redisTemplate.opsForValue().set("feishu:token:" + save.getId(), openIdEncoder, 5, TimeUnit.MINUTES);
+//            return true;
+//        }
+//        redisTemplate.opsForValue().set("feishu:token:" + exit.getId(), openIdEncoder, 5, TimeUnit.MINUTES);
+//        System.out.println("该用户已存在,直接登录");
+//        return true;
     }
 }

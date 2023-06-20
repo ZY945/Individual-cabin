@@ -1,6 +1,7 @@
 package com.cabin.oauth2.service;
 
 import com.cabin.oauth2.common.enums.Oauth;
+import com.cabin.oauth2.empty.bindAccount.BindAccountVo;
 
 /**
  * @author 伍六七
@@ -8,5 +9,9 @@ import com.cabin.oauth2.common.enums.Oauth;
  */
 public interface OauthBindService {
 
-    Oauth BindFeiShu(String userId, String openId);
+    Oauth bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId);
+
+    BindAccountVo bindFeiShuByEmail(String email, String code, Long feiShuUserId);
+
+
 }

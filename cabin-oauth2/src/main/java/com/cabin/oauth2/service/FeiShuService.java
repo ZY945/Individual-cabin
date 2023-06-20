@@ -1,6 +1,7 @@
 package com.cabin.oauth2.service;
 
 import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
+import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
 
 /**
  * @author 伍六七
@@ -12,5 +13,5 @@ public interface FeiShuService {
 
     FeiShuAccessToken getToken(String code);
 
-    boolean saveUser(FeiShuAccessToken token);
+    FeiShuUserInfo saveUser(FeiShuAccessToken token);
 }

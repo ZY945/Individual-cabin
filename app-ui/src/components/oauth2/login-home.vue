@@ -1,5 +1,7 @@
 <script>
 import axios from 'axios'
+import {onBeforeUnmount, ref, watchEffect} from "vue";
+import {useRouter} from "vue-router";
 
 export default {
   name: "ChatLogin",
@@ -15,7 +17,7 @@ export default {
       codeActive: false,
       userNameActive: false,
       passWordActive: false,
-      loginType: 'account'
+      loginType: 'account',
     }
   },
   methods: {
@@ -96,10 +98,62 @@ export default {
       axios.get('/oauth2/feishu/code', {}).then(response => {
         this.feiShuUrl = response.data;
         window.location.href = this.feiShuUrl;
+
       }).catch(() => {
         alert('Invalid login credentials')
       })
     },
+  },
+  setup() {
+    //vue3写法
+    let code = ref(0);
+    let intervalId;
+    let router = useRouter();
+    // 轮询函数
+    const pollData = async () => {
+      // 处理轮询逻辑
+      const params = window.location.search;
+      const searchParams = new URLSearchParams(params);
+      code.value = searchParams.get('code');//feiShuUserId
+      if (code.value != null) {
+        loginByFeiShuCode(code.value);
+        clearInterval(intervalId);
+      }
+    };
+
+    // 监听数据变化并轮询
+    watchEffect(() => {
+      const params = window.location.search;
+      const searchParams = new URLSearchParams(params);
+      code.value = searchParams.get('code');//feiShuUserId
+      if (code.value != null) {//TODO 有参数时在进行,这里可以优化成直接调用,但是目前报错,不知道如何修改
+        intervalId = setInterval(pollData, 1); // 每隔 1ms 轮询一次
+      }
+    });
+
+    const loginByFeiShuCode = (code) => {
+      axios.get('/oauth2/feishu/access_token', {
+        params: {
+          code: code
+        }
+      }).then(response => {
+        if (response.data.data.token === null) {
+          window.localStorage.setItem('userId', JSON.stringify(response.data.data.userId))
+          router.push('/bind')
+        } else {
+          const token = response.data.data.token
+          //存储
+          window.localStorage.setItem('token', JSON.stringify(token))
+          router.push('/chatApp')
+        }
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
+    // 在组件卸载时停止轮询
+    onBeforeUnmount(() => {
+      clearInterval(intervalId);
+    });
   }
 }
 </script>
@@ -110,7 +164,7 @@ export default {
         <v-card class="login-app">
           <div class="form-table-name">
             <div class="Account_login_loginBox_tab">
-              <button @click="loginType='account'">Login</button>
+              <button @click="loginType='account'">Account</button>
             </div>
             <div class="Mail_login_loginBox_tab">
               <button @click="loginType='email'">Email</button>
@@ -248,6 +302,11 @@ export default {
   max-height: 44px;
   margin: 20px auto;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
+}
+
+.bind-style {
+  max-width: 1000px;
+  max-height: 1000px;
 }
 
 .register-btn {

@@ -3,17 +3,15 @@ package com.cabin.oauth2.service.Impl;
 import com.cabin.oauth2.common.enums.Oauth;
 import com.cabin.oauth2.empty.OauthBind;
 import com.cabin.oauth2.empty.User;
+import com.cabin.oauth2.empty.bindAccount.BindAccountVo;
 import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
 import com.cabin.oauth2.repository.FeiShuUserRepository;
 import com.cabin.oauth2.repository.OauthBindRepository;
 import com.cabin.oauth2.repository.UserRepository;
+import com.cabin.oauth2.service.EmailLoginService;
 import com.cabin.oauth2.service.OauthBindService;
-import com.cabin.utils.commonUtil.Base64Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * @author 伍六七
@@ -23,51 +21,53 @@ import java.io.UnsupportedEncodingException;
 public class OauthBindServiceImpl implements OauthBindService {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-    @Autowired
     private OauthBindRepository oauthRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private FeiShuUserRepository feiShuUserRepository;
+    @Autowired
+    private EmailLoginService emailLoginService;
 
     @Override
-    public Oauth BindFeiShu(String emailToken, String feiShuToken) {
-        String email = redisTemplate.opsForValue().get("email:token:" + emailToken);
-        String openId = redisTemplate.opsForValue().get("feishu:token:" + feiShuToken);
-        if (email == null) {
-            return Oauth.ISNOTUSER;
-        }
-        if (openId == null) {
-            return Oauth.ISNOTFEISHUUSER;
-        }
-        //解密
-        try {
-            email = Base64Util.decoderGetStrByStr(email);
-            openId = Base64Util.decoderGetStrByStr(openId);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+    public Oauth bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId) {
+        return null;
+    }
+
+    @Override
+    public BindAccountVo bindFeiShuByEmail(String email, String code, Long feiShuUserId) {
+        BindAccountVo vo = new BindAccountVo();
+        String token = emailLoginService.login(email, code);
+        vo.setToken(token);
+        if (token == null) {
+            vo.setOauth(Oauth.ISNOTUSER);
+            return vo;
         }
         //根据email获取用户
         User user = userRepository.getUserByEmail(email);
         if (user == null) {
-            return Oauth.ISNOTUSER;
+            vo.setOauth(Oauth.ISNOTUSER);
+            return vo;
         }
-        //根据openID获取飞书用户
-        FeiShuUserInfo feiShuUser = feiShuUserRepository.getFeiShuUserInfoByOpenId(openId);
+        //根据userId获取飞书用户
+        FeiShuUserInfo feiShuUser = feiShuUserRepository.getFeiShuUserInfoById(feiShuUserId);
         if (feiShuUser == null) {
-            return Oauth.ISNOTFEISHUUSER;
+            vo.setOauth(Oauth.ISNOTFEISHUUSER);
+            return vo;
         }
+        String openId = feiShuUser.getOpenId();
         OauthBind oauthBind = oauthRepository.getOauthByFeiShuOpenId(openId);
         if (oauthBind != null) {
             //已绑定
-            return Oauth.OLDBIND;
+            vo.setOauth(Oauth.OLDBIND);
+            return vo;
         }
         OauthBind newBind = new OauthBind();
 
         newBind.setUserId(user.getId());
         newBind.setFeiShuOpenId(openId);
         oauthRepository.save(newBind);
-        return Oauth.NEWBIND;
+        vo.setOauth(Oauth.NEWBIND);
+        return vo;
     }
 }

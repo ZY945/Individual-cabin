@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import cabinMenus from "@/components/cabin-menus.vue";
 import {isLogin} from "@/assets/js/utils";
 
@@ -54,6 +54,12 @@ const routes = [
                 component: () => import('@/components/oauth2/login-home.vue')
             },
             {
+                path: '/bind',
+                name: 'bind',
+                component: () => import('@/components/oauth2/bind-account.vue'),
+                // meta: {requiresAuth: true}, // 需要登录才能访问
+            },
+            {
                 path: '/chatApp',
                 name: 'chatApp',
                 component: () => import('@/components/talk/chat-app.vue'),
@@ -71,7 +77,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(), //HTML5模式
+    // history: createWebHashHistory(), //HTML5模式
+    history: createWebHistory(), //去掉/#/
     routes,
 });
 

@@ -13,4 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface FeiShuUserRepository extends JpaRepository<FeiShuUserInfo, Long> {
 
     FeiShuUserInfo getFeiShuUserInfoByOpenId(@Param("open_id") String openId);
+
+    FeiShuUserInfo getFeiShuUserInfoById(@Param("id") Long Id);
+
 }
