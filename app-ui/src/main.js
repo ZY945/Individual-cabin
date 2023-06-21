@@ -7,6 +7,9 @@ import vuetify from "@/types/vuetify";
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import axios from "axios";
 import hljs from "highlight.js";
+import loginHome from "@/components/oauth2/login-home.vue";
+import registerAccount from "@/components/oauth2/register-account.vue";
+import bindAccount from "@/components/oauth2/bind-account.vue";
 
 const app = createApp(App);
 app.use(router);
@@ -14,6 +17,10 @@ app.use(hljsVuePlugin)
 app.use(hljs)
 app.use(vuetify);
 app.config.globalProperties.$axios = axios
+// 全局注册组件
+app.component("ChatLogin", loginHome)
+app.component("RegisterAccount", registerAccount)
+app.component("BindAccount", bindAccount)
 app.mount('#app');
 
 

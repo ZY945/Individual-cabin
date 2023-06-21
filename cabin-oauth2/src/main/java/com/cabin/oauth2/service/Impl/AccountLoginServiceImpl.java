@@ -45,12 +45,18 @@ public class AccountLoginServiceImpl implements AccountLoginService {
     }
 
     @Override
-    public String register(String userName, String email, String passWord) {
+    public String register(String userName, String email, String code, String passWord) {
         String token = null;
-        boolean existsed = userRepository.existsUserByUserNameAndEmail(userName, email);
+        boolean existsed = userRepository.existsUserByEmail(email);
         if (existsed) {
             return token;
         }
+        String redisCode = null;
+        redisCode = redisTemplate.opsForValue().get("email:Code:" + email);
+        if (!code.equals(redisCode)) {
+            return token;
+        }
+        redisTemplate.delete("email:Code:" + email);
         //加密密码 目前使用SHA256
         User user = new User();
         user.setEmail(email);

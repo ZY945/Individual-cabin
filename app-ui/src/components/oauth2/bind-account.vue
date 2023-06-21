@@ -1,70 +1,83 @@
 <script>
 import axios from "axios";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
 
 export default {
-  name: "BindAccount",
-  props: {},
-  components: {},
-  data() {
-    return {
-      bindEmail: '',
-      bindCode: '',
-      bindUsername: '',
-      bindPassword: '',
-      feiShuUserId: '',
-      bindEmailActive: false,
-      bindCodeActive: false,
-      bindUserNameActive: false,
-      bindPassWordActive: false,
-      bindLoginType: 'account'
-    }
-  },
-  methods: {
-    sendCode() {
+  setup() {
+    let bindEmail = ref('');
+    let bindCode = ref('');
+    let bindUsername = ref('');
+    let bindPassword = ref('');
+    let feiShuUserId = ref('');
+    let bindEmailActive = ref(false);
+    let bindCodeActive = ref(false);
+    let bindUserNameActive = ref(false);
+    let bindPassWordActive = ref(false);
+    let bindLoginType = ref('account');
+    let router = useRouter();
+    const sendCode = () => {
       axios.get('/oauth2/login/email/sendCode', {
         params: {
-          userEmail: this.bindEmail,
+          userEmail: bindEmail.value,
         }
       }).then(() => {
       }).catch(() => {
         alert('Invalid login credentials')
       })
-    },
-    bindByAccount() {
+    };
+    const bindByAccount = () => {
       const userId = JSON.parse(window.localStorage.getItem('userId'));
       axios.post('/oauth2/bind/feishu/account', {
-        userName: this.bindUsername,
-        passWord: this.bindPassword,
+        userName: bindUsername.value,
+        passWord: bindPassword.value,
         feiShuUserId: userId
       }).then(response => {
         const token = response.data.data.token
         if (response.data.code === 200) {
           window.localStorage.setItem('token', JSON.stringify(token))
-          this.$router.push('/chatApp')
+          router.push('/chatApp')
           window.localStorage.removeItem("userId");
         }
       }).catch(() => {
         alert('Invalid login credentials')
       })
-    },
-    bindByEmail() {
+    };
+    const bindByEmail = () => {
       const userId = JSON.parse(window.localStorage.getItem('userId'));
       axios.post('/oauth2/bind/feishu/email', {
-        userEmail: this.bindEmail,
-        code: this.bindCode,
+        userEmail: bindEmail.value,
+        code: bindCode.value,
         feiShuUserId: userId
       }).then(response => {
         const token = response.data.data.token
         if (response.data.code === 200) {
           window.localStorage.setItem('token', JSON.stringify(token))
           window.localStorage.removeItem("userId");
-          this.$router.push('/chatApp')
+          router.push('/chatApp')
         }
       }).catch(() => {
         alert('Invalid login credentials')
       })
-    },
-  },
+    };
+
+
+    return {
+      sendCode,
+      bindByAccount,
+      bindByEmail,
+      bindEmail,
+      bindCode,
+      bindUsername,
+      bindPassword,
+      feiShuUserId,
+      bindEmailActive,
+      bindCodeActive,
+      bindUserNameActive,
+      bindPassWordActive,
+      bindLoginType,
+    }
+  }
 }
 </script>
 <template>
@@ -165,7 +178,7 @@ export default {
 
 .form-account-app {
   max-width: 260px;
-  max-height: 230px;
+  max-height: 300px;
   margin: 0 auto;
   padding: 20px;
   background-color: rgb(26, 26, 42);
@@ -199,6 +212,7 @@ export default {
   margin: 20px auto;
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
+
 
 .form-label {
   color: white;

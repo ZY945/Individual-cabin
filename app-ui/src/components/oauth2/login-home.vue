@@ -4,111 +4,22 @@ import {onBeforeUnmount, ref, watchEffect} from "vue";
 import {useRouter} from "vue-router";
 
 export default {
-  name: "ChatLogin",
-  components: {},
-  data() {
-    return {
-      feiShuUrl: '',
-      email: '',
-      code: '',
-      username: '',
-      password: '',
-      emailActive: false,
-      codeActive: false,
-      userNameActive: false,
-      passWordActive: false,
-      loginType: 'account',
-    }
-  },
-  methods: {
-    login() {
-      axios.post('/oauth2/login/account', null, {
-        params: {
-          userName: this.username,
-          passWord: this.password
-        }
-      }).then(response => {
-        if (response.data.code === 200) {
-          const token = response.data.data
-          window.localStorage.setItem('token', JSON.stringify(token))
-          this.$router.push('/chatApp')
-        } else {
-          alert('账户登录失败')
-        }
-      }).catch(() => {
-        alert('账户登录异常')
-      })
-    },
-    loginByEmail() {
-      axios.post('/oauth2/login/email', null, {
-        params: {
-          userEmail: this.email,
-          code: this.code
-        }
-      }).then(response => {
-        if (response.data.code === 200) {
-          const token = response.data.data
-          window.localStorage.setItem('token', JSON.stringify(token))
-          this.$router.push('/chatApp')
-        } else {
-          alert('Captcha error')
-        }
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    sendCode() {
-      axios.get('/oauth2/login/email/sendCode', {
-        params: {
-          userEmail: this.email,
-        }
-      }).then(() => {
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    googleLogin() {
-      axios.post('/oauth2/api/login', {
-        username: this.username,
-        password: this.password
-      }).then(() => {
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    githubLogin() {
-      axios.post('/oauth2/api/login', {
-        username: this.username,
-        password: this.password
-      }).then(() => {
-        this.$router.push('/')
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    dingtalkLogin() {
-      axios.post('/oauth2/api/login', {
-        username: this.username,
-        password: this.password
-      }).then(() => {
-        this.$router.push('/')
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-    feishuLogin() {
-      axios.get('/oauth2/feishu/code', {}).then(response => {
-        this.feiShuUrl = response.data;
-        window.location.href = this.feiShuUrl;
-
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    },
-  },
   setup() {
     //vue3写法
-    let code = ref(0);
+    //重定向后会销毁实例,参数会初始化(可以把第三方登录的服务提供作为重定向url的参数,code会&到后面)
+    //两种方法,使用父组件去保存,传入子组件
+    let code = ref('');
+    let eMailCode = ref('');
+    let feiShuUrl = ref('');
+    let giteeUrl = ref('');
+    let email = ref('');
+    let username = ref('');
+    let password = ref('');
+    let emailActive = ref(false);
+    let codeActive = ref(false);
+    let userNameActive = ref(false);
+    let passWordActive = ref(false);
+    let loginType = ref('account');
     let intervalId;
     let router = useRouter();
     // 轮询函数
@@ -117,8 +28,17 @@ export default {
       const params = window.location.search;
       const searchParams = new URLSearchParams(params);
       code.value = searchParams.get('code');//feiShuUserId
+      // const oauthType = window.localStorage.getItem('oauthType');
+      const oauthType = searchParams.get('oauthType');
       if (code.value != null) {
-        loginByFeiShuCode(code.value);
+        console.log(oauthType);
+        if (oauthType === 'feishu') {
+          console.log(oauthType);
+          loginByFeiShuCode(code.value);
+        } else if (oauthType === "gitee") {
+          loginByGiteeCode(code.value);
+        }
+
         clearInterval(intervalId);
       }
     };
@@ -133,8 +53,103 @@ export default {
       }
     });
 
+    const feiShuLogin = () => {
+      axios.get('/oauth2/feishu/code', {}).then(response => {
+        feiShuUrl.value = response.data;
+        window.location.href = feiShuUrl.value;
+
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
+
+    const login = () => {
+      axios.post('/oauth2/login/account', null, {
+        params: {
+          userName: username.value,
+          passWord: password.value
+        }
+      }).then(response => {
+        if (response.data.code === 200) {
+          const token = response.data.data
+          window.localStorage.setItem('token', JSON.stringify(token))
+          router.push('/chatApp')
+        } else {
+          alert('账户登录失败')
+        }
+      }).catch(() => {
+        alert('账户登录异常')
+      })
+    };
+    const loginByEmail = () => {
+      if (eMailCode.value != null && eMailCode.value !== "") {
+        axios.post('/oauth2/login/email', null, {
+          params: {
+            userEmail: email.value,
+            code: eMailCode.value
+          }
+        }).then(response => {
+          if (response.data.code === 200) {
+            const token = response.data.data
+            window.localStorage.setItem('token', JSON.stringify(token))
+            router.push('/chatApp')
+          } else {
+            alert('Captcha error')
+          }
+        }).catch(() => {
+          alert('Invalid login credentials')
+        })
+      } else {
+        alert("请输入正确验证码格式");
+      }
+    };
+    const sendCode = () => {
+      if (email.value != null && email.value !== "") {
+        axios.get('/oauth2/login/email/sendCode', {
+          params: {
+            userEmail: email.value,
+          }
+        }).then(() => {
+        }).catch(() => {
+          alert('Invalid login credentials')
+        })
+      } else {
+        alert("请输入正确邮箱");
+      }
+
+    };
+    const giteeLogin = () => {
+      axios.get('/oauth2/gitee/code', {}).then(response => {
+        feiShuUrl.value = response.data;
+        window.location.href = feiShuUrl.value;
+
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
     const loginByFeiShuCode = (code) => {
       axios.get('/oauth2/feishu/access_token', {
+        params: {
+          code: code
+        }
+      }).then(response => {
+        if (response.data.data.token === null) {
+          window.localStorage.setItem('userId', JSON.stringify(response.data.data.userId))
+          router.push('/bind')
+        } else {
+          const token = response.data.data.token
+          window.localStorage.removeItem("userId");
+          //存储
+          window.localStorage.setItem('token', JSON.stringify(token))
+          router.push('/chatApp')
+        }
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
+
+    const loginByGiteeCode = (code) => {
+      axios.get('/oauth2/gitee/access_token', {
         params: {
           code: code
         }
@@ -156,6 +171,26 @@ export default {
     onBeforeUnmount(() => {
       clearInterval(intervalId);
     });
+    //暴露方法
+    return {
+      feiShuLogin,
+      login,
+      loginByEmail,
+      giteeLogin,
+      sendCode,
+      code,
+      eMailCode,
+      feiShuUrl,
+      giteeUrl,
+      email,
+      username,
+      password,
+      emailActive,
+      codeActive,
+      userNameActive,
+      passWordActive,
+      loginType,
+    }
   }
 }
 </script>
@@ -211,16 +246,18 @@ export default {
                                 class="form-text-wrapper"/>
                 </div>
               </div>
-              <div class="form-text-wrapper" style="margin-top: 10px">
+              <div class="form-text-wrapper" style="margin-top: 15px;">
                 <a class="form-label">code</a>
-                <div class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
-                  <v-text-field v-model="code"
-                                type="password"
-                                :class="{ 'form-text-active': codeActive }"
-                                @mouseover="codeActive = true"
-                                @mouseleave="codeActive = false"
-                  />
-                  <v-btn color="white" style="margin-left: 10px;" @click="sendCode()">Send Code</v-btn>
+                <div class="form-text-code-all">
+                  <div class="form-text-code">
+                    <v-text-field v-model="eMailCode"
+                                  type="password"
+                                  :class="{ 'form-text-active': codeActive }"
+                                  @mouseover="codeActive = true"
+                                  @mouseleave="codeActive = false"/>
+                  </div>
+                  <v-btn class="code-btn" color="white" @click="sendCode()">Send Code</v-btn>
+
                 </div>
               </div>
             </v-form>
@@ -229,19 +266,25 @@ export default {
             </v-card-actions>
           </v-card-text>
           <div class="login-png-app">
-            <v-btn @click="googleLogin()" class="login-png">
+            <v-btn @click="googleLogin" class="login-png">
               <img src="../../assets/img/google.svg" alt="谷歌登录" width="30">
             </v-btn>
-            <v-btn @click="githubLogin()" class="login-png">
+            <v-btn @click="githubLogin" class="login-png">
               <img src="../../assets/img/github.svg" alt="github登录" width="30">
             </v-btn>
-            <v-btn @click="dingtalkLogin()" class="login-png">
+            <v-btn @click="dingtalkLogin" class="login-png">
               <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
               <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
             </v-btn>
-            <v-btn @click="feishuLogin()" class="login-png">
+            <v-btn @click="feiShuLogin()" class="login-png">
               <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
               <img src="../../assets/img/feishu.svg" alt="飞书扫码登录" width="30">
+            </v-btn>
+          </div>
+          <div class="login-png-app">
+            <v-btn @click="giteeLogin()" class="login-png">
+              <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
+              <img src="../../assets/img/gitee.svg" alt="码云扫码登录" width="30">
             </v-btn>
           </div>
         </v-card>
@@ -306,16 +349,11 @@ export default {
   background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
 }
 
-.bind-style {
-  max-width: 1000px;
-  max-height: 1000px;
-}
-
-.register-btn {
-  max-width: 98px;
+.code-btn {
+  max-width: 110px;
   max-height: 44px;
-  margin: 0 auto;
-  background: linear-gradient(rgb(74, 164, 231), rgb(74, 70, 204)); /* 标准的语法 */
+  background-color: rgb(7, 7, 14);
+  color: white;
 }
 
 .login-png-app {
@@ -354,5 +392,22 @@ export default {
   max-height: 44px;
   background-color: rgb(7, 7, 14);
   color: white;
+}
+
+.form-text-code-all {
+  max-width: 236px;
+  max-height: 44px;
+  background-color: rgb(7, 7, 14);
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.form-text-code {
+  max-width: 110px;
+  max-height: 44px;
+  background-color: rgb(7, 7, 14);
+  color: white;
+  margin-left: 10px;
 }
 </style>

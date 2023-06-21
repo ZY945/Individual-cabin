@@ -8,7 +8,7 @@ public interface AccountLoginService {
 
     String login(String userName, String passWord);
 
-    String register(String userName, String email, String passWord);
+    String register(String userName, String email, String code, String passWord);
 
     String getToken(String userEmail, String token);
 }

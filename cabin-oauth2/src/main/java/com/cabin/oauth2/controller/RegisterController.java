@@ -23,8 +23,9 @@ public class RegisterController {
     @PostMapping("/account")
     public Result<String> register(@RequestParam("userName") String userName,
                                    @RequestParam("email") String email,
+                                   @RequestParam("code") String code,
                                    @RequestParam("passWord") String passWord) {
-        String token = accountLoginService.register(userName, email, passWord);
+        String token = accountLoginService.register(userName, email, code, passWord);
         return token == null ? Result.fail(null, "该用户名已存在,注册失败") : Result.success(token, "登录成功");
     }
 }
