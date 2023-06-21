@@ -16,6 +16,12 @@ public class BindAccount {
     @JsonProperty("code")
     private String code;
 
+    @JsonProperty("userName")
+    private String userName;
+
+    @JsonProperty("passWord")
+    private String passWord;
+
     @JsonProperty("feiShuUserId")
     private Long feiShuUserId;
 

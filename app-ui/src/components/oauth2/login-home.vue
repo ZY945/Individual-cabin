@@ -22,23 +22,25 @@ export default {
   },
   methods: {
     login() {
-      axios.post('/cabinChat/api/login', {
-        username: this.username,
-        password: this.password
+      axios.post('/oauth2/login/account', null, {
+        params: {
+          userName: this.username,
+          passWord: this.password
+        }
       }).then(response => {
         if (response.data.code === 200) {
-          const token = response.data.data.token
-          localStorage.setItem("token", token)
+          const token = response.data.data
+          window.localStorage.setItem('token', JSON.stringify(token))
           this.$router.push('/chatApp')
         } else {
-          alert('Login error')
+          alert('账户登录失败')
         }
       }).catch(() => {
-        alert('Invalid login credentials')
+        alert('账户登录异常')
       })
     },
     loginByEmail() {
-      axios.post('/oauth2/user/login/email', null, {
+      axios.post('/oauth2/login/email', null, {
         params: {
           userEmail: this.email,
           code: this.code
@@ -46,7 +48,7 @@ export default {
       }).then(response => {
         if (response.data.code === 200) {
           const token = response.data.data
-          localStorage.setItem("token", token)
+          window.localStorage.setItem('token', JSON.stringify(token))
           this.$router.push('/chatApp')
         } else {
           alert('Captcha error')
@@ -56,7 +58,7 @@ export default {
       })
     },
     sendCode() {
-      axios.get('/oauth2/user/login/email/sendCode', {
+      axios.get('/oauth2/login/email/sendCode', {
         params: {
           userEmail: this.email,
         }

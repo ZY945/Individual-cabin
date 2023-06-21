@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     sendCode() {
-      axios.get('/oauth2/user/login/email/sendCode', {
+      axios.get('/oauth2/login/email/sendCode', {
         params: {
           userEmail: this.bindEmail,
         }
@@ -30,20 +30,39 @@ export default {
         alert('Invalid login credentials')
       })
     },
-    bind() {
+    bindByAccount() {
       const userId = JSON.parse(window.localStorage.getItem('userId'));
-      axios.post('/oauth2/bind/feishu', {
+      axios.post('/oauth2/bind/feishu/account', {
+        userName: this.bindUsername,
+        passWord: this.bindPassword,
+        feiShuUserId: userId
+      }).then(response => {
+        const token = response.data.data.token
+        if (response.data.code === 200) {
+          window.localStorage.setItem('token', JSON.stringify(token))
+          this.$router.push('/chatApp')
+          window.localStorage.removeItem("userId");
+        }
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    },
+    bindByEmail() {
+      const userId = JSON.parse(window.localStorage.getItem('userId'));
+      axios.post('/oauth2/bind/feishu/email', {
         userEmail: this.bindEmail,
         code: this.bindCode,
         feiShuUserId: userId
       }).then(response => {
         const token = response.data.data.token
-        window.localStorage.setItem('token', JSON.stringify(token))
-        this.$router.push('/chatApp')
+        if (response.data.code === 200) {
+          window.localStorage.setItem('token', JSON.stringify(token))
+          window.localStorage.removeItem("userId");
+          this.$router.push('/chatApp')
+        }
       }).catch(() => {
         alert('Invalid login credentials')
       })
-      localStorage.removeItem("userId");
     },
   },
 }
@@ -85,7 +104,7 @@ export default {
               </div>
             </v-form>
             <v-card-actions>
-              <v-btn color="white" @click="bind()" class="login-btn">Bind</v-btn>
+              <v-btn color="white" @click="bindByAccount()" class="login-btn">Bind</v-btn>
             </v-card-actions>
           </v-card-text>
           <v-card-text class="form-account-app" v-if="bindLoginType === 'bindEmail'">
@@ -114,7 +133,7 @@ export default {
               </div>
             </v-form>
             <v-card-actions>
-              <v-btn color="white" @click="bind()" class="login-btn">Bind</v-btn>
+              <v-btn color="white" @click="bindByEmail()" class="login-btn">Bind</v-btn>
             </v-card-actions>
           </v-card-text>
         </v-card>

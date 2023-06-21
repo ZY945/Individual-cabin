@@ -23,8 +23,30 @@ public class OauthBindController {
     @Autowired
     private OauthBindService oauthBindService;
 
-    @PostMapping("/feishu")
-    public Result<BindAccountVo> bind(@RequestBody BindAccount bindAccount) {
+    @PostMapping("/feishu/account")
+    public Result<BindAccountVo> bindByAccount(@RequestBody BindAccount bindAccount) {
+        String userName = bindAccount.getUserName();
+        String passWord = bindAccount.getPassWord();
+        Long feiShuUserId = bindAccount.getFeiShuUserId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindFeiShuByAccount(userName, passWord, feiShuUserId);
+        Oauth oauth = vo.getOauth();
+        //获取token
+        if (oauth.equals(Oauth.OLDBIND)) {
+            return Result.success(vo, "用户之前已绑定");
+        } else if (oauth.equals(Oauth.NEWBIND)) {
+            return Result.success(vo, "用户绑定成功");
+        } else if (oauth.equals(Oauth.ISNOTUSER)) {
+            return Result.fail("没有该用户");
+        } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {
+            return Result.fail("没有该飞书用户信息");
+        }
+        return Result.fail("Oauth未获取到指定内容,未知错误");
+    }
+
+    @PostMapping("/feishu/email")
+    public Result<BindAccountVo> bindByEmail(@RequestBody BindAccount bindAccount) {
         String emailToken = bindAccount.getUserEmail();
         String code = bindAccount.getCode();
         Long feiShuUserId = bindAccount.getFeiShuUserId();

@@ -118,7 +118,7 @@ export default {
   methods: {
     logout() {
       const userToken = JSON.parse(window.localStorage.getItem("token"));
-      axios.post('/oauth2/user/logout', null, {
+      axios.post('/oauth2/logout', null, {
         params: {
           token: userToken,
         }

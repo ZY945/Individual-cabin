@@ -104,17 +104,102 @@ https://tech.meituan.com/MT_Leaf.html </br>
 
 ## 正则
 
+### 注释
+
 行级注释 \/\/[^\n]*
 块级注释 \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/
 
-private下面统一空一行
+### private下面统一空一行
+
 private\s+(\S+)\s+(\S+)\s*;
 private $1 $2;\n
 
-在private上加@JsonProperty
+### 在private上加@JsonProperty
+
 private\s+(\S+)\s+(\S+)\s*;
 @JsonProperty("$2")\nprivate $1 $2;
 
-在@Column上加@JsonProperty
+### 在@Column上加@JsonProperty
+
 @Column\(name\s*=\s*"(\w+)"\s*\)\s*(private|public)\s+(\S+)\s+(\w+)\s*;
 @Column\(name = "$1"\)\n@JsonProperty("$1")\nprivate $3 $4;
+
+# 小屋里程碑
+
+## 2023.5.23
+
+- [x] gitee分支、路径、代码块的获取
+- [ ] gitee仓库的获取
+- [ ] 前端渲染代码块
+- [x] 分布式锁实现方式
+    - 数据库
+    - redis
+
+## 2023.5.29
+
+- [ ] jenkins未集成
+- [ ] 聊天室websocket可以连接，后端可实现ws和http的连接，但是vue无法连接
+- [x] 解决vue.config.js第二个代理无法使用的问题
+- [ ] 数据量过大，页面无响应，可以考虑分页gitee API有分页参数per_page和page
+    - [x] 目前就差vue分页传参，后端已解决
+    - [ ] 修正：目录树是不能分页的
+
+## 2023.5.30
+
+- [x] 添加admin监控和rocketmq的监控
+- [ ] gitee有各种限制,并且之前丢数据了,我的代码仓库需要机器验证,转战gitlab(而且gitlab的workhoob有push后jenkins构建)
+- [ ] dubbo
+    - [ ] [动态调整服务超时时间 | Apache Dubbo](https://cn.dubbo.apache.org/zh-cn/overview/tasks/traffic-management/timeout/)
+    - [ ] [apache/dubbo-samples: samples for Apache Dubbo (github.com)](https://github.com/apache/dubbo-samples)
+
+## 2023.6.2
+
+- [x] 短链接
+    - [x] 后端(重定向有问题)
+    - [x] UI
+
+## 小节
+
+- 目前还未完工
+    - [ ] jenkins构建接口
+    - [ ] gitlab的拉取解压等api
+        - [ ] 建议私服
+    - [x] 聊天室的websocket连接
+
+## 2023.6.4
+
+- 由于授权服务器1.1.0需要springboot3.1.0
+    - 所以将springboot升级为3.1.0（其实之前也想了,毕竟3.1.0是第一个稳定的正式版
+
+## 2023.6.8
+
+- [ ] 整合sonar到github检查github代码
+- [ ] 整合jenkins去打包github的代码
+- [x] cabin实现脚本一键部署更新版本
+
+## 2023.6.19
+
+- [ ] springboot admin 监控docker里的应用，调用的是容器id并且监控失败
+  ![[Pasted image 20230619102707.png]]
+- [ ] springboot执行shell脚本
+    - [ ] jenkins构建
+    - [ ] docker的相关命令
+- [x] 排包，ffmpeg引入导致打包一个G，700多M都是他
+- [ ] starter实现
+    - [ ] [Zyred9/boot-starters: springboot starter 练习项目 (github.com)](https://github.com/Zyred9/boot-starters)
+    - [ ] [spring-starter-demo: 自定义Spring Boot starter (gitee.com)](https://gitee.com/mchangtian/spring-starter-demo)
+
+## 2023.6.20
+
+- [x] 第三方登陆后，如何获取服务器的响应
+    - [x] 之前写错了，重定向url不仅仅是后端，也可以是前端地址，然后获取参数去请求后端
+    - [x] 第一种:先说缺点，还是之前的重定向url是后端，导致与前端没关联，前端获取不到token
+    - [x] 第二种:重定向url是前端，然后vue去监控参数，一旦获取到就请求后端接口，同时设置状态值，用来结束轮询
+
+## 2023.6.21
+
+- [ ] 了解spring状态机
+- [ ] 了解tomcat的Catalina
+- [x] 账户注册和登录功能、UI
+- [x] 飞书登录和绑定账户
+- [ ] gitee第三方登录

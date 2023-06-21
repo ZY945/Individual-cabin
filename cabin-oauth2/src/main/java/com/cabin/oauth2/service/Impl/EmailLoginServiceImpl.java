@@ -64,15 +64,8 @@ public class EmailLoginServiceImpl implements EmailLoginService {
         String token = null;
         redisCode = redisTemplate.opsForValue().get("email:Code:" + userEmail);
         if (code.equals(redisCode)) {
-            //TODO jwt生成
-            token = StringUtil.creatCode(6);
-            String emailUTF;
-            try {
-                emailUTF = Base64Util.encoderGetStrByStr(userEmail);
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
-            }
-            redisTemplate.opsForValue().set("email:token:" + token, emailUTF, 5, TimeUnit.MINUTES);
+            //TODO 验证成功 jwt生成
+            token = getAndSaveToken(userEmail);
             redisTemplate.delete("email:Code:" + userEmail);
         } else {
             return token;
@@ -93,6 +86,24 @@ public class EmailLoginServiceImpl implements EmailLoginService {
     }
 
     @Override
+    public String getAndSaveToken(String userEmail) {
+        //TODO 目前key是email+随机数,value是userId,都用base64加密
+        String token = null;
+        String userIdEncoder = null;
+        String random = StringUtil.creatCode(6);
+        try {
+            token = Base64Util.encoderGetStrByStr(userEmail + random);
+            User user = userRepository.getUserByEmail(userEmail);
+            userIdEncoder = Base64Util.encoderGetStrByStr(String.valueOf(user.getId()));
+
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        redisTemplate.opsForValue().set("user:token:" + token, userIdEncoder, 5, TimeUnit.MINUTES);
+        return token;
+    }
+
+    @Override
     public String savePassWord(String token, String passWord) {
         // TODO 先解析token获取用户id
         // 然后验证用户,同时保存
@@ -101,8 +112,9 @@ public class EmailLoginServiceImpl implements EmailLoginService {
 
 
     @Override
-    public String getToken(String userEmail, String token) {
-        String newToken = redisTemplate.opsForValue().get("token:" + userEmail);
+    public String refreshToken(String userEmail, String token) {
+        //todo 未完善
+        String newToken = redisTemplate.opsForValue().get("token:" + token);
         if (token.equals(newToken)) {
             return token;
         }
@@ -111,6 +123,6 @@ public class EmailLoginServiceImpl implements EmailLoginService {
 
     @Override
     public Boolean logout(String token) {
-        return redisTemplate.delete("email:token:" + token);
+        return redisTemplate.delete("user:token:" + token);
     }
 }

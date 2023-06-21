@@ -1,6 +1,5 @@
 package com.cabin.oauth2.service;
 
-import com.cabin.oauth2.common.enums.Oauth;
 import com.cabin.oauth2.empty.bindAccount.BindAccountVo;
 
 /**
@@ -9,7 +8,7 @@ import com.cabin.oauth2.empty.bindAccount.BindAccountVo;
  */
 public interface OauthBindService {
 
-    Oauth bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId);
+    BindAccountVo bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId);
 
     BindAccountVo bindFeiShuByEmail(String email, String code, Long feiShuUserId);
 

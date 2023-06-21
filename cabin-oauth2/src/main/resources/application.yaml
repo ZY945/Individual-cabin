@@ -3,7 +3,9 @@ spring:
     name: cabin-oauth2
 server:
   port: 9002
-
+#logging:
+#  level:
+#    org.apache.catalina: debug
 ---
 #admin监控
 spring:

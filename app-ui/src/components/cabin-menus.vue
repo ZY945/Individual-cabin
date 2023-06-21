@@ -21,6 +21,16 @@ export default {
           path: "/home",
         },
         {
+          title: "login",
+          "prepend-icon": "mdi-star",
+          path: "/login",
+        },
+        {
+          title: "register",
+          "prepend-icon": "mdi-star",
+          path: "/register",
+        },
+        {
           title: "gitee",
           "prepend-icon": "mdi-star",
           path: "/gitee",
@@ -35,16 +45,11 @@ export default {
           "prepend-icon": "mdi-star",
           path: "/jsonFormat",
         },
-        {
-          title: "chatApps",
-          "prepend-icon": "mdi-star",
-          path: "/chatApps",
-        },
-        {
-          title: "login",
-          "prepend-icon": "mdi-star",
-          path: "/login",
-        },
+        // {
+        //   title: "chatApps",
+        //   "prepend-icon": "mdi-star",
+        //   path: "/chatApps",
+        // },
         {
           title: "chatApp",
           "prepend-icon": "mdi-star",

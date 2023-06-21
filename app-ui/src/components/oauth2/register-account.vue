@@ -1,22 +1,42 @@
 <script>
+import axios from "axios";
+
 export default {
   name: "RegisterAccount",
   props: {},
   components: {},
   data() {
     return {
-      registerEmail: '',
-      registerCode: '',
       registerUsername: '',
+      registerEmail: '',
       registerPassword: '',
-      registerEmailActive: false,
-      registerCodeActive: false,
       registerUserNameActive: false,
+      registerEmailActive: false,
       registerPassWordActive: false,
-      registerLoginType: 'account'
     }
   },
-  methods: {},
+  methods: {
+    register() {
+      axios.post('/oauth2/register/account', null, {
+        params: {
+          userName: this.registerUsername,
+          email: this.registerEmail,
+          passWord: this.registerPassword,
+        }
+      }).then(response => {
+        const token = response.data.data
+        if (response.data.code === 200) {
+          //存储
+          window.localStorage.setItem('token', JSON.stringify(token))
+          this.$router.push('/')
+        } else {
+          alert('注册失败')
+        }
+      }).catch(() => {
+        alert('注册失败')
+      })
+    },
+  },
 }
 </script>
 <template>
@@ -26,13 +46,10 @@ export default {
         <v-card class="register-app">
           <div class="form-table-name">
             <div class="Account_login_loginBox_tab">
-              <button @click="registerLoginType='account'">Account</button>
-            </div>
-            <div class="Mail_login_loginBox_tab">
-              <button @click="registerLoginType='registerEmail'">Email</button>
+              <button>Account</button>
             </div>
           </div>
-          <v-card-text class="form-account-app" v-if="registerLoginType === 'account'">
+          <v-card-text class="form-account-app">
             <v-form>
               <div>
                 <a class="form-label">Username</a>
@@ -42,6 +59,16 @@ export default {
                                 @mouseover="registerUserNameActive = true"
                                 @mouseleave="registerUserNameActive = false"
                                 class="form-text-wrapper"/>
+                </div>
+              </div>
+              <div class="form-text-wrapper" style="margin-top: 10px">
+                <a class="form-label">Email</a>
+                <div class="form-text">
+                  <v-text-field v-model="registerEmail"
+                                type="registerPassword"
+                                :class="{ 'form-text-active': registerEmailActive }"
+                                @mouseover="registerEmailActive = true"
+                                @mouseleave="registerEmailActive = false"/>
                 </div>
               </div>
               <div class="form-text-wrapper" style="margin-top: 10px">
@@ -56,36 +83,7 @@ export default {
               </div>
             </v-form>
             <v-card-actions>
-              <v-btn color="white" @click="register()" class="login-btn">Bind</v-btn>
-            </v-card-actions>
-          </v-card-text>
-          <v-card-text class="form-account-app" v-if="registerLoginType === 'registerEmail'">
-            <v-form>
-              <div>
-                <a class="form-label">Email</a>
-                <div class="form-text">
-                  <v-text-field v-model="registerEmail"
-                                :class="{ 'form-text-active': registerEmailActive }"
-                                @mouseover="registerEmailActive = true"
-                                @mouseleave="registerEmailActive = false"
-                                class="form-text-wrapper"/>
-                </div>
-              </div>
-              <div class="form-text-wrapper" style="margin-top: 10px">
-                <a class="form-label">Code</a>
-                <div class="form-text" style="display: flex; margin-top: 10px; align-items: center;">
-                  <v-text-field v-model="registerCode"
-                                type="registerPassword"
-                                :class="{ 'form-text-active': registerCodeActive }"
-                                @mouseover="registerCodeActive = true"
-                                @mouseleave="registerCodeActive = false"
-                  />
-                  <v-btn color="white" style="margin-left: 10px;" @click="sendCode()">Send Code</v-btn>
-                </div>
-              </div>
-            </v-form>
-            <v-card-actions>
-              <v-btn color="white" @click="register()" class="login-btn">Bind</v-btn>
+              <v-btn color="white" @click="register()" class="login-btn">Register</v-btn>
             </v-card-actions>
           </v-card-text>
         </v-card>
@@ -117,7 +115,7 @@ export default {
 
 .form-account-app {
   max-width: 260px;
-  max-height: 230px;
+  max-height: 330px;
   margin: 0 auto;
   padding: 20px;
   background-color: rgb(26, 26, 42);

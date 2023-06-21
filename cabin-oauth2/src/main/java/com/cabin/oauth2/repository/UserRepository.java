@@ -11,4 +11,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User getUserByEmail(@Param("email") String email);
 
     User getUserById(@Param("id") Long id);
+
+    boolean existsUserByUserNameAndEmail(@Param("userName") String userName,
+                                         @Param("email") String email);
+
+    boolean existsUserByUserName(@Param("userName") String userName);
+
+    User getUserByUserNameAndPassWord(@Param("userName") String userName, @Param("passWord") String passWord);
 }

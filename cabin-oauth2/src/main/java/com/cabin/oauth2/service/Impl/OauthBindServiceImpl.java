@@ -8,8 +8,10 @@ import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
 import com.cabin.oauth2.repository.FeiShuUserRepository;
 import com.cabin.oauth2.repository.OauthBindRepository;
 import com.cabin.oauth2.repository.UserRepository;
+import com.cabin.oauth2.service.AccountLoginService;
 import com.cabin.oauth2.service.EmailLoginService;
 import com.cabin.oauth2.service.OauthBindService;
+import com.cabin.utils.encipherUtil.nonreversible.NonReversible;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,46 @@ public class OauthBindServiceImpl implements OauthBindService {
     private FeiShuUserRepository feiShuUserRepository;
     @Autowired
     private EmailLoginService emailLoginService;
+    @Autowired
+    private AccountLoginService accountLoginService;
 
     @Override
-    public Oauth bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId) {
-        return null;
+    public BindAccountVo bindFeiShuByAccount(String userName, String passWord, Long feiShuUserId) {
+        BindAccountVo vo = new BindAccountVo();
+        String token = accountLoginService.login(userName, passWord);
+        vo.setToken(token);
+        if (token == null) {
+            vo.setOauth(Oauth.ISNOTUSER);
+            return vo;
+        }
+        //根据email获取用户
+        //加密密码
+        String passWordEncode = "{SHA256}" + NonReversible.encryptBySHA256(passWord);
+        User user = userRepository.getUserByUserNameAndPassWord(userName, passWordEncode);
+        if (user == null) {
+            vo.setOauth(Oauth.ISNOTUSER);
+            return vo;
+        }
+        //根据userId获取飞书用户
+        FeiShuUserInfo feiShuUser = feiShuUserRepository.getFeiShuUserInfoById(feiShuUserId);
+        if (feiShuUser == null) {
+            vo.setOauth(Oauth.ISNOTFEISHUUSER);
+            return vo;
+        }
+        String openId = feiShuUser.getOpenId();
+        OauthBind oauthBind = oauthRepository.getOauthByFeiShuOpenId(openId);
+        if (oauthBind != null) {
+            //已绑定
+            vo.setOauth(Oauth.OLDBIND);
+            return vo;
+        }
+        OauthBind newBind = new OauthBind();
+
+        newBind.setUserId(user.getId());
+        newBind.setFeiShuOpenId(openId);
+        oauthRepository.save(newBind);
+        vo.setOauth(Oauth.NEWBIND);
+        return vo;
     }
 
     @Override

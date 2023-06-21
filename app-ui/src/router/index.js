@@ -54,6 +54,11 @@ const routes = [
                 component: () => import('@/components/oauth2/login-home.vue')
             },
             {
+                path: '/register',
+                name: 'register',
+                component: () => import('@/components/oauth2/register-account.vue')
+            },
+            {
                 path: '/bind',
                 name: 'bind',
                 component: () => import('@/components/oauth2/bind-account.vue'),

@@ -10,19 +10,14 @@ import com.cabin.oauth2.empty.feishu.FeiShuVo;
 import com.cabin.oauth2.empty.response.Result;
 import com.cabin.oauth2.repository.OauthBindRepository;
 import com.cabin.oauth2.repository.UserRepository;
+import com.cabin.oauth2.service.EmailLoginService;
 import com.cabin.oauth2.service.FeiShuService;
-import com.cabin.utils.commonUtil.Base64Util;
-import com.cabin.utils.commonUtil.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author 伍六七
@@ -41,7 +36,7 @@ public class FeiShuLoginController {
     private OauthBindRepository oauthRepository;
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private EmailLoginService emailLoginService;
 
     @Autowired
     private UserRepository userRepository;
@@ -69,25 +64,16 @@ public class FeiShuLoginController {
             if (oauthBind != null) {
                 //表示绑定过，业务登录即可
                 //TODO jwt生成
-                token = StringUtil.creatCode(6);
                 User user = userRepository.getUserById(oauthBind.getUserId());
-                String emailUTF;
-                String userEmail = user.getEmail();
-                try {
-                    emailUTF = Base64Util.encoderGetStrByStr(userEmail);
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-
-                redisTemplate.opsForValue().set("email:token:" + token, emailUTF, 5, TimeUnit.MINUTES);
+                token = emailLoginService.getAndSaveToken(user.getEmail());
             }
+            feiShuVo.setUserId(exit.getId());
         }
 //            else{
 //                //TODO 临时游客token
 //                token="-1";
 //                redisTemplate.opsForValue().set("tourist:token:" + token, "临时token", 5, TimeUnit.MINUTES);
 //            }
-        feiShuVo.setUserId(exit.getId());
         feiShuVo.setToken(token);
         return token == null ? Result.fail(feiShuVo, "未绑定账户") : Result.success(feiShuVo, "登录成功");
     }
