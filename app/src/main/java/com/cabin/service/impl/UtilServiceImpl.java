@@ -87,7 +87,7 @@ public class UtilServiceImpl implements UtilService {
             String key = "shortUrl:" + existed.getShortUrl();
             //添加缓存
             redisTemplate.opsForValue().set(key, existed, TIMEOUT, TimeUnit.HOURS);
-            return existed.getShortUrl();
+            return host + ":8080/util/" + existed.getShortUrl();
         }
         UrlMap urlMap = new UrlMap();
         urlMap.setLongUrl(longUrl);

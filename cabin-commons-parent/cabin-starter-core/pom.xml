@@ -24,6 +24,12 @@
 
 
     <dependencies>
+        <!--引入servlet-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>10.1.8</version>
+        </dependency>
     </dependencies>
 
 </project>

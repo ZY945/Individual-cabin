@@ -100,3 +100,11 @@ influxdb:
 #    user: user
 #    password: zhangyang
 #    mapper-location: com.cabin.mapper.influxDB
+
+---
+# 通知
+# 钉钉webhook
+
+dingding:
+  ACCESS_TOKEN: ${dingding_ACCESS_TOKEN}
+  secret: ${dingding_secret}

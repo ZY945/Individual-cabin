@@ -83,6 +83,10 @@ spring:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
+
+---
+# 第三方登录
+# 飞书
 feishu:
   client:
     code_url_prefix: https://passport.feishu.cn/suite/passport/oauth/authorize
@@ -91,3 +95,10 @@ feishu:
     client_id: ${client_id}
     client_secret: ${client_secret}
     redirect_url_get_token: ${redirect_url_get_token}
+
+# github
+github:
+  client_id: ${github_client_id}
+  client_secret: ${github_client_secret}
+
+# gitee
