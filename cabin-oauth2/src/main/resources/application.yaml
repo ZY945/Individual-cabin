@@ -92,8 +92,8 @@ feishu:
     code_url_prefix: https://passport.feishu.cn/suite/passport/oauth/authorize
     token_url_prefix: https://passport.feishu.cn/suite/passport/oauth/token
     user_url_prefix: https://passport.feishu.cn/suite/passport/oauth/userinfo
-    client_id: ${client_id}
-    client_secret: ${client_secret}
+    client_id: ${feishu_client_id}
+    client_secret: ${feishu_client_secret}
     redirect_url_get_token: ${feishu_redirect_url_get_token}
 
 # github
