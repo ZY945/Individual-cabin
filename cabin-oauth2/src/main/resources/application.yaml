@@ -94,11 +94,16 @@ feishu:
     user_url_prefix: https://passport.feishu.cn/suite/passport/oauth/userinfo
     client_id: ${client_id}
     client_secret: ${client_secret}
-    redirect_url_get_token: ${redirect_url_get_token}
+    redirect_url_get_token: ${feishu_redirect_url_get_token}
 
 # github
 github:
-  client_id: ${github_client_id}
-  client_secret: ${github_client_secret}
+  client:
+    code_url_prefix: https://github.com/login/oauth/authorize
+    token_url_prefix: https://github.com/login/oauth/access_token
+    user_url_prefix: https://api.github.com/user
+    client_id: ${github_client_id}
+    client_secret: ${github_client_secret}
+    redirect_url_get_token: ${github_redirect_url_get_token}
 
 # gitee

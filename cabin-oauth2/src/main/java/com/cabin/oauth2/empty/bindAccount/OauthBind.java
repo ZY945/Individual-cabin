@@ -1,4 +1,4 @@
-package com.cabin.oauth2.empty;
+package com.cabin.oauth2.empty.bindAccount;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,4 +23,7 @@ public class OauthBind {
     private Long userId;
     @Column(name = "feishu_openid")
     private String feiShuOpenId;
+
+    @Column(name = "github_userid")
+    private Long gitHubUserId;
 }

@@ -11,4 +11,6 @@ public interface AccountLoginService {
     String register(String userName, String email, String code, String passWord);
 
     String getToken(String userEmail, String token);
+
+    String encryptedPassword(String passWord);
 }

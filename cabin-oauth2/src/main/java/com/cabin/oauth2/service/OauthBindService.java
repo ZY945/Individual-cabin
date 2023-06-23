@@ -12,5 +12,9 @@ public interface OauthBindService {
 
     BindAccountVo bindFeiShuByEmail(String email, String code, Long feiShuUserId);
 
+    BindAccountVo bindGitHubByAccount(String userName, String passWord, Long gitHubUserId);
+
+    BindAccountVo bindGitHubByEmail(String email, String code, Long gitHubUserId);
+
 
 }

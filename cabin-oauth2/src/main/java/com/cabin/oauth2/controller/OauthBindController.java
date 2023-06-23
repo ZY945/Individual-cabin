@@ -24,13 +24,13 @@ public class OauthBindController {
     private OauthBindService oauthBindService;
 
     @PostMapping("/feishu/account")
-    public Result<BindAccountVo> bindByAccount(@RequestBody BindAccount bindAccount) {
+    public Result<BindAccountVo> bindFeiShuByAccount(@RequestBody BindAccount bindAccount) {
         String userName = bindAccount.getUserName();
         String passWord = bindAccount.getPassWord();
-        Long feiShuUserId = bindAccount.getFeiShuUserId();
+        Long id = bindAccount.getFeiShuId();
         //绑定
 
-        BindAccountVo vo = oauthBindService.bindFeiShuByAccount(userName, passWord, feiShuUserId);
+        BindAccountVo vo = oauthBindService.bindFeiShuByAccount(userName, passWord, id);
         Oauth oauth = vo.getOauth();
         //获取token
         if (oauth.equals(Oauth.OLDBIND)) {
@@ -46,13 +46,57 @@ public class OauthBindController {
     }
 
     @PostMapping("/feishu/email")
-    public Result<BindAccountVo> bindByEmail(@RequestBody BindAccount bindAccount) {
+    public Result<BindAccountVo> bindFeiShuByEmail(@RequestBody BindAccount bindAccount) {
         String emailToken = bindAccount.getUserEmail();
         String code = bindAccount.getCode();
-        Long feiShuUserId = bindAccount.getFeiShuUserId();
+        Long id = bindAccount.getFeiShuId();
         //绑定
 
-        BindAccountVo vo = oauthBindService.bindFeiShuByEmail(emailToken, code, feiShuUserId);
+        BindAccountVo vo = oauthBindService.bindFeiShuByEmail(emailToken, code, id);
+        Oauth oauth = vo.getOauth();
+        //获取token
+        if (oauth.equals(Oauth.OLDBIND)) {
+            return Result.success(vo, "用户之前已绑定");
+        } else if (oauth.equals(Oauth.NEWBIND)) {
+            return Result.success(vo, "用户绑定成功");
+        } else if (oauth.equals(Oauth.ISNOTUSER)) {
+            return Result.fail("没有该用户");
+        } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {
+            return Result.fail("没有该飞书用户信息");
+        }
+        return Result.fail("Oauth未获取到指定内容,未知错误");
+    }
+
+    @PostMapping("/github/account")
+    public Result<BindAccountVo> bindGitHubByAccount(@RequestBody BindAccount bindAccount) {
+        String userName = bindAccount.getUserName();
+        String passWord = bindAccount.getPassWord();
+        Long id = bindAccount.getGitHubId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindGitHubByAccount(userName, passWord, id);
+        Oauth oauth = vo.getOauth();
+        //获取token
+        if (oauth.equals(Oauth.OLDBIND)) {
+            return Result.success(vo, "用户之前已绑定");
+        } else if (oauth.equals(Oauth.NEWBIND)) {
+            return Result.success(vo, "用户绑定成功");
+        } else if (oauth.equals(Oauth.ISNOTUSER)) {
+            return Result.fail("没有该用户");
+        } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {
+            return Result.fail("没有该飞书用户信息");
+        }
+        return Result.fail("Oauth未获取到指定内容,未知错误");
+    }
+
+    @PostMapping("/github/email")
+    public Result<BindAccountVo> bindGitHubByEmail(@RequestBody BindAccount bindAccount) {
+        String emailToken = bindAccount.getUserEmail();
+        String code = bindAccount.getCode();
+        Long id = bindAccount.getGitHubId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindGitHubByEmail(emailToken, code, id);
         Oauth oauth = vo.getOauth();
         //获取token
         if (oauth.equals(Oauth.OLDBIND)) {

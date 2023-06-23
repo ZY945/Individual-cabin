@@ -1,6 +1,6 @@
 package com.cabin.oauth2.repository;
 
-import com.cabin.oauth2.empty.OauthBind;
+import com.cabin.oauth2.empty.bindAccount.OauthBind;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OauthBindRepository extends JpaRepository<OauthBind, Long> {
+    OauthBind getOauthByUserId(Long userId);
+
     OauthBind getOauthByFeiShuOpenId(String openId);
+
+    OauthBind getOauthByGitHubUserId(Long gitHubUserId);
 }

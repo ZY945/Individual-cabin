@@ -11,6 +11,7 @@ export default {
     let code = ref('');
     let eMailCode = ref('');
     let feiShuUrl = ref('');
+    let gitHubUrl = ref('');
     let giteeUrl = ref('');
     let email = ref('');
     let username = ref('');
@@ -37,6 +38,8 @@ export default {
           loginByFeiShuCode(code.value);
         } else if (oauthType === "gitee") {
           loginByGiteeCode(code.value);
+        } else if (oauthType === "github") {
+          loginByGitHubCode(code.value);
         }
 
         clearInterval(intervalId);
@@ -62,6 +65,16 @@ export default {
         alert('Invalid login credentials')
       })
     };
+
+    const gitHubLogin = () => {
+      axios.get('/oauth2/github/code', {}).then(response => {
+        gitHubUrl.value = response.data;
+        window.location.href = gitHubUrl.value;
+
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    }
 
     const login = () => {
       axios.post('/oauth2/login/account', null, {
@@ -134,11 +147,32 @@ export default {
         }
       }).then(response => {
         if (response.data.data.token === null) {
-          window.localStorage.setItem('userId', JSON.stringify(response.data.data.userId))
+          window.localStorage.setItem('feiShuId', JSON.stringify(response.data.data.userId))
           router.push('/bind')
         } else {
           const token = response.data.data.token
-          window.localStorage.removeItem("userId");
+          // window.localStorage.removeItem("feiShuId");
+          //存储
+          window.localStorage.setItem('token', JSON.stringify(token))
+          router.push('/chatApp')
+        }
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
+
+    const loginByGitHubCode = (code) => {
+      axios.get('/oauth2/github/access_token', {
+        params: {
+          code: code
+        }
+      }).then(response => {
+        if (response.data.data.token === null) {
+          window.localStorage.setItem('gitHubId', JSON.stringify(response.data.data.userId))
+          router.push('/bind')
+        } else {
+          const token = response.data.data.token
+          // window.localStorage.removeItem("gitHubId");
           //存储
           window.localStorage.setItem('token', JSON.stringify(token))
           router.push('/chatApp')
@@ -174,6 +208,7 @@ export default {
     //暴露方法
     return {
       feiShuLogin,
+      gitHubLogin,
       login,
       loginByEmail,
       giteeLogin,
@@ -181,6 +216,7 @@ export default {
       code,
       eMailCode,
       feiShuUrl,
+      gitHubUrl,
       giteeUrl,
       email,
       username,
@@ -269,7 +305,7 @@ export default {
             <v-btn @click="googleLogin" class="login-png">
               <img src="../../assets/img/google.svg" alt="谷歌登录" width="30">
             </v-btn>
-            <v-btn @click="githubLogin" class="login-png">
+            <v-btn @click="gitHubLogin()" class="login-png">
               <img src="../../assets/img/github.svg" alt="github登录" width="30">
             </v-btn>
             <v-btn @click="dingtalkLogin" class="login-png">

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "cabin_user_oauth_feishu")
-public class FeiShuUserInfo {
+public class FeiShuUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

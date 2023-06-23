@@ -1,11 +1,11 @@
 package com.cabin.oauth2.controller;
 
 
-import com.cabin.oauth2.empty.OauthBind;
 import com.cabin.oauth2.empty.User;
+import com.cabin.oauth2.empty.bindAccount.OauthBind;
 import com.cabin.oauth2.empty.feishu.FeiShuAccessToken;
 import com.cabin.oauth2.empty.feishu.FeiShuClient;
-import com.cabin.oauth2.empty.feishu.FeiShuUserInfo;
+import com.cabin.oauth2.empty.feishu.FeiShuUser;
 import com.cabin.oauth2.empty.feishu.FeiShuVo;
 import com.cabin.oauth2.empty.response.Result;
 import com.cabin.oauth2.repository.OauthBindRepository;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping("/feishu")
 @EnableConfigurationProperties(FeiShuClient.class)
-public class FeiShuLoginController {
+public class FeiShuController {
 
 
     @Autowired
@@ -57,7 +57,7 @@ public class FeiShuLoginController {
         FeiShuVo feiShuVo = new FeiShuVo();
         FeiShuAccessToken FeiShuToken = feiShuService.getToken(code);
         //异步去保存用户信息,然后绑定是一个单独的接口
-        FeiShuUserInfo exit = feiShuService.saveUser(FeiShuToken);
+        FeiShuUser exit = feiShuService.saveUser(FeiShuToken);
         String token = null;
         if (exit != null) {
             OauthBind oauthBind = oauthRepository.getOauthByFeiShuOpenId(exit.getOpenId());

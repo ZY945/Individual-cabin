@@ -36,7 +36,7 @@ public class AccountLoginServiceImpl implements AccountLoginService {
             return token;
         }
         //加密密码
-        String passWordEncode = "{SHA256}" + NonReversible.encryptBySHA256(passWord);
+        String passWordEncode = encryptedPassword(passWord);
         User user = userRepository.getUserByUserNameAndPassWord(userName, passWordEncode);
         if (user != null && user.getId() != null) {
             token = emailLoginService.getAndSaveToken(user.getEmail());
@@ -73,5 +73,10 @@ public class AccountLoginServiceImpl implements AccountLoginService {
     @Override
     public String getToken(String userEmail, String token) {
         return null;
+    }
+
+    @Override
+    public String encryptedPassword(String passWord) {
+        return "{SHA256}" + NonReversible.encryptBySHA256(passWord);
     }
 }

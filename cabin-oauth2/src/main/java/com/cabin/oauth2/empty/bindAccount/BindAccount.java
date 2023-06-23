@@ -22,7 +22,9 @@ public class BindAccount {
     @JsonProperty("passWord")
     private String passWord;
 
-    @JsonProperty("feiShuUserId")
-    private Long feiShuUserId;
+    @JsonProperty("feiShuId")
+    private Long feiShuId;
 
+    @JsonProperty("gitHubId")
+    private Long gitHubId;
 }
