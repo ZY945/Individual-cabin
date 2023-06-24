@@ -1,5 +1,6 @@
 package com.cabin.controller;
 
+import com.cabin.common.annotation.AccessLimit;
 import com.cabin.common.config.PatchcaConfig;
 import com.cabin.entity.response.Result;
 import com.cabin.service.UtilService;
@@ -32,6 +33,7 @@ public class IndexController {
      * @param url 原链接
      * @return 短链接
      */
+    @AccessLimit(seconds = 10, maxLimit = 1)
     @GetMapping("/shortUrl")
     public Result<String> generatesShortUrl(@RequestParam String url) {
         String shortUrl = utilService.setShortUrl(url);

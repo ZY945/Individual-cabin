@@ -9,11 +9,10 @@ import com.cabin.common.util.request.DeviceUtil;
 import com.cabin.common.util.request.IpUtil;
 import com.cabin.utils.dateUtil.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -23,10 +22,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Aspect
 @Component
+@Slf4j
 public class WebLogAspect {
 
 
-    private final static Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
     private static final ThreadLocal<Long> treadLocal = new ThreadLocal<>();
 
     @Autowired
@@ -96,7 +95,7 @@ public class WebLogAspect {
      */
     @After("webLog()")
     public void doAfter() throws Throwable {
-        logger.info("=======================  End  ======================");
+        log.info("=======================  End  ======================");
     }
 
     /**

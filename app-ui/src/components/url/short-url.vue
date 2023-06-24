@@ -66,8 +66,11 @@ export default {
           }
         })
             .then(response => {
-              this.shortUrl = response.data.data
-              //TODO 10s内再次请求,后端会返回指定的msg或code,然后把limit设置为true
+              if (response.data.code === 200) {
+                this.shortUrl = response.data.data
+              } else if (response.data.code === 429) {
+                alert("请求频繁,请稍后重试")
+              }
             })
             .catch(error => {
               console.log(error)

@@ -110,6 +110,7 @@
 
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback-classic.version>1.2.3</logback-classic.version>
+        <guava.version>32.0.1-jre</guava.version>
 
 
         <!--javacv-->
@@ -263,6 +264,11 @@
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
                 <version>${json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
             <dependency>

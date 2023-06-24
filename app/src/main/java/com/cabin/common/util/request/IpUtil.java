@@ -4,7 +4,9 @@ package com.cabin.common.util.request;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class IpUtil {
 
     private static Logger log = LoggerFactory.getLogger(IpUtil.class);

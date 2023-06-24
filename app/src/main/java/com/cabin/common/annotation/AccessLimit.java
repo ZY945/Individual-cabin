@@ -6,9 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description: 访问控制
- * @Author: Naccl
- * @Date: 2021-09-16
+ * @author 伍六七
+ * @date 2023/6/24 11:46
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,10 +20,10 @@ public @interface AccessLimit {
     /**
      * 规定周期内限制次数
      */
-    int maxCount();
+    int maxLimit();
 
     /**
      * 触发限制时的消息提示
      */
-    String msg() default "操作频率过高";
+    String msg() default "太多请求了,请稍后重试。";
 }

@@ -16,6 +16,7 @@ public class Result<T> {
     private T data;
     private String msg;
 
+
     public static <T> Result<T> success(T data, String msg) {
         return new Result<>(200, data, msg);
     }
@@ -26,5 +27,13 @@ public class Result<T> {
 
     public static <T> Result<T> roleFail(T data, String msg) {
         return new Result<>(403, data, msg);
+    }
+
+    /**
+     * 限流
+     * 429 Too Many Requests
+     */
+    public static <T> Result<T> requestFail(String msg) {
+        return new Result<>(429, null, msg);
     }
 }
