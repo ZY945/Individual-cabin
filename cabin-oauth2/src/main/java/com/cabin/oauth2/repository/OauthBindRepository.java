@@ -15,4 +15,6 @@ public interface OauthBindRepository extends JpaRepository<OauthBind, Long> {
     OauthBind getOauthByFeiShuOpenId(String openId);
 
     OauthBind getOauthByGitHubUserId(Long gitHubUserId);
+
+    OauthBind getOauthByGiteeUserId(Long giteeUserId);
 }

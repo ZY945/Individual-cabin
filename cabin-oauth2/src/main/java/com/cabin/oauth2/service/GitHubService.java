@@ -1,7 +1,7 @@
 package com.cabin.oauth2.service;
 
 import com.cabin.oauth2.empty.github.GitHubAccessToken;
-import com.cabin.oauth2.empty.github.GithubUser;
+import com.cabin.oauth2.empty.github.GitHubUser;
 
 /**
  * @author 伍六七
@@ -12,5 +12,5 @@ public interface GitHubService {
 
     GitHubAccessToken getToken(String code);
 
-    GithubUser saveUser(GitHubAccessToken token);
+    GitHubUser saveUser(GitHubAccessToken token);
 }

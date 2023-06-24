@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "cabin_user_oauth_github")
-public class GithubUser {
+public class GitHubUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

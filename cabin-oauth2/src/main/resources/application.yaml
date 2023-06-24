@@ -107,3 +107,11 @@ github:
     redirect_url_get_token: ${github_redirect_url_get_token}
 
 # gitee
+gitee:
+  client:
+    code_url_prefix: https://gitee.com/oauth/authorize
+    token_url_prefix: https://gitee.com/oauth/token
+    user_url_prefix: https://gitee.com/api/v5/user
+    client_id: ${gitee_client_id}
+    client_secret: ${gitee_client_secret}
+    redirect_url_get_token: ${gitee_redirect_url_get_token}

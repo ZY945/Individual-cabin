@@ -76,6 +76,15 @@ export default {
       })
     }
 
+    const giteeLogin = () => {
+      axios.get('/oauth2/gitee/code', {}).then(response => {
+        giteeUrl.value = response.data;
+        window.location.href = giteeUrl.value;
+
+      }).catch(() => {
+        alert('Invalid login credentials')
+      })
+    };
     const login = () => {
       axios.post('/oauth2/login/account', null, {
         params: {
@@ -131,15 +140,6 @@ export default {
       }
 
     };
-    const giteeLogin = () => {
-      axios.get('/oauth2/gitee/code', {}).then(response => {
-        feiShuUrl.value = response.data;
-        window.location.href = feiShuUrl.value;
-
-      }).catch(() => {
-        alert('Invalid login credentials')
-      })
-    };
     const loginByFeiShuCode = (code) => {
       axios.get('/oauth2/feishu/access_token', {
         params: {
@@ -189,7 +189,7 @@ export default {
         }
       }).then(response => {
         if (response.data.data.token === null) {
-          window.localStorage.setItem('userId', JSON.stringify(response.data.data.userId))
+          window.localStorage.setItem('giteeId', JSON.stringify(response.data.data.userId))
           router.push('/bind')
         } else {
           const token = response.data.data.token
@@ -308,7 +308,7 @@ export default {
             <v-btn @click="gitHubLogin()" class="login-png">
               <img src="../../assets/img/github.svg" alt="github登录" width="30">
             </v-btn>
-            <v-btn @click="dingtalkLogin" class="login-png">
+            <v-btn @click="dingtalkLogin()" class="login-png">
               <!-- Ant Design 官方图标库：https://www.iconfont.cn/collections/detail?cid=9402 -->
               <img src="../../assets/img/dingtalk.svg" alt="钉钉扫码登录" width="30">
             </v-btn>

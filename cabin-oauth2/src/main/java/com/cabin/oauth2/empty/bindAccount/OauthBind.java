@@ -26,4 +26,7 @@ public class OauthBind {
 
     @Column(name = "github_userid")
     private Long gitHubUserId;
+
+    @Column(name = "gitee_userid")
+    private Long giteeUserId;
 }

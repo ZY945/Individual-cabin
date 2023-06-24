@@ -110,4 +110,48 @@ public class OauthBindController {
         }
         return Result.fail("Oauth未获取到指定内容,未知错误");
     }
+
+    @PostMapping("/gitee/account")
+    public Result<BindAccountVo> bindGiteeByAccount(@RequestBody BindAccount bindAccount) {
+        String userName = bindAccount.getUserName();
+        String passWord = bindAccount.getPassWord();
+        Long id = bindAccount.getGiteeId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindGiteeByAccount(userName, passWord, id);
+        Oauth oauth = vo.getOauth();
+        //获取token
+        if (oauth.equals(Oauth.OLDBIND)) {
+            return Result.success(vo, "用户之前已绑定");
+        } else if (oauth.equals(Oauth.NEWBIND)) {
+            return Result.success(vo, "用户绑定成功");
+        } else if (oauth.equals(Oauth.ISNOTUSER)) {
+            return Result.fail("没有该用户");
+        } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {
+            return Result.fail("没有该飞书用户信息");
+        }
+        return Result.fail("Oauth未获取到指定内容,未知错误");
+    }
+
+    @PostMapping("/gitee/email")
+    public Result<BindAccountVo> bindGiteeByEmail(@RequestBody BindAccount bindAccount) {
+        String emailToken = bindAccount.getUserEmail();
+        String code = bindAccount.getCode();
+        Long id = bindAccount.getGiteeId();
+        //绑定
+
+        BindAccountVo vo = oauthBindService.bindGiteeByEmail(emailToken, code, id);
+        Oauth oauth = vo.getOauth();
+        //获取token
+        if (oauth.equals(Oauth.OLDBIND)) {
+            return Result.success(vo, "用户之前已绑定");
+        } else if (oauth.equals(Oauth.NEWBIND)) {
+            return Result.success(vo, "用户绑定成功");
+        } else if (oauth.equals(Oauth.ISNOTUSER)) {
+            return Result.fail("没有该用户");
+        } else if (oauth.equals(Oauth.ISNOTFEISHUUSER)) {
+            return Result.fail("没有该飞书用户信息");
+        }
+        return Result.fail("Oauth未获取到指定内容,未知错误");
+    }
 }

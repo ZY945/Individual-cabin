@@ -16,5 +16,9 @@ public interface OauthBindService {
 
     BindAccountVo bindGitHubByEmail(String email, String code, Long gitHubUserId);
 
+    BindAccountVo bindGiteeByAccount(String userName, String passWord, Long giteeUserId);
+
+    BindAccountVo bindGiteeByEmail(String email, String code, Long giteeUserId);
+
 
 }

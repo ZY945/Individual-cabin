@@ -11,6 +11,7 @@ export default {
     let bindPassword = ref('');
     let feiShuId = ref('');
     let gitHubId = ref('');
+    let giteeId = ref('');
     let bindEmailActive = ref(false);
     let bindCodeActive = ref(false);
     let bindUserNameActive = ref(false);
@@ -30,6 +31,7 @@ export default {
     const bindByAccount = () => {
       const feiShuId = JSON.parse(window.localStorage.getItem('feiShuId'));
       const gitHubId = JSON.parse(window.localStorage.getItem('gitHubId'));
+      const giteeId = JSON.parse(window.localStorage.getItem('giteeId'));
 
       if (feiShuId !== null) {
         axios.post('/oauth2/bind/feishu/account', {
@@ -65,11 +67,28 @@ export default {
         })
         window.localStorage.removeItem("gitHubId");
       }
+      if (giteeId !== null) {
+        axios.post('/oauth2/bind/gitee/account', {
+          userName: bindUsername.value,
+          passWord: bindPassword.value,
+          giteeId: giteeId
+        }).then(response => {
+          const token = response.data.data.token
+          if (response.data.code === 200) {
+            window.localStorage.setItem('token', JSON.stringify(token))
 
+            router.push('/chatApp')
+          }
+        }).catch(() => {
+          alert('Invalid login credentials')
+        })
+        window.localStorage.removeItem("giteeId");
+      }
     };
     const bindByEmail = () => {
       const feiShuId = JSON.parse(window.localStorage.getItem('feiShuId'));
       const gitHubId = JSON.parse(window.localStorage.getItem('gitHubId'));
+      const giteeId = JSON.parse(window.localStorage.getItem('giteeId'));
       if (feiShuId !== null) {
         axios.post('/oauth2/bind/feishu/email', {
           userEmail: bindEmail.value,
@@ -104,7 +123,23 @@ export default {
         })
         window.localStorage.removeItem("gitHubId");
       }
+      if (giteeId !== null) {
+        axios.post('/oauth2/bind/gitee/email', {
+          userEmail: bindEmail.value,
+          code: bindCode.value,
+          giteeId: giteeId
+        }).then(response => {
+          const token = response.data.data.token
+          if (response.data.code === 200) {
+            window.localStorage.setItem('token', JSON.stringify(token))
 
+            router.push('/chatApp')
+          }
+        }).catch(() => {
+          alert('Invalid login credentials')
+        })
+        window.localStorage.removeItem("giteeId");
+      }
     };
 
 
@@ -118,6 +153,7 @@ export default {
       bindPassword,
       feiShuId,
       gitHubId,
+      giteeId,
       bindEmailActive,
       bindCodeActive,
       bindUserNameActive,

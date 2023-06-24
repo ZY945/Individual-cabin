@@ -27,4 +27,6 @@ public class BindAccount {
 
     @JsonProperty("gitHubId")
     private Long gitHubId;
+    @JsonProperty("giteeId")
+    private Long giteeId;
 }
