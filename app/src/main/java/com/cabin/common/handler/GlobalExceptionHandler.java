@@ -49,19 +49,19 @@ public class GlobalExceptionHandler {
             markdown.setTitle("监控报警通知");
             markdown.setText("## 监控报警通知\n" +
                     "\n" +
-                    "> 项目名：\n" + applicationInfo.getApplicationName() + "\n" +
+                    "> **项目名**：\n" + applicationInfo.getApplicationName() + "\n" +
                     "\n" +
-                    "> ip：\n" + applicationInfo.getHost() + "\n" +
+                    "> **ip**：\n" + applicationInfo.getHost() + "\n" +
                     "\n" +
-                    "> port：\n" + applicationInfo.getPort() + "\n" +
+                    "> **port**：\n" + applicationInfo.getPort() + "\n" +
                     "\n" +
-                    "> 请求方式：\n" + req.getMethod() + "\n" +
+                    "> **请求方式**：\n" + req.getMethod() + "\n" +
                     "\n" +
-                    "> 请求地址：\n" + req.getRequestURI() + "\n" +
+                    "> **请求地址**：\n" + req.getRequestURI() + "\n" +
                     "\n" +
-                    "> 异常时间：\n" + sdf.format(date) + "\n" +
+                    "> **异常时间**：\n" + sdf.format(date) + "\n" +
                     "\n" +
-                    "> 异常：\n" + e);
+                    "> **异常**：\n" + e);
             //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
             //发送钉钉通知
             rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_ALARM, MQRoutingKeyEnum.SEND_CABIN_ALARM_DINGDING.getRoutingKey(), JSON.toJSONString(markdown));

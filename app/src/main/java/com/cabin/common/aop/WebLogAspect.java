@@ -66,27 +66,27 @@ public class WebLogAspect {
         UserAgentParser singleton = DeviceUtil.getSingleton();
         Capabilities capabilities = singleton.parse(header);
         Build.append("## user" + "\n");
-        Build.append("> remoteIp:\n " + remoteIp + "\n\n");
-        Build.append("> browser:\n " + capabilities.getBrowser() + "\n\n");
-        Build.append("> browserType:\n " + capabilities.getBrowserType() + "\n\n");
-        Build.append("> browserMajorVersion:\n " + capabilities.getBrowser() + "\n\n");
-        Build.append("> deviceType:\n " + capabilities.getDeviceType() + "\n\n");
-        Build.append("> platform:\n " + capabilities.getPlatform() + "\n\n");
-        Build.append("> platformVersion:\n " + capabilities.getPlatformVersion() + "\n\n");
-        Build.append("> renderingEngineMaker:\n " + capabilities.getValue(BrowsCapField.RENDERING_ENGINE_MAKER) + "\n\n");
+        Build.append("> **remoteIp**:\n " + remoteIp + "\n\n");
+        Build.append("> **browser**:\n " + capabilities.getBrowser() + "\n\n");
+        Build.append("> **browserType**:\n " + capabilities.getBrowserType() + "\n\n");
+        Build.append("> **browserMajorVersion**:\n " + capabilities.getBrowser() + "\n\n");
+        Build.append("> **deviceType**:\n " + capabilities.getDeviceType() + "\n\n");
+        Build.append("> **platform**:\n " + capabilities.getPlatform() + "\n\n");
+        Build.append("> **platformVersion**:\n " + capabilities.getPlatformVersion() + "\n\n");
+        Build.append("> **renderingEngineMaker**:\n " + capabilities.getValue(BrowsCapField.RENDERING_ENGINE_MAKER) + "\n\n");
         Build.append("## server" + "\n\n");
-        Build.append("IP :\n " + request.getRemoteAddr() + "\n\n");
+        Build.append("> **IP** :\n " + request.getRemoteAddr() + "\n\n");
 //        Build.append("System name of the server:\n " + System.getProperty("os.name") + "\n\n");
 //        Build.append("system version of the server:\n " + System.getProperty("os.version") + "\n\n");
-        Build.append("> Bits of server operating system:\n " + System.getProperty("os.arch") + "\n\n");
-        Build.append("> URL:\n " + request.getRequestURL().toString() + "\n\n");
-        Build.append("> HTTP Method:\n " + request.getMethod() + "\n\n");
-        Build.append("> Class Method : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "\n\n");
+        Build.append("> **Bits of server operating system**:\n " + System.getProperty("os.arch") + "\n\n");
+        Build.append("> **URL**:\n " + request.getRequestURL().toString() + "\n\n");
+        Build.append("> **HTTP Method**:\n " + request.getMethod() + "\n\n");
+        Build.append("> **Class Method** : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "\n\n");
         try {
             Object requestParam = joinPoint.getArgs();
-            Build.append("> 参数:\n " + JSONObject.toJSONString(requestParam) + "\n\n");
+            Build.append("> **参数**:\n " + JSONObject.toJSONString(requestParam) + "\n\n");
         } catch (Exception e) {
-            Build.append("> 参数打印失败，异常:" + e.getMessage() + "\n\n");
+            Build.append("> **参数打印失败，异常**:" + e.getMessage() + "\n\n");
         }
         long time = System.currentTimeMillis();
         treadLocal.set(time);
@@ -126,8 +126,8 @@ public class WebLogAspect {
         String members = redisTemplate.opsForValue().get("msg_dingding" + time);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(members);
-        stringBuilder.append("> 耗时 :\n" + need + "ms" + "\n\n");
-        stringBuilder.append("> 时间 :\n" + DateUtil.getNowDateTimeStr());
+        stringBuilder.append("> **耗时** :\n" + need + "ms" + "\n\n");
+        stringBuilder.append("> **时间** :\n" + DateUtil.getNowDateTimeStr());
         redisTemplate.delete("msg_dingding" + time);
         //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
         OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
