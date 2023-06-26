@@ -6,6 +6,12 @@ spring:
 server:
   port: 8080
 
+logging:
+  config:
+    classpath: logback-spring.xml
+  file:
+    path: ${cabin_app_logs}
+
 ---
 #admin监控
 spring:
@@ -72,11 +78,19 @@ spring:
     redis:
       host: ${host}
       password: ${redis_password}
-logging:
-  config:
-    classpath: logback-spring.xml
-  file:
-    path: ${cabin_app_logs}
+
+---
+# mq
+spring:
+  rabbitmq:
+    host: ${host}
+    port: 5672
+    username: ${rabbitmq_username}
+    password: ${rabbitmq_password}
+    listener:
+      direct:
+        acknowledge-mode: manual
+
 
 
 mybatis-plus:
@@ -106,5 +120,10 @@ influxdb:
 # 钉钉webhook
 
 dingding:
-  ACCESS_TOKEN: ${dingding_ACCESS_TOKEN}
-  secret: ${dingding_secret}
+  access_token: ${dingding_api_inform_access_token}
+  secret: ${dingding_api_inform_secret}
+
+
+dingdingalarm:
+  access_token: ${dingding_alarm_access_token}
+  secret: ${dingding_alarm_secret}

@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author 伍六七
- * @date 2023/6/22 22:38
+ * @date 2023/6/26 9:18
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "dingding")
-public class DingDingConnect {
+@ConfigurationProperties(prefix = "dingdingalarm")
+public class DingDingAlarmRobot {
     private String access_token;
     private String secret;
 }

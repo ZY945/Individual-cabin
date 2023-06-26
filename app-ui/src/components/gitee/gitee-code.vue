@@ -38,8 +38,8 @@ export default {
   },
   methods: {
     //TODO 附带到路径表单上
+    getPathList() {
 
-    getBranches() {
       if (this.token && this.owner && this.repo) {//获取分支
         axios.get('/cabin/gitee/Branches', {
           params: {
@@ -49,14 +49,14 @@ export default {
           }
         })
             .then(response => {
-              this.shaList = response.data.data
+              if (response.data.code === 200) {
+                this.shaList = response.data.data
+              }
             })
             .catch(error => {
               console.log(error)
             })
       }
-    },
-    getPathList() {
       if (this.token && this.owner && this.repo && this.sha && this.recursive && this.suffix) {
         axios.get('/cabin/gitee/suffixFilePath', {
           params: {
@@ -69,7 +69,9 @@ export default {
           }
         })
             .then(response => {
-              this.pathList = response.data.data
+              if (response.data.code === 200) {
+                this.pathList = response.data.data
+              }
             })
             .catch(error => {
               console.log(error)
@@ -86,7 +88,9 @@ export default {
             }
           })
               .then(response => {
-                this.pathList = response.data.data
+                if (response.data.code === 200) {
+                  this.pathList = response.data.data
+                }
               })
               .catch(error => {
                 console.log(error)
@@ -102,7 +106,9 @@ export default {
             }
           })
               .then(response => {
-                this.pathList = response.data.data
+                if (response.data.code === 200) {
+                  this.pathList = response.data.data
+                }
               })
               .catch(error => {
                 console.log(error)
@@ -118,14 +124,25 @@ export default {
     <v-form fast-fail @submit.prevent>
       <div class="select-code-input">
 
-        <v-text-field label="token" prefix-icon="mdi-magnify" v-model="token" @input="getBranches"></v-text-field>
-        <v-text-field label="用户名" prefix-icon="mdi-magnify" v-model="owner" @input="getBranches"></v-text-field>
-        <v-text-field label="仓库" prefix-icon="mdi-magnify" v-model="repo" @input="getBranches"></v-text-field>
+        <v-text-field
+            label="token"
+            prefix-icon="mdi-magnify"
+            v-model="token"
+        ></v-text-field>
+        <v-text-field
+            label="用户名"
+            prefix-icon="mdi-magnify"
+            v-model="owner"
+        ></v-text-field>
+        <v-text-field
+            label="仓库"
+            prefix-icon="mdi-magnify"
+            v-model="repo"
+        ></v-text-field>
         <v-combobox
             label="分支"
             v-model="sha"
             :items="shaList"
-            @input="getBranches"
         ></v-combobox>
         <!--        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>-->
       </div>

@@ -47,6 +47,7 @@ export default {
     };
 
     // 监听数据变化并轮询
+    // b站是监控code,每1s一次,16次后结束
     watchEffect(() => {
       const params = window.location.search;
       const searchParams = new URLSearchParams(params);

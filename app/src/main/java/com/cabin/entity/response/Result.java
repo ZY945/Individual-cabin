@@ -36,4 +36,14 @@ public class Result<T> {
     public static <T> Result<T> requestFail(String msg) {
         return new Result<>(429, null, msg);
     }
+
+
+    /**
+     * 服务器错误
+     * 500 Server error
+     */
+    public static <T> Result<T> serverFail(String msg) {
+        return new Result<>(500, null, msg);
+    }
+
 }

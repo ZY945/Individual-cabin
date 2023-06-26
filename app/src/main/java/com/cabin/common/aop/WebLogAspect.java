@@ -1,18 +1,22 @@
 package com.cabin.common.aop;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.blueconic.browscap.BrowsCapField;
 import com.blueconic.browscap.Capabilities;
 import com.blueconic.browscap.UserAgentParser;
-import com.cabin.common.config.dingding.DingTalkHelper;
+import com.cabin.common.config.RabbitMQConfig;
+import com.cabin.common.emum.MQRoutingKeyEnum;
 import com.cabin.common.util.request.DeviceUtil;
 import com.cabin.common.util.request.IpUtil;
 import com.cabin.utils.dateUtil.DateUtil;
+import com.dingtalk.api.request.OapiRobotSendRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -30,6 +34,9 @@ public class WebLogAspect {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * 以 controller 包下定义的所有请求为切入点
@@ -58,28 +65,28 @@ public class WebLogAspect {
         String header = request.getHeader("user-agent");
         UserAgentParser singleton = DeviceUtil.getSingleton();
         Capabilities capabilities = singleton.parse(header);
-        Build.append("----- user ------" + "\n");
-        Build.append("remoteIp  : " + remoteIp + "\n");
-        Build.append("browser  : " + capabilities.getBrowser() + "\n");
-        Build.append("browserType  : " + capabilities.getBrowserType() + "\n");
-        Build.append("browserMajorVersion  : " + capabilities.getBrowser() + "\n");
-        Build.append("deviceType  : " + capabilities.getDeviceType() + "\n");
-        Build.append("platform  : " + capabilities.getPlatform() + "\n");
-        Build.append("platformVersion  : " + capabilities.getPlatformVersion() + "\n");
-        Build.append("renderingEngineMaker  : " + capabilities.getValue(BrowsCapField.RENDERING_ENGINE_MAKER) + "\n");
-        Build.append("----- server ------" + "\n");
-        Build.append("IP   : " + request.getRemoteAddr() + "\n\n");
-//        Build.append("System name of the server  : " + System.getProperty("os.name") + "\n\n");
-//        Build.append("system version of the server  : " + System.getProperty("os.version") + "\n\n");
-        Build.append("Bits of server operating system  : " + System.getProperty("os.arch") + "\n\n");
-        Build.append("URL  : " + request.getRequestURL().toString() + "\n");
-        Build.append("HTTP Method  : " + request.getMethod() + "\n");
-        Build.append("Class Method : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "\n\n");
+        Build.append("## user" + "\n");
+        Build.append("> remoteIp:\n " + remoteIp + "\n\n");
+        Build.append("> browser:\n " + capabilities.getBrowser() + "\n\n");
+        Build.append("> browserType:\n " + capabilities.getBrowserType() + "\n\n");
+        Build.append("> browserMajorVersion:\n " + capabilities.getBrowser() + "\n\n");
+        Build.append("> deviceType:\n " + capabilities.getDeviceType() + "\n\n");
+        Build.append("> platform:\n " + capabilities.getPlatform() + "\n\n");
+        Build.append("> platformVersion:\n " + capabilities.getPlatformVersion() + "\n\n");
+        Build.append("> renderingEngineMaker:\n " + capabilities.getValue(BrowsCapField.RENDERING_ENGINE_MAKER) + "\n\n");
+        Build.append("## server" + "\n\n");
+        Build.append("IP :\n " + request.getRemoteAddr() + "\n\n");
+//        Build.append("System name of the server:\n " + System.getProperty("os.name") + "\n\n");
+//        Build.append("system version of the server:\n " + System.getProperty("os.version") + "\n\n");
+        Build.append("> Bits of server operating system:\n " + System.getProperty("os.arch") + "\n\n");
+        Build.append("> URL:\n " + request.getRequestURL().toString() + "\n\n");
+        Build.append("> HTTP Method:\n " + request.getMethod() + "\n\n");
+        Build.append("> Class Method : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "\n\n");
         try {
             Object requestParam = joinPoint.getArgs();
-            Build.append("参数  : " + JSONObject.toJSONString(requestParam) + "\n\n");
+            Build.append("> 参数:\n " + JSONObject.toJSONString(requestParam) + "\n\n");
         } catch (Exception e) {
-            Build.append("参数打印失败，异常:" + e.getMessage() + "\n\n");
+            Build.append("> 参数打印失败，异常:" + e.getMessage() + "\n\n");
         }
         long time = System.currentTimeMillis();
         treadLocal.set(time);
@@ -113,15 +120,20 @@ public class WebLogAspect {
 //        logger.info("返回值 : {}", JSONObject.toJSONString(result));
         long need = System.currentTimeMillis() - startTime;
         // 执行耗时
-//        logger.info("耗时   : {} ms", need);
+//        logger.info("耗时 :\n {} ms", need);
         Long time = treadLocal.get();
+        treadLocal.remove();
         String members = redisTemplate.opsForValue().get("msg_dingding" + time);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(members);
-        stringBuilder.append("耗时   :" + need + "ms" + "\n");
-        stringBuilder.append("时间   :" + DateUtil.getNowDateTimeStr());
+        stringBuilder.append("> 耗时 :\n" + need + "ms" + "\n\n");
+        stringBuilder.append("> 时间 :\n" + DateUtil.getNowDateTimeStr());
         redisTemplate.delete("msg_dingding" + time);
-        DingTalkHelper.sendMessageByText(stringBuilder.toString(), null, true);
+        //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
+        OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
+        markdown.setTitle("监控报警通知");
+        markdown.setText(stringBuilder.toString());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_INFORM, MQRoutingKeyEnum.SEND_CABIN_INFORM_DINGDING.getRoutingKey(), JSON.toJSONString(markdown));
         return result;
     }
 
