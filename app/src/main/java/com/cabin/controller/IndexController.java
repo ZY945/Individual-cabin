@@ -2,7 +2,7 @@ package com.cabin.controller;
 
 import com.cabin.common.annotation.AccessLimit;
 import com.cabin.common.config.PatchcaConfig;
-import com.cabin.entity.response.Result;
+import com.cabin.common.util.response.Result;
 import com.cabin.service.UtilService;
 import com.cabin.utils.beanUtils.ObjectUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;

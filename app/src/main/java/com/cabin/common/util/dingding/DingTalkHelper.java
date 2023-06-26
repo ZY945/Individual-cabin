@@ -1,4 +1,4 @@
-package com.cabin.common.config.dingding;
+package com.cabin.common.util.dingding;
 
 import com.aliyun.credentials.utils.StringUtils;
 import com.dingtalk.api.DefaultDingTalkClient;
@@ -28,6 +28,8 @@ import java.util.List;
 
 
 /**
+ * 如果不需要依赖其他实例,静态方法会好一些,如果需要依赖其他实例就注入
+ *
  * @author 伍六七
  * @date 2023/6/22 22:38
  */
@@ -82,7 +84,7 @@ public class DingTalkHelper {
      * @author: niaonao
      * @date: 2019/7/6
      */
-    public static OapiRobotSendResponse sendMessageByText(String content, List<String> mobileList, boolean isAtAll) {
+    public OapiRobotSendResponse sendMessageByText(String content, List<String> mobileList, boolean isAtAll) {
         if (StringUtils.isEmpty(content)) {
             return null;
         }
@@ -114,7 +116,7 @@ public class DingTalkHelper {
         return response;
     }
 
-    public static OapiRobotSendResponse sendAlarmByMarkdown(Markdown markdown, List<String> mobileList, boolean isAtAll) {
+    public OapiRobotSendResponse sendAlarmByMarkdown(Markdown markdown, List<String> mobileList, boolean isAtAll) {
         if (ObjectUtils.isEmpty(markdown)) {
             return null;
         }

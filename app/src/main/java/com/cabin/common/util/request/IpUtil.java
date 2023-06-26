@@ -2,15 +2,12 @@ package com.cabin.common.util.request;
 
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class IpUtil {
-
-    private static Logger log = LoggerFactory.getLogger(IpUtil.class);
-
     /***
      * 获取客户端ip地址(可以穿透代理)
      * @param request

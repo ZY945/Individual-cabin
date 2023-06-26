@@ -2,7 +2,7 @@ code:
   host: ${host}
 spring:
   application:
-    name: cabin
+    name: cabin-app
 server:
   port: 8080
 
@@ -79,17 +79,7 @@ spring:
       host: ${host}
       password: ${redis_password}
 
----
-# mq
-spring:
-  rabbitmq:
-    host: ${host}
-    port: 5672
-    username: ${rabbitmq_username}
-    password: ${rabbitmq_password}
-    listener:
-      direct:
-        acknowledge-mode: manual
+
 
 
 
@@ -118,7 +108,6 @@ influxdb:
 ---
 # 通知
 # 钉钉webhook
-
 dingding:
   access_token: ${dingding_api_inform_access_token}
   secret: ${dingding_api_inform_secret}
@@ -127,3 +116,37 @@ dingding:
 dingdingalarm:
   access_token: ${dingding_alarm_access_token}
   secret: ${dingding_alarm_secret}
+
+# 邮箱配置
+spring:
+  mail:
+    host: smtp.qq.com #邮件服务器地址
+    #端口号 smtp 25 465 pop3 110 995 imap 143 993
+    # 阿里云默认封禁25,建议465
+    # https://help.aliyun.com/document_detail/56130.html
+    port: 465
+    protocol: smtp
+    username: ${mail_qq_username}
+    password: ${mail_qq_password}
+    default-encoding: UTF-8 #默认编码格式
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+  # mq
+  rabbitmq:
+    host: ${host}
+    port: 5672
+    username: ${rabbitmq_username}
+    password: ${rabbitmq_password}
+    listener:
+      direct:
+        acknowledge-mode: manual

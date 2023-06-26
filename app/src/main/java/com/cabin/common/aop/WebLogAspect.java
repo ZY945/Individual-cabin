@@ -131,7 +131,7 @@ public class WebLogAspect {
         redisTemplate.delete("msg_dingding" + time);
         //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
         OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
-        markdown.setTitle("监控报警通知");
+        markdown.setTitle("API监控通知");
         markdown.setText(stringBuilder.toString());
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_INFORM, MQRoutingKeyEnum.SEND_CABIN_INFORM_DINGDING.getRoutingKey(), JSON.toJSONString(markdown));
         return result;

@@ -3,7 +3,7 @@ package com.cabin.common.interceptor;
 import com.cabin.common.annotation.AccessLimit;
 import com.cabin.common.util.JacksonUtils;
 import com.cabin.common.util.request.IpUtil;
-import com.cabin.entity.response.Result;
+import com.cabin.common.util.response.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;

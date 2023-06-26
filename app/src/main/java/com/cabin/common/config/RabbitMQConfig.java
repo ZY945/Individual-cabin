@@ -10,6 +10,7 @@ public class RabbitMQConfig {
 
     ///////////////////////////////////queue///////////////////////////////////
     public static final String QUEUE_ALARM_DingDing = "queue_alarm_dingding";
+    public static final String QUEUE_ALARM_EMAIL = "queue_alarm_email";
     public static final String QUEUE_INFORM_API_DingDing = "queue_inform_api_dingding";
 
     ///////////////////////////////////exchange///////////////////////////////////
@@ -19,10 +20,12 @@ public class RabbitMQConfig {
     ///////////////////////////////////routingKey///////////////////////////////////
 
     public static final String ROUTINGKEY_ALARM_DingDing = "alarm.#.dingding.#";
+    public static final String ROUTINGKEY_ALARM_EMAIL = "alarm.#.email.#";
 
     public static final String ROUTINGKEY_INFORM_API_DingDing = "inform.api.#.dingding.#";
 
 
+    ///////////////////////////////////交换机,设置自动创建持久化///////////////////////////////////
     //声明交换机,会在消息队列创建
     @Bean(EXCHANGE_CABIN_ALARM)
     public Exchange EXCHANGE_CABIN_ALARM() {
@@ -37,25 +40,40 @@ public class RabbitMQConfig {
         return ExchangeBuilder.topicExchange(EXCHANGE_CABIN_INFORM).durable(true).build();
     }
 
-    //声明队列,会在消息队列创建
+    ///////////////////////////////////队列,设置自动创建持久化///////////////////////////////////
+    // 报警
     @Bean(QUEUE_ALARM_DingDing)
     public Queue QUEUE_ALARM_DingDing() {
         return new Queue(QUEUE_ALARM_DingDing);
     }
 
-    //声明队列,会在消息队列创建
+    @Bean(QUEUE_ALARM_EMAIL)
+    public Queue QUEUE_ALARM_EMAIL() {
+        return new Queue(QUEUE_ALARM_EMAIL);
+    }
+
+    // 监控
     @Bean(QUEUE_INFORM_API_DingDing)
     public Queue QUEUE_INFORM_API_DingDing() {
         return new Queue(QUEUE_INFORM_API_DingDing);
     }
 
 
+    ///////////////////////////////////绑定交换机和队列///////////////////////////////////
+    // 报警
     @Bean
     public Binding BINDING_QUEUE_ALARM_DINGDING(@Qualifier(QUEUE_ALARM_DingDing) Queue queue,
                                                 @Qualifier(EXCHANGE_CABIN_ALARM) Exchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTINGKEY_ALARM_DingDing).noargs();
     }
 
+    @Bean
+    public Binding BINDING_QUEUE_ALARM_EMAIL(@Qualifier(QUEUE_ALARM_EMAIL) Queue queue,
+                                             @Qualifier(EXCHANGE_CABIN_ALARM) Exchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(ROUTINGKEY_ALARM_EMAIL).noargs();
+    }
+
+    // 监控
     @Bean
     public Binding BINDING_QUEUE_INFORM_DINGDING(@Qualifier(QUEUE_INFORM_API_DingDing) Queue queue,
                                                  @Qualifier(EXCHANGE_CABIN_INFORM) Exchange exchange) {
