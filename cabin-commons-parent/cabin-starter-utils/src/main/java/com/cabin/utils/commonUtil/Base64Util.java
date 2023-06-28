@@ -17,16 +17,16 @@ public class Base64Util {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static String encoderGetStrByStr(String code) throws UnsupportedEncodingException {
+    public static String encoderGetStrByByte(String code) throws UnsupportedEncodingException {
         byte[] bytes = code.getBytes(StandardCharsets.UTF_8);
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public static String encoderGetStrByStr(byte[] bytes) throws UnsupportedEncodingException {
+    public static String encoderGetStrByByte(byte[] bytes) throws UnsupportedEncodingException {
         return Base64.getEncoder().encodeToString(bytes);
     }
 
-    public static String decoderGetStrByStr(String code) throws UnsupportedEncodingException {
+    public static String decoderGetStrByStr(String code) {
         byte[] decode = Base64.getDecoder().decode(code);
         return new String(decode, StandardCharsets.UTF_8);
     }

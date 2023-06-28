@@ -60,7 +60,7 @@ public class RSAEncipher {
             //加密后的数据可能包含控制字符、二进制数据和非 ASCII 码字符等，直接转字符串会乱码
             //可以使用Base64编辑解码
             //return new String(bytes, StandardCharsets.UTF_8);
-            return Base64Util.encoderGetStrByStr(bytes);
+            return Base64Util.encoderGetStrByByte(bytes);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);

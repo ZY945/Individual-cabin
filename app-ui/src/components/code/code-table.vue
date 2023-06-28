@@ -1,6 +1,7 @@
 <script>
 import CodeBlock from "@/components/code/code-block.vue";
 import axios from "axios";
+import {getSuffix} from "@/assets/js/utils";
 
 export default {
   name: "CodeTable",
@@ -16,7 +17,8 @@ export default {
     return {
       searchTerm: "",
       dialogVisible: false,
-      code: ''
+      code: '',
+      fileSuffix: ''
     }
   },
   methods: {
@@ -38,6 +40,7 @@ export default {
             .then(response => {
               this.code = response.data.data
               this.dialogVisible = true
+              this.fileSuffix = getSuffix(path)
             })
             .catch(error => {
               console.log(error)
@@ -83,6 +86,6 @@ export default {
   </v-table>
   <v-dialog v-model="dialogVisible">
     <!-- 对话框内容 -->
-    <code-block :code="code" v-show="code"></code-block>
+    <code-block :code="code" :fileSuffix="fileSuffix" v-show="code"></code-block>
   </v-dialog>
 </template>

@@ -6,6 +6,7 @@ import com.cabin.common.emum.MQRoutingKeyEnum;
 import com.cabin.common.util.mail.Vo.MailVo;
 import com.cabin.common.util.project.ApplicationInfo;
 import com.cabin.common.util.response.Result;
+import com.cabin.utils.dateUtil.DateUtil;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import com.dingtalk.api.request.OapiRobotSendRequest.Markdown;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,9 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author 伍六七
@@ -43,8 +41,7 @@ public class GlobalExceptionHandler {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest req = attributes.getRequest();
 
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat();
+            String nowDateTimeStr = DateUtil.getNowDateTimeStr();
             Markdown markdown = new OapiRobotSendRequest.Markdown();
             markdown.setTitle("监控报警通知");
             markdown.setText("## 监控报警通知\n" +
@@ -59,7 +56,7 @@ public class GlobalExceptionHandler {
                     "\n" +
                     "> **请求地址**：\n" + req.getRequestURI() + "\n" +
                     "\n" +
-                    "> **异常时间**：\n" + sdf.format(date) + "\n" +
+                    "> **异常时间**：\n" + nowDateTimeStr + "\n" +
                     "\n" +
                     "> **异常**：\n" + e);
             //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息

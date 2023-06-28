@@ -1,12 +1,18 @@
-package com.cabin.utils.api.JenkinsUtil;
+package com.cabin.common.util.api.JenkinsUtil;
 
+import com.cabin.common.util.api.JenkinsUtil.empty.HomeInfo;
+import com.cabin.common.util.api.JenkinsUtil.empty.Job;
+import com.cabin.utils.commonUtil.Base64Util;
+import com.cabin.utils.jacksonUtil.JacksonUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
+import java.util.List;
 
 import static com.cabin.utils.http.HttpUtil.getJsonObject;
 
@@ -15,6 +21,7 @@ import static com.cabin.utils.http.HttpUtil.getJsonObject;
  * @author 伍六七
  * @date 2023/5/29 15:15
  */
+@Component
 public class JenkinsAPI {
 
     ///////////////////////////////URL///////////////////////////////
@@ -70,12 +77,13 @@ public class JenkinsAPI {
 
     ///////////////////////////////原API///////////////////////////////
 
-    public static JSONObject getHomeInfo(String hostAndPort, String userName, String token) {
+    public JSONObject getHomeInfoAPI(String hostAndPort, String userName, String token) {
         String url = hostAndPort + GetHomeInfoAPI;
         JSONObject jsonObject = null;
+        String str = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -83,11 +91,17 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
+//            str = getResponseStr(con);
+//            System.out.println(str);
             jsonObject = getJsonObject(jsonObject, con);
+
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        if (jsonObject == null) {
+            throw new RuntimeException("解析json失败");
         }
         return jsonObject;
     }
@@ -97,7 +111,7 @@ public class JenkinsAPI {
         JSONObject jsonObject = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -119,7 +133,7 @@ public class JenkinsAPI {
         JSONObject jsonObject = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -141,7 +155,7 @@ public class JenkinsAPI {
         JSONObject jsonObject = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -163,7 +177,7 @@ public class JenkinsAPI {
         JSONObject jsonObject = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -185,7 +199,7 @@ public class JenkinsAPI {
         JSONObject jsonObject = null;
         try {
             String auth = userName + ":" + token;
-            String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
             String authHeader = "Basic " + encodedAuth;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -204,5 +218,15 @@ public class JenkinsAPI {
 
     ///////////////////////////////从原api的json获取数据///////////////////////////////
 
+    public HomeInfo getHomeInfo(String hostAndPort, String userName, String token) {
+        JSONObject homeInfoJSON = getHomeInfoAPI(hostAndPort, userName, token);
+        HomeInfo homeInfo = new HomeInfo();
+        homeInfo.setNodeName(homeInfoJSON.getString("nodeName"));
+        homeInfo.setNodeDescription(homeInfoJSON.getString("nodeDescription"));
+        JSONArray jobsJsonArray = homeInfoJSON.getJSONArray("jobs");
 
+        List<Job> jobs = JacksonUtils.convertValue(jobsJsonArray, Job.class);
+        homeInfo.setJobs(jobs);
+        return homeInfo;
+    }
 }

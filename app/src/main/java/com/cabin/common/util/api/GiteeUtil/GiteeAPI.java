@@ -1,27 +1,27 @@
-package com.cabin.utils.api.GiteeUtil;
+package com.cabin.common.util.api.GiteeUtil;
 
 
-import com.cabin.utils.api.GiteeUtil.empty.Branch;
-import com.cabin.utils.api.GiteeUtil.empty.PathTree;
+import com.cabin.common.util.api.GiteeUtil.empty.Branch;
+import com.cabin.common.util.api.GiteeUtil.empty.PathTree;
+import com.cabin.utils.commonUtil.Base64Util;
 import com.cabin.utils.fileUtil.FileUtil;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cabin.utils.jacksonUtil.JacksonUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Base64.Decoder;
 import java.util.List;
 
 /**
  * @author 伍六七
  * @date 2023/5/17 10:10
  */
+@Component
 public class GiteeAPI {
 
 
@@ -113,8 +113,6 @@ public class GiteeAPI {
 
                 // 解析 JSON 数据
                 jsonArray = new JSONArray(response.toString());
-
-//                System.out.println(response.toString());
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -178,12 +176,7 @@ public class GiteeAPI {
         if (jsonArray == null) {
             throw new RuntimeException("没有获取到数据");
         }
-        List<Branch> branches = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        branches = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<Branch>>() {
-        });
-        return branches;
-//        return BeanUtil.getListByJsonArray(jsonArray,Branch.class);
+        return JacksonUtils.convertValue(jsonArray, Branch.class);
     }
 
 
@@ -195,17 +188,12 @@ public class GiteeAPI {
      * @param repo  仓库路径(path)
      * @return 所有分支名
      */
-    public static List<String> getBranchesOnly(String token, String owner, String repo) {
+    public List<String> getBranchesOnly(String token, String owner, String repo) {
         JSONArray jsonArray = getBranchesAPI(token, owner, repo);
         if (jsonArray == null) {
             throw new RuntimeException("没有获取到数据");
         }
-//        List<String> branchNameList = new ArrayList<>();
-        List<Branch> branches = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        branches = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<Branch>>() {
-        });
-//        List<Branch> branches = BeanUtil.getListByJsonArray(jsonArray, Branch.class);
+        List<Branch> branches = JacksonUtils.convertValue(jsonArray, Branch.class);
         return branches.stream().map(Branch::getName).toList();
     }
 
@@ -220,16 +208,12 @@ public class GiteeAPI {
      * @param recursive 是否递归
      * @return 所有路径
      */
-    public static List<String> getPathList(String token, String owner, String repo, String sha, int recursive) {
+    public List<String> getPathList(String token, String owner, String repo, String sha, int recursive) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
         if (jsonArray == null) {
             throw new RuntimeException("没有获取到数据");
         }
-        List<PathTree> pathTrees = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
-        });
-//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
+        List<PathTree> pathTrees = JacksonUtils.convertValue(jsonArray, PathTree.class);
         return pathTrees.stream().map(PathTree::getPath).toList();
     }
 
@@ -243,18 +227,14 @@ public class GiteeAPI {
      * @param recursive 是否递归
      * @return 节点为文件的路径
      */
-    public static List<String> getFilePathList(String token, String owner, String repo, String sha, int recursive) {
+    public List<String> getFilePathList(String token, String owner, String repo, String sha, int recursive) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
         if (jsonArray == null) {
             throw new RuntimeException("没有获取到数据");
         }
         List<String> list = new ArrayList<>();
 
-        List<PathTree> pathTrees = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
-        });
-//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
+        List<PathTree> pathTrees = JacksonUtils.convertValue(jsonArray, PathTree.class);
         pathTrees.forEach(l -> {
             if (FileUtil.isFileBySuffix(l.getPath(), "")) {
                 list.add(l.getPath());
@@ -274,17 +254,13 @@ public class GiteeAPI {
      * @param suffix    文件后缀(例如: java)不用加‘.’
      * @return 特定文件后缀的路径
      */
-    public static List<String> getFilePathListBySuffix(String token, String owner, String repo, String sha, int recursive, String suffix) {
+    public List<String> getFilePathListBySuffix(String token, String owner, String repo, String sha, int recursive, String suffix) {
         JSONArray jsonArray = getPathTreeAPI(token, owner, repo, sha, recursive);
+        List<String> list = new ArrayList<>();
         if (jsonArray == null) {
             throw new RuntimeException("没有获取到数据");
         }
-        List<String> list = new ArrayList<>();
-        List<PathTree> pathTrees = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        pathTrees = objectMapper.convertValue(jsonArray.toList(), new TypeReference<List<PathTree>>() {
-        });
-//        List<PathTree> pathTrees = BeanUtil.getListByJsonArray(jsonArray, PathTree.class);
+        List<PathTree> pathTrees = JacksonUtils.convertValue(jsonArray, PathTree.class);
         pathTrees.forEach(l -> {
             if (FileUtil.isFileBySuffix(l.getPath(), suffix)) {
                 list.add(l.getPath());
@@ -302,18 +278,16 @@ public class GiteeAPI {
      * @param path  文件路径(例如:src/main/test.java)
      * @return String(代码块)
      */
-    public static String getCodeByPath(String token, String owner, String repo, String sha, String path) {
+    public String getCodeByPath(String token, String owner, String repo, String sha, String path) {
         JSONObject jsonObject = getCodeAPI(token, owner, repo, sha, path);
         if (jsonObject == null) {
             throw new RuntimeException("没有获取到数据");
         }
         String content = jsonObject.getString("content");
-        Decoder decoder = Base64.getDecoder();
-        byte[] decode = decoder.decode(content);
-        return new String(decode);
+        return Base64Util.decoderGetStrByStr(content);
     }
 
-    public static String downLoadByGit(String token, String owner, String repo) {
+    public String downLoadByGit(String token, String owner, String repo) {
         String downloadUrl = String.format("https://gitee.com/%s/%s/repository/archive/master.zip?access_token=" + token,
                 owner,
                 repo);

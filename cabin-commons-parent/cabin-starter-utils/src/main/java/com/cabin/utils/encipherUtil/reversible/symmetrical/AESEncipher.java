@@ -75,7 +75,7 @@ public class AESEncipher {
             Cipher instance = Cipher.getInstance(ECB_TRANSFORMATION);
             instance.init(Cipher.ENCRYPT_MODE, key);
             byte[] bytes = instance.doFinal(data.getBytes());
-            return Base64Util.encoderGetStrByStr(bytes);
+            return Base64Util.encoderGetStrByByte(bytes);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
@@ -117,7 +117,7 @@ public class AESEncipher {
             Cipher instance = Cipher.getInstance(CBC_TRANSFORMATION);
             instance.init(Cipher.ENCRYPT_MODE, key, iv);
             byte[] bytes = instance.doFinal(data.getBytes());
-            return Base64Util.encoderGetStrByStr(bytes);
+            return Base64Util.encoderGetStrByByte(bytes);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException |
                  BadPaddingException | UnsupportedEncodingException | InvalidAlgorithmParameterException e) {
             throw new RuntimeException(e);

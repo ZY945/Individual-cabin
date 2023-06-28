@@ -16,21 +16,19 @@ export default {
       owner: '',
       repo: '',
       sha: '',
-      suffix: 'java',
+      suffix: '',
       path: '',
       recursive: '1',
       code: '',
       isFile: '1',
       suffixList: ['', 'java', 'vue', 'js', 'yaml', 'xml', 'json', 'sql'],
       recursiveList: [
-        '',
-        '1',
-        '0'
+        '0',
+        '1'
       ],
       isFileList: [
-        '',
-        '1',
-        '0'
+        '0',
+        '1'
       ],
       pathList: [null],
       shaList: [null],
@@ -38,8 +36,7 @@ export default {
   },
   methods: {
     //TODO 附带到路径表单上
-    getPathList() {
-
+    getSha() {
       if (this.token && this.owner && this.repo) {//获取分支
         axios.get('/cabin/gitee/Branches', {
           params: {
@@ -57,6 +54,8 @@ export default {
               console.log(error)
             })
       }
+    },
+    getPathList() {
       if (this.token && this.owner && this.repo && this.sha && this.recursive && this.suffix) {
         axios.get('/cabin/gitee/suffixFilePath', {
           params: {
@@ -143,6 +142,7 @@ export default {
             label="分支"
             v-model="sha"
             :items="shaList"
+            @click="getSha()"
         ></v-combobox>
         <!--        <v-text-field label="文件路径" prefix-icon="mdi-magnify" v-model="path"></v-text-field>-->
       </div>
@@ -159,7 +159,7 @@ export default {
             :items="isFileList"
         ></v-combobox>
         <v-combobox
-            label="文件后缀"
+            label="是否限制文件后缀"
             v-model="suffix"
             :items="suffixList"
         ></v-combobox>

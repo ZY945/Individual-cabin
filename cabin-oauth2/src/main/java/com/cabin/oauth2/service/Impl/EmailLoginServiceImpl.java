@@ -92,9 +92,9 @@ public class EmailLoginServiceImpl implements EmailLoginService {
         String userIdEncoder = null;
         String random = StringUtil.creatCode(6);
         try {
-            token = Base64Util.encoderGetStrByStr(userEmail + random);
+            token = Base64Util.encoderGetStrByByte(userEmail + random);
             User user = userRepository.getUserByEmail(userEmail);
-            userIdEncoder = Base64Util.encoderGetStrByStr(String.valueOf(user.getId()));
+            userIdEncoder = Base64Util.encoderGetStrByByte(String.valueOf(user.getId()));
 
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);

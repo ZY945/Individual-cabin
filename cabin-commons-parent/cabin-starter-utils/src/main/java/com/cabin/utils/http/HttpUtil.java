@@ -15,6 +15,20 @@ import java.util.Map;
  * @date 2023/5/17 9:39
  */
 public class HttpUtil {
+    public static String getResponseStr(HttpURLConnection con) throws IOException {
+        StringBuilder response = new StringBuilder();
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            InputStream inputStream = con.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+        }
+        return response.toString();
+    }
 
     public static JSONObject getJsonObject(JSONObject jsonObject, HttpURLConnection con) throws IOException {
         int responseCode = con.getResponseCode();
@@ -27,7 +41,6 @@ public class HttpUtil {
                 response.append(line);
             }
             reader.close();
-
             jsonObject = new JSONObject(response.toString());
         }
         return jsonObject;

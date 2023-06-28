@@ -1,4 +1,4 @@
-package com.cabin.utils.api.GitLabUtil.API;
+package com.cabin.common.util.api.GitLabUtil.API;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

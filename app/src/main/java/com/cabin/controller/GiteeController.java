@@ -1,8 +1,9 @@
 package com.cabin.controller;
 
+import com.cabin.common.util.api.GiteeUtil.GiteeAPI;
+import com.cabin.common.util.api.GiteeUtil.empty.GiteeBo;
 import com.cabin.common.util.response.Result;
-import com.cabin.utils.api.GiteeUtil.GiteeAPI;
-import com.cabin.utils.api.GiteeUtil.empty.GiteeBo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,9 @@ public class GiteeController {
 
     private static String token = "";
 
+    @Autowired
+    private GiteeAPI giteeAPI;
+
     /**
      * 只返回分支名
      * <p>
@@ -30,7 +34,7 @@ public class GiteeController {
     @GetMapping("/Branches")
     public Result<List<String>> getBranchesOnly(GiteeBo bo) {
         //TODO 从用户设置中获取token
-        List<String> branches = GiteeAPI.getBranchesOnly(bo.getToken(), bo.getOwner(), bo.getRepo());
+        List<String> branches = giteeAPI.getBranchesOnly(bo.getToken(), bo.getOwner(), bo.getRepo());
         return Result.success(branches, "所有分支");
     }
 
@@ -47,7 +51,7 @@ public class GiteeController {
     @GetMapping("/allPath")
     public Result<List<String>> getPathList(GiteeBo bo) {
         //TODO 从用户设置中获取token 响应时间过长 5s
-        List<String> pathList = GiteeAPI.getPathList(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive());
+        List<String> pathList = giteeAPI.getPathList(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive());
         return Result.success(pathList, bo.getRepo() + "仓库下所有的路径");
     }
 
@@ -64,7 +68,7 @@ public class GiteeController {
     @GetMapping("/filePath")
     public Result<List<String>> getFilePathList(GiteeBo bo) {
         //TODO 从用户设置中获取token 响应时间过长 5s
-        List<String> filePath = GiteeAPI.getFilePathList(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive());
+        List<String> filePath = giteeAPI.getFilePathList(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive());
         return Result.success(filePath, bo.getRepo() + "仓库下文件路径");
     }
 
@@ -82,7 +86,7 @@ public class GiteeController {
     @GetMapping("/suffixFilePath")
     public Result<List<String>> getFilePathListBySuffix(GiteeBo bo) {
         //TODO 从用户设置中获取token
-        List<String> filePath = GiteeAPI.getFilePathListBySuffix(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive(), bo.getSuffix());
+        List<String> filePath = giteeAPI.getFilePathListBySuffix(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getRecursive(), bo.getSuffix());
         return Result.success(filePath, bo.getSuffix() + "后缀的文件");
 
     }
@@ -100,14 +104,14 @@ public class GiteeController {
     @GetMapping("/code")
     public Result<String> getCodeByPath(GiteeBo bo) {
         //TODO 从用户设置中获取token
-        String code = GiteeAPI.getCodeByPath(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getPath());
+        String code = giteeAPI.getCodeByPath(bo.getToken(), bo.getOwner(), bo.getRepo(), bo.getSha(), bo.getPath());
         return Result.success(code, bo.getPath() + "的代码");
     }
 
 
     @GetMapping("/pull")
     public Result<String> downLoadByGit(GiteeBo bo) {
-        String result = GiteeAPI.downLoadByGit(bo.getToken(), bo.getOwner(), bo.getRepo());
+        String result = giteeAPI.downLoadByGit(bo.getToken(), bo.getOwner(), bo.getRepo());
         return Result.success(result, "下载结束");
     }
 }

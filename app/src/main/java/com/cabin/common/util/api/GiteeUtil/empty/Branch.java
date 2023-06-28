@@ -1,4 +1,4 @@
-package com.cabin.utils.api.GiteeUtil.empty;
+package com.cabin.common.util.api.GiteeUtil.empty;
 
 /**
  * @author 伍六七

@@ -23,7 +23,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-
+/**
+ * @author 伍六七
+ * @date 2023/5/22 11:12
+ * aop
+ * 切面
+ * 切点
+ * 连接点--切点
+ */
 @Aspect
 @Component
 @Slf4j
@@ -40,6 +47,7 @@ public class WebLogAspect {
 
     /**
      * 以 controller 包下定义的所有请求为切入点
+     * 切点
      */
     @Pointcut("execution(public * com.cabin.controller..*.*(..))")
     public void webLog() {
