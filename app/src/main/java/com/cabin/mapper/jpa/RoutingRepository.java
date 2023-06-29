@@ -12,10 +12,14 @@ import java.util.List;
  * @date 2023/6/29 9:58
  */
 @Repository
-public interface RoutingRepository extends JpaRepository<Routing,Long> {
-    Routing getRoutingByIdAndDeleted(@Param("id") Long id,@Param("deleted") Integer deleted);
+public interface RoutingRepository extends JpaRepository<Routing, Long> {
+    Routing getRoutingByIdAndDeleted(@Param("id") Long id, @Param("deleted") Integer deleted);
+
     List<Routing> getRoutingsByDeleted(@Param("deleted") Integer deleted);
-    Routing getRoutingByPathAndDeleted(@Param("path") String path,@Param("deleted") Integer deleted);
-    Routing getRoutingByTitleAndDeleted(@Param("title") String title,@Param("deleted") Integer deleted);
-    Boolean existsRoutingByIdAndDeleted(@Param("id") Long id,@Param("deleted") Integer deleted);
+
+    Routing getRoutingByPathAndDeleted(@Param("path") String path, @Param("deleted") Integer deleted);
+
+    Routing getRoutingByTitleAndDeleted(@Param("title") String title, @Param("deleted") Integer deleted);
+
+    Boolean existsRoutingByIdAndDeleted(@Param("id") Long id, @Param("deleted") Integer deleted);
 }

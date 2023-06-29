@@ -75,6 +75,4 @@ npm install --save @highlightjs/vue-plugin
 
 npm install vue-router@4
 
-##                         
-
 npm install material-design-icons-iconfont -D

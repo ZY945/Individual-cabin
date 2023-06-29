@@ -12,7 +12,6 @@ import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
@@ -49,7 +48,7 @@ public class IndexController {
      */
     @GetMapping("/{shortUrl}")
     public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
-        if(StringUtil.isNullOrEmpty(shortUrl)){
+        if (StringUtil.isNullOrEmpty(shortUrl)) {
             throw new RuntimeException("请输入正确格式");
         }
         String url = utilService.getShortUrl(shortUrl);

@@ -25,27 +25,30 @@ public class RoutingController {
         List<Routing> routings = repository.getRoutingsByDeleted(0);
         return Result.success(routings, "所有路由");
     }
+
     @GetMapping("/{id}")
     public Result<Routing> getRoutingById(@PathVariable Long id) {
-        Routing routings = repository.getRoutingByIdAndDeleted(id,0);
+        Routing routings = repository.getRoutingByIdAndDeleted(id, 0);
         return Result.success(routings, "指定路由");
     }
+
     @PostMapping("/")
     public Result<Routing> addRouting(@RequestBody AddRoutingBo bo) {
-        Routing exist = repository.getRoutingByPathAndDeleted(bo.getPath(),0);
-        if(exist!=null){
+        Routing exist = repository.getRoutingByPathAndDeleted(bo.getPath(), 0);
+        if (exist != null) {
             return Result.serverFail("该路由已存在");
         }
-        Routing routingByTitle = repository.getRoutingByTitleAndDeleted(bo.getTitle(),0);
-        if(routingByTitle!=null){
+        Routing routingByTitle = repository.getRoutingByTitleAndDeleted(bo.getTitle(), 0);
+        if (routingByTitle != null) {
             return Result.serverFail("该路由已存在");
 
         }
         Routing routing = new Routing();
-        BeanUtils.copyProperties(bo,routing);
+        BeanUtils.copyProperties(bo, routing);
         Routing insert = repository.save(routing);
         return Result.success(insert, "新增路由成功");
     }
+
     @PostMapping("/list")
     public Result<List<Routing>> addRoutings(@RequestBody List<AddRoutingBo> bos) {
         for (AddRoutingBo bo : bos) {
@@ -68,11 +71,11 @@ public class RoutingController {
 
     @DeleteMapping("/{id}")
     public Result<Boolean> delRoutingById(@PathVariable Long id) {
-        Boolean exist = repository.existsRoutingByIdAndDeleted(id,0);
-        if(!exist){
+        Boolean exist = repository.existsRoutingByIdAndDeleted(id, 0);
+        if (!exist) {
             return Result.serverFail("没有该路由");
         }
-        Routing routingById = repository.getRoutingByIdAndDeleted(id,0);
+        Routing routingById = repository.getRoutingByIdAndDeleted(id, 0);
         routingById.setDeleted(1);
         repository.save(routingById);
         return Result.success(true, "删除成功");
