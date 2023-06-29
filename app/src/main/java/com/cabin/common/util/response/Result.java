@@ -33,7 +33,7 @@ public class Result<T> {
      * 限流
      * 429 Too Many Requests
      */
-    public static <T> Result<T> requestFail(String msg) {
+    public static <T> Result<T> requestLimitFail(String msg) {
         return new Result<>(429, null, msg);
     }
 

@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import cabinMenus from "@/components/cabin-menus.vue";
 import {isLogin} from "@/assets/js/utils";
 
 const routes = [
@@ -19,7 +18,7 @@ const routes = [
     // },
     {
         path: '/',
-        component: cabinMenus,
+        component: () => import('@/components/cabin-menus.vue'),
         redirect: 'home',
         children: [
             {

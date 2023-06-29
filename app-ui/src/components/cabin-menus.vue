@@ -1,69 +1,72 @@
 <script>
 
+import axios from "axios";
+import {onMounted, ref} from "vue";
+
 export default {
-  name: "cabinMenus",
-  props: {msg: String},
-  components: {},
-  data() {
-    return {
-      drawer: true,
-      rail: true,
-      user: {
-        avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
-        userName: "Sandra Adams",
-        email: "sandra_a88@gmailcom"
-      },
-      //TODO 路由数据后端获取
-      menusList: [
-        {
-          title: "home",
-          "prepend-icon": "mdi-home",
-          path: "/home",
-        },
-        {
-          title: "login",
-          "prepend-icon": "mdi-star",
-          path: "/login",
-        },
-        {
-          title: "register",
-          "prepend-icon": "mdi-star",
-          path: "/register",
-        },
-        {
-          title: "gitee",
-          "prepend-icon": "mdi-star",
-          path: "/gitee",
-        },
-        {
-          title: "jenkins",
-          "prepend-icon": "mdi-star",
-          path: "/jenkins",
-        },
-        {
-          title: "jsonFormat",
-          "prepend-icon": "mdi-star",
-          path: "/jsonFormat",
-        },
-        // {
-        //   title: "chatApps",
-        //   "prepend-icon": "mdi-star",
-        //   path: "/chatApps",
-        // },
-        {
-          title: "chatApp",
-          "prepend-icon": "mdi-star",
-          path: "/chatApp",
-        },
-        {
-          title: "shortUrl",
-          "prepend-icon": "mdi-star",
-          path: "/shortUrl",
-        },
-      ],
+  setup() {
+    let msg = ref('');
+    let drawer = ref(true);
+    let rail = ref(true);
+    let user = ref({
+      avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
+      userName: "Sandra Adams",
+      email: "sandra_a88@gmailcom"
+    });
+    let menusList = ref([]);
+    // const getMenusList = async () => {
+    //   axios.get('/cabin/routing/all', {
+    //     params: {}
+    //   })
+    //       .then(response => {
+    //         if (response.data.code === 200) {
+    //           this.menusList = response.data.data
+    //         }
+    //       })
+    //       .catch(error => {
+    //         console.log(error)
+    //       })
+    // };
+
+    // 异步获取后端数据
+    async function fetchMenus() {
+      try {
+        axios.get('/cabin/routing/all', {
+          params: {}
+        })
+            .then(response => {
+              if (response.data.code === 200) {
+                const data = response.data.data
+                // 将获取的数据赋值给响应式数组
+                // 将获取的数据赋值给响应式数组
+                menusList.value = data.map(item => ({
+                  id: item.id,
+                  title: item.title,
+                  path: item.path,
+                  prependIcon: item['prepend-icon']
+                }));
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
+
+      } catch (error) {
+        console.error(error);
+      }
     }
-  },
-  methods: {},
+
+    // 在组件初始化时调用 fetchMenus()
+    onMounted(fetchMenus);
+    return {
+      msg,
+      drawer,
+      rail,
+      user,
+      menusList,
+      // getMenusList,
+    }
+  }
 }
 </script>
 <template>
@@ -99,10 +102,20 @@ export default {
         <v-divider></v-divider>
 
         <!-- 路由 -->
-        <v-list density="compact" v-for="menus in menusList" :key="menus.id">
-          <v-list-item :prepend-icon='menus["prepend-icon"]' :title='menus.title' :to="menus.path">
+        <v-list dense v-for="menu in menusList" :key="menu.id">
+          <v-list-item :to="menu.path">
+            <template v-slot:default="{ active }">
+              <v-list-item-icon>
+                <v-icon :color="active ? '#ffffff' : ''">{{ menu.prependIcon }}</v-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ menu.title }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item-icon>
+            </template>
           </v-list-item>
         </v-list>
+
+
       </v-navigation-drawer>
 
       <!-- 主要内容       -->

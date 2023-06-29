@@ -5,12 +5,14 @@ import com.cabin.common.config.PatchcaConfig;
 import com.cabin.common.util.response.Result;
 import com.cabin.service.UtilService;
 import com.cabin.utils.beanUtils.ObjectUtil;
+import com.cabin.utils.commonUtil.StringUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;
 import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
@@ -47,6 +49,9 @@ public class IndexController {
      */
     @GetMapping("/{shortUrl}")
     public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+        if(StringUtil.isNullOrEmpty(shortUrl)){
+            throw new RuntimeException("请输入正确格式");
+        }
         String url = utilService.getShortUrl(shortUrl);
         ObjectUtil.checkStrNonEmpty(url, "url");
         response.sendRedirect(url);

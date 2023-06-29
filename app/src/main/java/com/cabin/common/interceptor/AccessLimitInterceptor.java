@@ -52,11 +52,11 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
                     //超出访问限制次数
                     response.setContentType("application/json;charset=utf-8");
                     PrintWriter out = response.getWriter();
-                    Result<Object> result = Result.requestFail(accessLimit.msg());
+                    Result<Object> result = Result.requestLimitFail(accessLimit.msg());
                     // ServletOutputStream out = response.getOutputStream();
                     // getWriter() has already been called for this response报错
                     // fastJson, siteMesh, urlWriter等插件，应该response.getWriter()改为response.getOutputStream()
-                    //  Result<Object> result = Result.requestFail(accessLimit.msg());
+                    //  Result<Object> result = Result.requestLimitFail(accessLimit.msg());
                     //  out.write(JacksonUtils.writeValueAsString(result).getBytes());
                     out.write(JacksonUtils.writeValueAsString(result));
                     out.flush();
