@@ -2,11 +2,11 @@ package com.cabin.controller;
 
 import com.cabin.common.annotation.AccessLimit;
 import com.cabin.common.config.PatchcaConfig;
-import com.cabin.common.util.response.Result;
 import com.cabin.service.UtilService;
 import com.cabin.utils.beanUtils.ObjectUtil;
 import com.cabin.utils.commonUtil.StringUtil;
 import com.cabin.utils.jsonUtil.JsonUtil;
+import com.cabin.utils.response.Result;
 import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import jakarta.servlet.http.HttpServletRequest;

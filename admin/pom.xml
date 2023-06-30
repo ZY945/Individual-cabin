@@ -98,6 +98,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <!--替换为你的应用程序主类-->
                 <configuration>
                     <mainClass>com.cabin.admin.AdminApplication</mainClass>

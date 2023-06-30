@@ -10,12 +10,12 @@
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.cabin.IM</groupId>
-    <artifactId>cabin-IM</artifactId>
+    <groupId>com.cabin.monitor</groupId>
+    <artifactId>cabin-monitor</artifactId>
     <packaging>jar</packaging>
 
-    <name>cabin-IM</name>
-    <description>cabin-IM</description>
+    <name>cabin-monitor</name>
+    <description>cabin-monitor</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -23,45 +23,20 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-
-        <!--提供netty-->
-        <!--spring-boot-starter-reactor-netty-->
-        <!--spring-webflux-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
-        <!--开启admin监控-->
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <groupId>com.cabin.commons</groupId>
+            <artifactId>cabin-starter-utils</artifactId>
         </dependency>
-        <!--开启端点-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -74,11 +49,17 @@
                 <version>${spring-boot.version}</version>
                 <!--替换为你的应用程序主类-->
                 <configuration>
-                    <mainClass>com.cabin.IM.CabinIMApplication</mainClass>
+                    <mainClass>com.cabin.monitor.MonitorApplication</mainClass>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
-                <!-- 防止插件在父 pom 中被重复引用 -->
                 <executions>
                     <execution>
+                        <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
@@ -87,4 +68,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -1,8 +1,8 @@
 package com.cabin.controller;
 
-import com.cabin.common.util.response.Result;
 import com.cabin.entity.Tables;
 import com.cabin.service.TablesService;
+import com.cabin.utils.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

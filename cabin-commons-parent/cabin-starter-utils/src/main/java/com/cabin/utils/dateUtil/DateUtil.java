@@ -153,4 +153,13 @@ public class DateUtil {
         }
         return time;
     }
+
+    public static String getStr(Long timeMs) {
+        long days = timeMs / (24 * 3600);
+        long hours = (timeMs % (24 * 3600)) / 3600;
+        long minutes = (timeMs % 3600) / 60;
+        long seconds = timeMs % 60;
+        return "系统已运行：" + (int) days + " 天 " + (int) hours + " 小时 " + (int) minutes + " 分钟 " + (int) seconds + " 秒";
+    }
+
 }

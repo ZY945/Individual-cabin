@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: cabin-monitor
+server:
+  port: 9003

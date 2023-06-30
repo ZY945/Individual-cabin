@@ -69,6 +69,8 @@ cabin
     - 9091
 - cabin-oauth2
     - 9092
+- cabin-monitor
+    - 9093
 
 ## 技术栈
 

@@ -1,9 +1,9 @@
 package com.cabin.controller;
 
-import com.cabin.common.util.response.Result;
 import com.cabin.entity.Routing;
 import com.cabin.entity.bo.AddRoutingBo;
 import com.cabin.mapper.jpa.RoutingRepository;
+import com.cabin.utils.response.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

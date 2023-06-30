@@ -18,6 +18,7 @@
         <module>cabin-IM</module>
         <module>admin</module>
         <module>cabin-oauth2</module>
+        <module>cabin-monitor</module>
     </modules>
 
 
@@ -506,7 +507,7 @@
     </dependencyManagement>
 
     <build>
-        <!--        <plugins>-->
+        <!--                <plugins>-->
         <!--            <plugin>-->
         <!--                <groupId>org.apache.maven.plugins</groupId>-->
         <!--                <artifactId>maven-compiler-plugin</artifactId>-->
@@ -525,21 +526,21 @@
         <!--                    <skipTests>true</skipTests>    &lt;!&ndash;默认关掉单元测试 &ndash;&gt;-->
         <!--                </configuration>-->
         <!--            </plugin>-->
-        <!--            <plugin>-->
-        <!--                <groupId>org.springframework.boot</groupId>-->
-        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-        <!--                <version>${spring-boot.version}</version>-->
-        <!--                <executions>-->
-        <!--                    <execution>-->
-        <!--                        <id>repackage</id>-->
-        <!--                        <goals>-->
-        <!--                            <goal>repackage</goal>-->
-        <!--                        </goals>-->
-        <!--                    </execution>-->
-        <!--                </executions>-->
-        <!--            </plugin>-->
+        <!--                    <plugin>-->
+        <!--                        <groupId>org.springframework.boot</groupId>-->
+        <!--                        <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--                        <version>${spring-boot.version}</version>-->
+        <!--                        <executions>-->
+        <!--                            <execution>-->
+        <!--                                <id>repackage</id>-->
+        <!--                                <goals>-->
+        <!--                                    <goal>repackage</goal>-->
+        <!--                                </goals>-->
+        <!--                            </execution>-->
+        <!--                        </executions>-->
+        <!--                    </plugin>-->
 
-        <!--        </plugins>-->
+        <!--                </plugins>-->
     </build>
 
     <!--    <repositories>-->

@@ -179,7 +179,7 @@ public final class NewServerContext implements Serializable {
     }
 
     public static void main(String[] args) {
-        ServerContext instance = ServerContext.getInstance();
+        NewServerContext instance = NewServerContext.getInstance();
         instance.start();
     }
 
