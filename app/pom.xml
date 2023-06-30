@@ -54,7 +54,7 @@
         </dependency>
 
         <!--        解析        -->
-        <!--解析设备-->
+        <!--UA解析设备,可以伪造-->
         <!--https://github.com/browscap/browscap-->
         <!--https://github.com/blueconic/browscap-java-->
         <!--https://mvnrepository.com/artifact/com.blueconic/browscap-java-->
