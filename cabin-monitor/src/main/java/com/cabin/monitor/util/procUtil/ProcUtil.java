@@ -97,39 +97,7 @@ public class ProcUtil {
 
     public Stat readStatInfo() {
         Stat stat = new Stat();
-        try (BufferedReader reader = shellUtil.cat(MEM_INFO)) {
-            String line;
-            ArrayList<CPUStat> list = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\s+");
-                String key = parts[0].trim();
-                if (key.startsWith("cpu")) {
-                    CPUStat cpuStat = new CPUStat();
-                    for (int i = 1; i < parts.length; i++) {
-                        cpuStat.setProperty(i, Long.parseLong(parts[i].trim()));
-                    }
-                    list.add(cpuStat);
-                    continue;
-                }
-                if (key.equals("intr") || key.equals("softirq")) {
-                    continue;
-                }
-                String value = null;
-                if (parts.length == 2) {
-                    value = parts[1].trim();
-                }
-                stat.setProperty(key, Long.parseLong(value));
-            }
-            stat.setCpus(list);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stat;
-    }
-
-    public static void main(String[] args) {
-        Stat stat = new Stat();
-        try (BufferedReader reader = new BufferedReader(new FileReader("F:\\study\\code\\java\\Individual-cabin\\docs\\moitor\\linux-proc\\stat"))) {
+        try (BufferedReader reader = shellUtil.cat(STAT)) {
             String line;
             ArrayList<CPUStat> list = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
@@ -157,6 +125,7 @@ public class ProcUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(stat.toString());
+        return stat;
     }
+
 }
