@@ -4,9 +4,7 @@ package com.cabin.utils.http;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -15,6 +13,13 @@ import java.util.Map;
  * @date 2023/5/17 9:39
  */
 public class HttpUtil {
+    public HttpURLConnection proxy(String url, String proxyHost, int proxyPort) throws IOException {
+        URL httpUrl = new URL(url);
+        SocketAddress sa = new InetSocketAddress(proxyHost, proxyPort);
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, sa);
+        return (HttpURLConnection) httpUrl.openConnection(proxy);
+    }
+
     public static String getResponseStr(HttpURLConnection con) throws IOException {
         StringBuilder response = new StringBuilder();
         int responseCode = con.getResponseCode();

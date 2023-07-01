@@ -11,6 +11,7 @@ import loginHome from "@/components/oauth2/login-home.vue";
 import registerAccount from "@/components/oauth2/register-account.vue";
 import bindAccount from "@/components/oauth2/bind-account.vue";
 import cabinMenus from "@/components/cabin-menus.vue";
+import Linux from "@/components/monitor/monitor-linux.vue";
 
 const app = createApp(App);
 app.use(router);
@@ -23,6 +24,7 @@ app.component("ChatLogin", loginHome)
 app.component("RegisterAccount", registerAccount)
 app.component("BindAccount", bindAccount)
 app.component("CabinMenus", cabinMenus)
+app.component("monitorLinux", Linux)
 app.mount('#app');
 
 

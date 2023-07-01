@@ -74,6 +74,11 @@ const routes = [
                 name: 'shortUrl',
                 component: () => import('@/components/url/short-url.vue')
             },
+            {
+                path: '/monitorLinux',
+                name: 'monitorLinux',
+                component: () => import('@/components/monitor/monitor-linux.vue')
+            },
 
         ],
 

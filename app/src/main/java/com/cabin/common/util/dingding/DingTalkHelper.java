@@ -8,6 +8,7 @@ import com.dingtalk.api.request.OapiRobotSendRequest.Markdown;
 import com.dingtalk.api.request.OapiRobotSendRequest.Text;
 import com.dingtalk.api.response.OapiRobotSendResponse;
 import com.taobao.api.ApiException;
+import com.taobao.api.DefaultTaobaoClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import org.springframework.util.ObjectUtils;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -60,6 +64,7 @@ public class DingTalkHelper {
      */
     public static DingTalkClient textClient;
     public static DingTalkClient alarmClient;
+    public static DefaultTaobaoClient proxyClient;
 
     @Bean
     public void init() {
@@ -158,5 +163,13 @@ public class DingTalkHelper {
     }
 
 
+    public DefaultTaobaoClient proxy(String proxyHost, int proxyPort) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+
+        String url = connect.getAccess_token() + sign(connect.getSecret());
+        proxyClient = new DefaultTaobaoClient(url, connect.getAccess_token(), connect.getSecret());
+        SocketAddress sa = new InetSocketAddress(proxyHost, proxyPort);
+        proxyClient.setProxy(new Proxy(Proxy.Type.HTTP, sa));
+        return proxyClient;
+    }
 }
  
