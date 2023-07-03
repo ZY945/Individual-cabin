@@ -93,7 +93,7 @@ public class JenkinsAPI {
             // 发送 HTTP 请求
 //            str = getResponseStr(con);
 //            System.out.println(str);
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
 
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
@@ -119,7 +119,7 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {
@@ -141,7 +141,7 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {
@@ -163,7 +163,7 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {
@@ -185,7 +185,7 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {
@@ -207,7 +207,7 @@ public class JenkinsAPI {
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
-            jsonObject = getJsonObject(jsonObject, con);
+            jsonObject = getJsonObject(con);
         } catch (MalformedURLException e) {
             throw new RuntimeException("url错误" + e);
         } catch (IOException e) {

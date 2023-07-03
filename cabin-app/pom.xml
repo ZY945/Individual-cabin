@@ -9,13 +9,13 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.cabin</groupId>
-    <artifactId>app</artifactId>
+
+    <groupId>com.cabin.app</groupId>
+    <artifactId>cabin-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-
-    <name>app</name>
+    <name>cabin-app</name>
     <description>应用服务</description>
 
     <properties>

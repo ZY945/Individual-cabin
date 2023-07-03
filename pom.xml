@@ -13,8 +13,9 @@
     <description>个人小屋项目</description>
 
     <modules>
+        <!--文件夹名-->
         <module>cabin-commons-parent</module>
-        <module>app</module>
+        <module>cabin-app</module>
         <module>cabin-IM</module>
         <module>admin</module>
         <module>cabin-oauth2</module>
