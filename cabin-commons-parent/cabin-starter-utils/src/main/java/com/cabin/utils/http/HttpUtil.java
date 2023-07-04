@@ -35,7 +35,8 @@ public class HttpUtil {
         return response.toString();
     }
 
-    public static JSONObject getJsonObject(JSONObject jsonObject, HttpURLConnection con) throws IOException {
+    public static JSONObject getJsonObject(HttpURLConnection con) throws IOException {
+        JSONObject jsonObject = new JSONObject();
         int responseCode = con.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
             InputStream inputStream = con.getInputStream();
@@ -67,6 +68,66 @@ public class HttpUtil {
             urlBuilder.append(URLEncoder.encode(String.valueOf(param.getValue()), StandardCharsets.UTF_8));
         }
         return urlBuilder.toString();
+    }
+
+    public static String get(String url) {
+        StringBuilder response = new StringBuilder();
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Content-Type", "application/json");
+            // 发送 HTTP 请求
+            int responseCode = con.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // 读取响应数据
+                InputStream inStream = con.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                return response.toString();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "get请求失败";
+    }
+
+    public static JSONObject getJsonObject(JSONObject jsonObject, String url) {
+        StringBuilder response = new StringBuilder();
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Content-Type", "application/json");
+            // 发送 HTTP 请求
+            int responseCode = con.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // 读取响应数据
+                InputStream inStream = con.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                jsonObject = new JSONObject(response.toString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject getDataJsonObject(JSONObject jsonObject, String url) {
+        return getJsonObject(jsonObject, url).getJSONObject("data");
     }
 
     public static String get(String url, Map<String, String> params) {

@@ -12,14 +12,17 @@
 
     <groupId>com.cabin.monitor</groupId>
     <artifactId>cabin-monitor</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>cabin-monitor</name>
-    <description>cabin-monitor</description>
+    <description>监控服务</description>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
@@ -30,12 +33,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.cabin.commons</groupId>
+            <artifactId>cabin-start-influxDB</artifactId>
         </dependency>
     </dependencies>
 
@@ -49,7 +63,7 @@
                 <version>${spring-boot.version}</version>
                 <!--替换为你的应用程序主类-->
                 <configuration>
-                    <mainClass>com.cabin.monitor.MonitorApplication</mainClass>
+                    <mainClass>com.cabin.MonitorApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

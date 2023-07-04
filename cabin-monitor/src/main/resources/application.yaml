@@ -1,5 +1,13 @@
 spring:
+  banner:
+    location: banner/banner.txt
   application:
     name: cabin-monitor
 server:
   port: 9003
+
+influxdb:
+  url: ${influxdb_url}
+  token: ${influxdb_token}
+  bucket: ${influxdb_bucket}
+  org: ${influxdb_org}

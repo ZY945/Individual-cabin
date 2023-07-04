@@ -9,7 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JacksonUtils {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -38,6 +41,10 @@ public class JacksonUtils {
 
     public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
         return objectMapper.convertValue(fromValue, toValueTypeRef);
+    }
+
+    public static <T> T convertValue(JSONObject jsonObject, Class<T> toValueType) throws JsonProcessingException {
+        return objectMapper.readValue(jsonObject.toString(), toValueType);
     }
 
     /**
@@ -90,4 +97,25 @@ public class JacksonUtils {
         JavaType type = objectMapper.getTypeFactory().constructParametricType(List.class, clazz);
         return objectMapper.readValue(json, type);
     }
+
+    public static <T> Map<String, Object> convertToHashMap(T entity) {
+        Map<String, Object> hashMap = new HashMap<>();
+
+        Class<?> clazz = entity.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                Object fieldValue = field.get(entity);
+                hashMap.put(fieldName, fieldValue);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return hashMap;
+    }
+
 }

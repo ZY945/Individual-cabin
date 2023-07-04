@@ -3,9 +3,7 @@ package com.cabin.utils.dateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -102,6 +100,22 @@ public class DateUtil {
      */
     public static String getNowDateTimeStr() {
         return LocalDateTime.now().format(DateTimeForMatter);
+    }
+
+    public static Instant getNowInstant() {
+        return Instant.now();
+    }
+
+    public static Instant getBeforeDayInstant(Integer day) {
+        return Instant.now().minus(Period.ofDays(day));
+    }
+
+    public static Instant getBeforeMinuteInstant(Integer minute) {
+        return Instant.now().minus(Duration.ofMinutes(minute));
+    }
+
+    public static Instant getBeforeSecondInstant(Long second) {
+        return Instant.now().minus(Duration.ofSeconds(second));
     }
 
     public static Date getNowDate() {
