@@ -118,7 +118,7 @@ public class ProcUtil {
                 if (parts.length == 2) {
                     value = parts[1].trim();
                 }
-                stat.setProperty(key, Long.parseLong(value));
+                stat.setProperty(key, value);
             }
             stat.setCpus(list);
         } catch (IOException e) {

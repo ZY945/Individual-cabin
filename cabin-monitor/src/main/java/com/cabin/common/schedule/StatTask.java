@@ -17,6 +17,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,9 @@ public class StatTask implements Runnable {
         Stat stat = new Stat();
         BeanUtils.copyProperties(statVo, stat, Stat.class);
         Instant now = DateUtil.getNowInstant();
+        now.atZone(ZoneId.systemDefault());
         stat.setTime(now);
-        template.writeObject(WritePrecision.MS, stat);
+        template.writeObject(WritePrecision.S, stat);
         for (int i = 0; i < cpus.size(); i++) {
             CPUStatVo cpuStatVo = cpus.get(i);
             CPUStat cpuStat = new CPUStat();
@@ -49,7 +51,7 @@ public class StatTask implements Runnable {
             Map<String, Object> stringObjectMap = JacksonUtils.convertToHashMap(cpuStat);
             Point point = Point.measurement("CPU" + i + "Stat")
                     .addFields(stringObjectMap)
-                    .time(now, WritePrecision.MS);
+                    .time(now, WritePrecision.S);
             template.writePoint(point);
         }
     }

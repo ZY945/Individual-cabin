@@ -64,7 +64,13 @@ public class InfluxDBTemplate {
         }
     }
 
+
     //2.query方法
+
+    /**
+     * 有问题---这可能是和时序数据库返回的数据格式有关
+     */
+    @Deprecated
     public <M> List<M> query(@Nonnull QueryType queryType, @Nonnull InfluxBO bo, @Nonnull Class<M> mClass) {
         getQueryApi();
 

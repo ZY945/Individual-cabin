@@ -41,7 +41,7 @@ public class ProcController {
 
     @GetMapping("/stat")
     public Result<StatVo> getStat() {
-        StatVo statVo = queryService.getStatVo();
+        StatVo statVo = queryService.getOneSecondStatVo();
         return Result.success(statVo, "获得stat数据");
     }
 

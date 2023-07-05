@@ -21,39 +21,39 @@ public class StatVo {
      * TODO 中断(太长了,有时间在详细分析)
      */
     private String intr;
-    private long ctxt;
-    private long btime;
-    private long processes;
-    private long procs_running;
+    private Long ctxt;
+    private Long btime;
+    private Long processes;
+    private Long procs_running;
     private String procs_blocked;
     /**
      * 软中断
      */
-    private long softirq;
+    private Long softirq;
     Instant time;
 
-    public void setProperty(String key, long value) {
+    public void setProperty(String key, Object value) {
         switch (key) {
             case "intr" -> {
-                this.intr = String.valueOf(value);
+                this.intr = (String) value;
             }
             case "ctxt" -> {
-                this.ctxt = value;
+                this.ctxt = (Long) value;
             }
             case "btime" -> {
-                this.btime = value;
+                this.btime = (Long) value;
             }
             case "processes" -> {
-                this.processes = value;
+                this.processes = (Long) value;
             }
             case "procs_running" -> {
-                this.procs_running = value;
+                this.procs_running = (Long) value;
             }
             case "procs_blocked" -> {
-                this.procs_blocked = String.valueOf(value);
+                this.procs_blocked = (String) value;
             }
             case "softirq" -> {
-                this.softirq = value;
+                this.softirq = (Long) value;
             }
         }
     }
