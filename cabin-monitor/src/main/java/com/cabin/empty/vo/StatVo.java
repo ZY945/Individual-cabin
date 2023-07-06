@@ -32,28 +32,28 @@ public class StatVo {
     private Long softirq;
     Instant time;
 
-    public void setProperty(String key, Object value) {
+    public void setProperty(String key, String value) {
         switch (key) {
             case "intr" -> {
-                this.intr = (String) value;
+                this.intr = value;
             }
             case "ctxt" -> {
-                this.ctxt = (Long) value;
+                this.ctxt = Long.valueOf(value);
             }
             case "btime" -> {
-                this.btime = (Long) value;
+                this.btime = Long.valueOf(value);
             }
             case "processes" -> {
-                this.processes = (Long) value;
+                this.processes = Long.valueOf(value);
             }
             case "procs_running" -> {
-                this.procs_running = (Long) value;
+                this.procs_running = Long.valueOf(value);
             }
             case "procs_blocked" -> {
-                this.procs_blocked = (String) value;
+                this.procs_blocked = value;
             }
             case "softirq" -> {
-                this.softirq = (Long) value;
+                this.softirq = Long.valueOf(value);
             }
         }
     }

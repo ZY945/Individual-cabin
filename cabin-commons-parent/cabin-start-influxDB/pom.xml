@@ -47,20 +47,21 @@
             <groupId>com.influxdb</groupId>
             <artifactId>influxdb-client-java</artifactId>
             <version>6.9.0</version>
-            <exclusions>
-                <!--该包的TOPOJO在influx2.7.0无法正常使用-->
-                <exclusion>
-                    <groupId>com.influxdb</groupId>
-                    <artifactId>influxdb-client-core</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--            <exclusions>-->
+            <!--                &lt;!&ndash;该包的TOPOJO在influx2.7.0无法正常使用&ndash;&gt;-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>com.influxdb</groupId>-->
+            <!--                    <artifactId>influxdb-client-core</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
         </dependency>
-        <!--TODO 本地拉去代码修改的,等官方更新-->
-        <dependency>
-            <groupId>com.influxdb</groupId>
-            <artifactId>influxdb-client-core</artifactId>
-            <version>6.10.0-SNAPSHOT</version>
-        </dependency>
+        <!--        &lt;!&ndash;TODO 本地拉去代码修改的,等官方更新&ndash;&gt;-->
+        <!--        &lt;!&ndash;TODO 部署时需改回去,所以使用了其他方法，自己封装&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.influxdb</groupId>-->
+        <!--            <artifactId>influxdb-client-core</artifactId>-->
+        <!--            <version>6.10.0-SNAPSHOT</version>-->
+        <!--        </dependency>-->
         <!--https://github.com/influxdata/influxdb-client-java/tree/master/flux-dsl#flux-dsl-->
         <!--https://influxdata.github.io/influxdb-client-java/flux-dsl/apidocs/index.html-->
         <dependency>

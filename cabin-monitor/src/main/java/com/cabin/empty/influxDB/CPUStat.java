@@ -17,44 +17,29 @@ import java.time.Instant;
 @NoArgsConstructor
 @Measurement(name = "CPUStat")//influxDB注解
 public class CPUStat {
-
     @Column
     private String cpuName;
     @Column
-    private long user;
+    private Long user;
     @Column
-    private long nice;
+    private Long nice;
     @Column
-    private long system;
+    private Long system;
     @Column
-    private long idle;
+    private Long idle;
     @Column
-    private long iowait;
+    private Long iowait;
     @Column
-    private long irq;
+    private Long irq;
     @Column
-    private long softirq;
+    private Long softirq;
     @Column
-    private long steal;
+    private Long steal;
     @Column
-    private long guest;
+    private Long guest;
     @Column
-    private long guest_nice;
+    private Long guest_nice;
     @Column(timestamp = true)
     Instant time;
 
-    public void setProperty(int index, long value) {
-        switch (index) {
-            case 1 -> this.user = value;
-            case 2 -> this.nice = value;
-            case 3 -> this.system = value;
-            case 4 -> this.idle = value;
-            case 5 -> this.iowait = value;
-            case 6 -> this.irq = value;
-            case 7 -> this.softirq = value;
-            case 8 -> this.steal = value;
-            case 9 -> this.guest = value;
-            case 10 -> this.guest_nice = value;
-        }
-    }
 }

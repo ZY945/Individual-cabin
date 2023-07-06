@@ -1,9 +1,12 @@
 package com.cabin.empty.influxDB;
 
+import com.influxdb.annotations.Column;
 import com.influxdb.annotations.Measurement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.Instant;
 
 /**
  * @author 伍六七
@@ -14,6 +17,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Measurement(name = "Uptime")//influxDB注解
 public class Uptime {
-    private double totalSeconds;
-    private double idleSeconds;
+    @Column
+    private Double totalSeconds;
+    @Column
+    private Double idleSeconds;
+    @Column(timestamp = true)
+    Instant time;
 }

@@ -26,6 +26,8 @@ public class ProcUtil {
     public List<ProcessorVo> readProcessorVoInfo() {
         List<ProcessorVo> processors = new ArrayList<>();
         try (BufferedReader reader = shellUtil.cat(CPU_INFO)) {
+            // 本地读取进行测试
+            // try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("F:\\study\\code\\java\\Individual-cabin\\docs\\moitor\\linux-proc\\processorinfo")));) {
             String line;
             ProcessorVo processor = null;
             while ((line = reader.readLine()) != null) {
@@ -106,7 +108,7 @@ public class ProcUtil {
                     CPUStatVo cpuStatVo = new CPUStatVo();
                     cpuStatVo.setCpuName(key);
                     for (int i = 1; i < parts.length; i++) {
-                        cpuStatVo.setProperty(i, Long.parseLong(parts[i].trim()));
+                        cpuStatVo.setProperty(i, parts[i].trim());
                     }
                     list.add(cpuStatVo);
                     continue;

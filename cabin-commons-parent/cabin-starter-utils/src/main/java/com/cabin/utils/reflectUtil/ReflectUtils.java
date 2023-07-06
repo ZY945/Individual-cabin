@@ -48,8 +48,8 @@ public class ReflectUtils {
     }
 
     public static void setFieldValue(@Nonnull final Object object,
-                                      @Nullable final Field field,
-                                      @Nullable final Object value) {
+                                     @Nullable final Field field,
+                                     @Nullable final Object value) {
 
         if (field == null || value == null) {
             return;
@@ -115,6 +115,7 @@ public class ReflectUtils {
                     value.getClass().getName(), value));
         }
     }
+
     private static double toDoubleValue(final Object value) {
 
         if (double.class.isAssignableFrom(value.getClass()) || Double.class.isAssignableFrom(value.getClass())) {

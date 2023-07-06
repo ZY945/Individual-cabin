@@ -1,60 +1,114 @@
 package com.cabin.empty.influxDB;
 
+import com.influxdb.annotations.Column;
+import com.influxdb.annotations.Measurement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Measurement(name = "Memory")//influxDB注解
 public class Memory {
+    @Column
     private String memTotal;
+    @Column
     private String memFree;
+    @Column
     private String memAvailable;
+    @Column
     private String buffers;
+    @Column
     private String cached;
+    @Column
     private String swapCached;
+    @Column
     private String active;
+    @Column
     private String inactive;
+    @Column
     private String activeAnon;
+    @Column
     private String inactiveAnon;
+    @Column
     private String activeFile;
+    @Column
     private String inactiveFile;
+    @Column
     private String unevictable;
+    @Column
     private String mlocked;
+    @Column
     private String swapTotal;
+    @Column
     private String swapFree;
+    @Column
     private String dirty;
+    @Column
     private String writeback;
+    @Column
     private String anonPages;
+    @Column
     private String mapped;
+    @Column
     private String shmem;
+    @Column
     private String slab;
+    @Column
     private String sReclaimable;
+    @Column
     private String sUnreclaim;
+    @Column
     private String kernelStack;
+    @Column
     private String pageTables;
+    @Column
     private String nfsUnstable;
+    @Column
     private String bounce;
+    @Column
     private String writebackTmp;
+    @Column
     private String commitLimit;
+    @Column
     private String committedAS;
+    @Column
     private String vmallocTotal;
+    @Column
     private String vmallocUsed;
+    @Column
     private String vmallocChunk;
+    @Column
     private String percpu;
+    @Column
     private String hardwareCorrupted;
+    @Column
     private String anonHugePages;
+    @Column
     private String cmaTotal;
+    @Column
     private String cmaFree;
+    @Column
     private String hugePagesTotal;
+    @Column
     private String hugePagesFree;
+    @Column
     private String hugePagesRsvd;
+    @Column
     private String hugePagesSurp;
+    @Column
     private String hugepagesize;
+    @Column
     private String directMap4k;
+    @Column
     private String directMap2M;
+    @Column
     private String directMap1G;
+    @Column(timestamp = true)
+    Instant time;
 
     public void setProperty(String key, String value) {
         switch (key) {

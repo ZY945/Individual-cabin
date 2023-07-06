@@ -33,9 +33,9 @@ public class StatTask implements Runnable {
     private final ProcUtil procUtil = (ProcUtil) ApplicationContextUtil.getBean("procUtil");
 
     public void writeStat() throws JsonProcessingException {
-        //测试
-//        JSONObject s = HttpUtil.getDataJsonObject(new JSONObject(), "http://127.0.0.1:9003/proc/stat");
-//        StatVo statVo = JacksonUtils.convertValue(s, StatVo.class);
+        // 测试
+        // JSONObject s = HttpUtil.getDataJsonObject(new JSONObject(), "http://ip:9003/proc/stat");
+        // StatVo statVo = JacksonUtils.convertValue(s, StatVo.class);
         StatVo statVo = procUtil.readStatVoInfo();
         List<CPUStatVo> cpus = statVo.getCpus();
         Stat stat = new Stat();
@@ -49,7 +49,7 @@ public class StatTask implements Runnable {
             CPUStat cpuStat = new CPUStat();
             BeanUtils.copyProperties(cpuStatVo, cpuStat, CPUStat.class);
             Map<String, Object> stringObjectMap = JacksonUtils.convertToHashMap(cpuStat);
-            Point point = Point.measurement("CPU" + i + "Stat")
+            Point point = Point.measurement("CPU" + (i + 1) + "Stat")
                     .addFields(stringObjectMap)
                     .time(now, WritePrecision.S);
             template.writePoint(point);

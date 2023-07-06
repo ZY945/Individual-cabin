@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 /**
  * @author 伍六七
  * @date 2023/6/30 13:33
@@ -12,32 +14,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcessorVo {
-    private int id;
+    private Integer id;
     private String vendorId;
-    private int cpuFamily;
-    private int model;
+    private Integer cpuFamily;
+    private Integer model;
     private String modelName;
-    private int stepping;
+    private Integer stepping;
     private String microcode;
-    private double cpuMhz;
-    private int cacheSize;
-    private int physicalId;
-    private int siblings;
-    private int coreId;
-    private int cpuCores;
-    private int apicId;
-    private int initialApicId;
-    private boolean fpu;
-    private boolean fpuException;
-    private int cpuidLevel;
-    private boolean wp;
+    private Double cpuMhz;
+    private Integer cacheSize;
+    private Integer physicalId;
+    private Integer siblings;
+    private Integer coreId;
+    private Integer cpuCores;
+    private Integer apicId;
+    private Integer initialApicId;
+    private Boolean fpu;
+    private Boolean fpuException;
+    private Integer cpuidLevel;
+    private Boolean wp;
     private String flags;
-    private double bogomips;
-    private int clflushSize;
-    private int cacheAlignment;
+    private Double bogomips;
+    private Integer clflushSize;
+    private Integer cacheAlignment;
     private String addressSizes;
     private String powerManagement;
-
+    Instant time;
     // 设置属性值的方法，你可以根据实际的信息做相应的类型转换
 
     public void setProperty(String key, String value) {

@@ -23,20 +23,20 @@ public class Stat {
     @Column
     private String intr;
     @Column
-    private long ctxt;
+    private Long ctxt;
     @Column
-    private long btime;
+    private Long btime;
     @Column
-    private long processes;
+    private Long processes;
     @Column
-    private long procs_running;
+    private Long procs_running;
     @Column
     private String procs_blocked;
     /**
      * 软中断
      */
     @Column
-    private long softirq;
+    private Long softirq;
     @Column(timestamp = true)
     Instant time;
 

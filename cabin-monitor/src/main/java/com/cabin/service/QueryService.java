@@ -1,24 +1,18 @@
 package com.cabin.service;
 
-import com.cabin.empty.influxDB.CPUStat;
-import com.cabin.empty.influxDB.Stat;
-import com.cabin.empty.vo.CPUStatVo;
-import com.cabin.empty.vo.StatVo;
+import com.cabin.empty.vo.*;
 import com.cabin.influxDB.empty.bo.query.InfluxBO;
 import com.cabin.influxDB.empty.bo.query.QueryType;
 import com.cabin.influxDB.util.InfluxDBTemplate;
 import com.cabin.utils.dateUtil.DateUtil;
-import com.cabin.utils.reflectUtil.ReflectUtils;
 import com.influxdb.query.FluxRecord;
 import com.influxdb.query.FluxTable;
 import com.influxdb.query.dsl.Flux;
-import com.influxdb.query.dsl.functions.LimitFlux;
 import com.influxdb.query.dsl.functions.restriction.Restrictions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -33,18 +27,92 @@ public class QueryService {
     @Autowired
     private InfluxDBTemplate influxDBTemplate;
 
+    public List<ProcessorVo> getOneSecondProcessorVo() {
+        String bucket = "bucket";
+        String[] cpuMeasurement = new String[]{"Processor1", "Processor2", "Processor3"};
+        return getOneSecondProcessor(bucket, cpuMeasurement);
+    }
+
+    public MemoryVo getOneSecondMemoryVo() {
+        String bucket = "bucket";
+        String measurement = "Memory";
+        Instant stop = DateUtil.getNowInstant();
+        Instant start = stop.minus(Duration.ofSeconds(1));
+        Flux statFlux = Flux.from(bucket)
+                .range(start, stop)
+                .filter(Restrictions.and(
+                        Restrictions.measurement().equal(measurement)));
+        InfluxBO bo = new InfluxBO();
+        bo.setFlux(statFlux);
+        List<FluxTable> query = influxDBTemplate.query(QueryType.Flux, bo);
+        MemoryVo memoryVo = new MemoryVo();
+        for (FluxTable fluxTable : query) {
+            List<FluxRecord> records = fluxTable.getRecords();
+            for (FluxRecord fluxRecord : records) {
+                if (memoryVo.getTime() == null) {
+                    Object key = fluxRecord.getValueByKey("_time");
+                    memoryVo.setTime((Instant) key);
+                }
+                Object key = fluxRecord.getValueByKey("_field");
+                Object value = fluxRecord.getValueByKey("_value");
+                if (key == null || value == null) {
+                    continue;
+                }
+                memoryVo.setProperty((String) key, value.toString());
+            }
+        }
+        return memoryVo;
+    }
+
+    public UptimeVo getOneSecondUptimeVo() {
+        String bucket = "bucket";
+        String measurement = "Uptime";
+        Instant stop = DateUtil.getNowInstant();
+        Instant start = stop.minus(Duration.ofSeconds(1));
+        Flux statFlux = Flux.from(bucket)
+                .range(start, stop)
+                .filter(Restrictions.and(
+                        Restrictions.measurement().equal(measurement)));
+        InfluxBO bo = new InfluxBO();
+        bo.setFlux(statFlux);
+        List<FluxTable> query = influxDBTemplate.query(QueryType.Flux, bo);
+        UptimeVo uptimeVo = new UptimeVo();
+        for (FluxTable fluxTable : query) {
+            List<FluxRecord> records = fluxTable.getRecords();
+            for (FluxRecord fluxRecord : records) {
+                if (uptimeVo.getTime() == null) {
+                    Object key = fluxRecord.getValueByKey("_time");
+                    uptimeVo.setTime((Instant) key);
+                }
+                Object key = fluxRecord.getValueByKey("_field");
+                Object value = fluxRecord.getValueByKey("_value");
+                if (key == null || value == null) {
+                    continue;
+                }
+                uptimeVo.setProperty((String) key, value.toString());
+            }
+        }
+        return uptimeVo;
+    }
+
+    /**
+     * 获取stat信息
+     *
+     * @return
+     */
     public StatVo getOneSecondStatVo() {
         String bucket = "bucket";
         String measurement = "Stat";
-        String[] cpuMeasurement = new String[]{"CPU0Stat","CPU1Stat","CPU2Stat"};
+        String[] cpuMeasurement = new String[]{"CPU1Stat", "CPU2Stat", "CPU3Stat"};
         StatVo oneSecondStat = getOneSecondStat(bucket, measurement);
         List<CPUStatVo> oneSecondCpu = getOneSecondCpu(bucket, cpuMeasurement);
         StatVo statVo = new StatVo();
-        BeanUtils.copyProperties(oneSecondStat,statVo);
+        BeanUtils.copyProperties(oneSecondStat, statVo);
         statVo.setCpus(oneSecondCpu);
         return statVo;
     }
-    public StatVo getOneSecondStat(String bucket,String measurement) {
+
+    public StatVo getOneSecondStat(String bucket, String measurement) {
 
         Instant stop = DateUtil.getNowInstant();
         Instant start = stop.minus(Duration.ofSeconds(1));
@@ -54,24 +122,63 @@ public class QueryService {
                         Restrictions.measurement().equal(measurement)));
         InfluxBO bo = new InfluxBO();
         bo.setFlux(statFlux);
-        List<FluxTable> query = influxDBTemplate.query(QueryType.Flux,bo);
+        List<FluxTable> query = influxDBTemplate.query(QueryType.Flux, bo);
         StatVo statVo = new StatVo();
         for (FluxTable fluxTable : query) {
             List<FluxRecord> records = fluxTable.getRecords();
             for (FluxRecord fluxRecord : records) {
+                if (statVo.getTime() == null) {
+                    Object key = fluxRecord.getValueByKey("_time");
+                    statVo.setTime((Instant) key);
+                }
                 Object key = fluxRecord.getValueByKey("_field");
                 Object value = fluxRecord.getValueByKey("_value");
-                if(key==null){
+                if (key == null || value == null) {
                     continue;
                 }
-                statVo.setProperty((String) key, value);
+                statVo.setProperty((String) key, value.toString());
 //                System.out.println(fluxRecord.getTime() + ": " + fluxRecord.getValueByKey("_value"));
-
             }
         }
         return statVo;
     }
-    public List<CPUStatVo> getOneSecondCpu(String bucket,String[] measurement) {
+
+    public List<ProcessorVo> getOneSecondProcessor(String bucket, String[] measurement) {
+        Instant stop = DateUtil.getNowInstant();
+        Instant start = stop.minus(Duration.ofSeconds(1));
+        List<ProcessorVo> processorVos = new ArrayList<>();
+        for (int i = 0; i < measurement.length; i++) {
+            InfluxBO bo = new InfluxBO();
+            Flux statFlux = Flux.from(bucket)
+                    .range(start, stop)
+                    .filter(Restrictions.and(
+                            Restrictions.measurement().equal(measurement[i])));
+            bo.setFlux(statFlux);
+            List<FluxTable> query = influxDBTemplate.query(QueryType.Flux, bo);
+            ProcessorVo processorVo = new ProcessorVo();
+            for (FluxTable fluxTable : query) {
+                List<FluxRecord> records = fluxTable.getRecords();
+                for (FluxRecord fluxRecord : records) {
+                    if (processorVo.getTime() == null) {
+                        Object key = fluxRecord.getValueByKey("_time");
+                        processorVo.setTime((Instant) key);
+                    }
+                    Object key = fluxRecord.getValueByKey("_field");
+                    Object value = fluxRecord.getValueByKey("_value");
+                    if (key == null || value == null) {
+                        continue;
+                    }
+                    processorVo.setProperty((String) key, value.toString());
+//                    System.out.println(fluxRecord.getTime() + ": " + fluxRecord.getValueByKey("_value"));
+                }
+            }
+            processorVos.add(processorVo);
+        }
+
+        return processorVos;
+    }
+
+    private List<CPUStatVo> getOneSecondCpu(String bucket, String[] measurement) {
         Instant stop = DateUtil.getNowInstant();
         Instant start = stop.minus(Duration.ofSeconds(1));
         List<CPUStatVo> cpuStatVos = new ArrayList<>();
@@ -82,19 +189,22 @@ public class QueryService {
                     .filter(Restrictions.and(
                             Restrictions.measurement().equal(measurement[i])));
             bo.setFlux(statFlux);
-            List<FluxTable> query = influxDBTemplate.query(QueryType.Flux,bo);
+            List<FluxTable> query = influxDBTemplate.query(QueryType.Flux, bo);
             CPUStatVo cpuStatVo = new CPUStatVo();
             for (FluxTable fluxTable : query) {
                 List<FluxRecord> records = fluxTable.getRecords();
                 for (FluxRecord fluxRecord : records) {
+                    if (cpuStatVo.getTime() == null) {
+                        Object key = fluxRecord.getValueByKey("_time");
+                        cpuStatVo.setTime((Instant) key);
+                    }
                     Object key = fluxRecord.getValueByKey("_field");
                     Object value = fluxRecord.getValueByKey("_value");
-                    if(key==null){
+                    if (key == null || value == null) {
                         continue;
                     }
-                    cpuStatVo.setProperty((String) key, value);
-                    System.out.println(fluxRecord.getTime() + ": " + fluxRecord.getValueByKey("_value"));
-
+                    cpuStatVo.setProperty((String) key, value.toString());
+//                    System.out.println(fluxRecord.getTime() + ": " + fluxRecord.getValueByKey("_value"));
                 }
             }
             cpuStatVos.add(cpuStatVo);
@@ -102,45 +212,4 @@ public class QueryService {
 
         return cpuStatVos;
     }
-//    public StatVo getStatVo() {
-//        StatVo statVo = new StatVo();
-//        Stat stat = new Stat();
-//        List<CPUStatVo> cpuVoList = new ArrayList<>();
-//        List<CPUStat> cpuList = new ArrayList<>();
-//        String cPUMeasurement = "CPUStat";//从vo读取name
-//        String measurement = "Stat";
-//        String bucket = "bucket";
-//        InfluxBO influxBO = new InfluxBO();
-//
-//        Instant beforeSecondInstant = DateUtil.getBeforeSecondInstant(1L);
-//        Instant nowInstant = DateUtil.getNowInstant();
-//
-//        Flux statFlux = Flux.from(bucket)
-//                .range(beforeSecondInstant, nowInstant)
-//                .filter(Restrictions.and(
-//                        Restrictions.measurement().equal(measurement)));
-//        influxBO.setFlux(statFlux);
-//        List<Stat> query = influxDBTemplate.query(QueryType.Flux, influxBO, Stat.class);
-//        stat = query.get(0);
-//        BeanUtils.copyProperties(stat, statVo, StatVo.class);
-//
-//        while (true) {
-//            LimitFlux cpu = Flux.from(bucket)
-//                    .range(beforeSecondInstant)
-//                    .filter(Restrictions.and(
-//                            Restrictions.measurement().contains(new String[]{cPUMeasurement})))
-//                    .limit(1);
-//            influxBO.setFlux(cpu);
-//            cpuList = influxDBTemplate.query(QueryType.Flux, influxBO, CPUStat.class);
-//            if (cpuList.size() == 0) {
-//                break;
-//            }
-//            CPUStat cpuStat = cpuList.get(0);
-//            CPUStatVo cpuStatVo = new CPUStatVo();
-//            BeanUtils.copyProperties(cpuStat, cpuStatVo, CPUStatVo.class);
-//            cpuVoList.add(cpuStatVo);
-//        }
-//        statVo.setCpus(cpuVoList);
-//        return statVo;
-//    }
 }

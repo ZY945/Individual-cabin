@@ -29,13 +29,15 @@ public class ProcController {
 
     @GetMapping("/processor")
     public Result<List<ProcessorVo>> get() {
-        List<ProcessorVo> processors = procUtil.readProcessorVoInfo();
-        return Result.success(processors, "获得processor数据");
+        //执行一次即可,不需要去保存
+//        List<ProcessorVo> processors = queryService.getOneSecondProcessorVo();
+        List<ProcessorVo> processorVos = procUtil.readProcessorVoInfo();
+        return Result.success(processorVos, "获得processor数据");
     }
 
     @GetMapping("/memory")
     public Result<MemoryVo> getMemory() {
-        MemoryVo memory = procUtil.readMemoryVoInfo();
+        MemoryVo memory = queryService.getOneSecondMemoryVo();
         return Result.success(memory, "获得memory数据");
     }
 
@@ -47,7 +49,7 @@ public class ProcController {
 
     @GetMapping("/uptime")
     public Result<UptimeVo> getUptime() {
-        UptimeVo uptime = procUtil.readUptimeVoInfo();
+        UptimeVo uptime = queryService.getOneSecondUptimeVo();
         return Result.success(uptime, "获得uptime数据");
     }
 }

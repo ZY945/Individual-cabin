@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,6 +57,7 @@ public class MemoryVo {
     private String directMap4k;
     private String directMap2M;
     private String directMap1G;
+    Instant time;
 
     public void setProperty(String key, String value) {
         switch (key) {
