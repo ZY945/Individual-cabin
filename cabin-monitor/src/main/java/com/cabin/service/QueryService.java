@@ -30,7 +30,7 @@ public class QueryService {
     public List<ProcessorVo> getOneSecondProcessorVo() {
         String bucket = "bucket";
         String[] cpuMeasurement = new String[]{"Processor1", "Processor2", "Processor3"};
-        return getOneSecondProcessor(bucket, cpuMeasurement);
+        return getOneSecondProcessorBefore(bucket, cpuMeasurement, 0L);
     }
 
     public MemoryVo getOneSecondMemoryVo() {
@@ -96,7 +96,7 @@ public class QueryService {
     }
 
     /**
-     * 获取stat信息
+     * 获取前一秒stat信息
      *
      * @return
      */
@@ -104,17 +104,36 @@ public class QueryService {
         String bucket = "bucket";
         String measurement = "Stat";
         String[] cpuMeasurement = new String[]{"CPU1Stat", "CPU2Stat", "CPU3Stat"};
-        StatVo oneSecondStat = getOneSecondStat(bucket, measurement);
-        List<CPUStatVo> oneSecondCpu = getOneSecondCpu(bucket, cpuMeasurement);
+        StatVo oneSecondStat = getOneSecondStatBefore(bucket, measurement, 0L);
+        List<CPUStatVo> oneSecondCpu = getOneSecondCpuBefore(bucket, cpuMeasurement, 0L);
         StatVo statVo = new StatVo();
         BeanUtils.copyProperties(oneSecondStat, statVo);
         statVo.setCpus(oneSecondCpu);
         return statVo;
     }
 
-    public StatVo getOneSecondStat(String bucket, String measurement) {
+    /**
+     * 获取stat信息
+     *
+     * @return
+     */
+    public StatVo getOneSecondStatVoBefore() {
+        String bucket = "bucket";
+        String measurement = "Stat";
+        String[] cpuMeasurement = new String[]{"CPU1Stat", "CPU2Stat", "CPU3Stat"};
+        StatVo oneSecondStat = getOneSecondStatBefore(bucket, measurement, 0L);
+        List<CPUStatVo> oneSecondCpu = getOneSecondCpuBefore(bucket, cpuMeasurement, 0L);
+        StatVo statVo = new StatVo();
+        BeanUtils.copyProperties(oneSecondStat, statVo);
+        statVo.setCpus(oneSecondCpu);
+        return statVo;
+    }
 
-        Instant stop = DateUtil.getNowInstant();
+    public StatVo getOneSecondStatBefore(String bucket, String measurement, Long second) {
+        if (second == null || second < 0) {
+            throw new RuntimeException("second不能为null或负数");
+        }
+        Instant stop = DateUtil.getBeforeSecondInstant(second);
         Instant start = stop.minus(Duration.ofSeconds(1));
         Flux statFlux = Flux.from(bucket)
                 .range(start, stop)
@@ -143,8 +162,11 @@ public class QueryService {
         return statVo;
     }
 
-    public List<ProcessorVo> getOneSecondProcessor(String bucket, String[] measurement) {
-        Instant stop = DateUtil.getNowInstant();
+    public List<ProcessorVo> getOneSecondProcessorBefore(String bucket, String[] measurement, Long second) {
+        if (second == null || second < 0) {
+            throw new RuntimeException("second不能为null或负数");
+        }
+        Instant stop = DateUtil.getBeforeSecondInstant(second);
         Instant start = stop.minus(Duration.ofSeconds(1));
         List<ProcessorVo> processorVos = new ArrayList<>();
         for (int i = 0; i < measurement.length; i++) {
@@ -178,8 +200,11 @@ public class QueryService {
         return processorVos;
     }
 
-    private List<CPUStatVo> getOneSecondCpu(String bucket, String[] measurement) {
-        Instant stop = DateUtil.getNowInstant();
+    public List<CPUStatVo> getOneSecondCpuBefore(String bucket, String[] measurement, Long second) {
+        if (second == null || second < 0) {
+            throw new RuntimeException("second不能为null或负数");
+        }
+        Instant stop = DateUtil.getBeforeSecondInstant(second);
         Instant start = stop.minus(Duration.ofSeconds(1));
         List<CPUStatVo> cpuStatVos = new ArrayList<>();
         for (int i = 0; i < measurement.length; i++) {

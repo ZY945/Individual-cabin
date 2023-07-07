@@ -324,34 +324,34 @@ private\s+(\S+)\s+(\S+)\s*;
 ## 2023.6.29
 
 - [x] 动态路由
-  - [ ] 后续可以同时设置路由授权
-  - [ ] 后端就是表加字段,然后接口条件筛选
-  - [ ] 前端需要限制路由
+    - [ ] 后续可以同时设置路由授权
+    - [ ] 后端就是表加字段,然后接口条件筛选
+    - [ ] 前端需要限制路由
 - [ ] 实现低代码的思路
 - [x] jenkins+github的webhook实现push后自动构建
 - [ ] 整合Jenkins的部分接口
-  - [ ] 打包指定的git仓库
-  - [ ] 下载指定的jar包
-  - [ ] 执行指定的shell脚本
+    - [ ] 打包指定的git仓库
+    - [ ] 下载指定的jar包
+    - [ ] 执行指定的shell脚本
 - [ ] 动态规划应用场景
 
 ## 2023.6.30
 
 - [x] 监控cpu
-  - [x] linux--sensors
-  - [x] 虚拟机好像无法获取
-  - [x] 最终使用cat /proc下的参数
+    - [x] linux--sensors
+    - [x] 虚拟机好像无法获取
+    - [x] 最终使用cat /proc下的参数
 - [x] 监控获得的数据可以放入时序数据库
-  - [x] 第一次是接口直接调cat方法，qps大会影响系统可能，可以是定时任务1s一次去放到时序数据库，然后去查询数据库，但是可能有延迟，对时序数据库还不是很了解
-  - [x] 先用influxdb
-    - [x] 实现一个stater来注入项目里，可重复使用
+    - [x] 第一次是接口直接调cat方法，qps大会影响系统可能，可以是定时任务1s一次去放到时序数据库，然后去查询数据库，但是可能有延迟，对时序数据库还不是很了解
+    - [x] 先用influxdb
+        - [x] 实现一个stater来注入项目里，可重复使用
 
 ## 2023.7.2
 
 - [x] influxBD的query和insert方法的封装
 - [ ] influxDB的服用,创建连接池
-  - [ ] 目前是在封装的查询和新增里默认断开
-  - [ ] 思路:使用队列去存放连接，然后把client封装，加状态，需要保证原子性，并发安全，同时添加超时自动断开功能，可以手动设置连接池大小
+    - [ ] 目前是在封装的查询和新增里默认断开
+    - [ ] 思路:使用队列去存放连接，然后把client封装，加状态，需要保证原子性，并发安全，同时添加超时自动断开功能，可以手动设置连接池大小
 
 ## 2023.7.3
 
@@ -366,17 +366,19 @@ private\s+(\S+)\s+(\S+)\s*;
 # 2023.7.5
 
 - [ ] 看时序数据库的数据分类，KV数据库，擅长比较某一
-  - [x] 自己拉代码到本地修改后install了，目前能获取到了，同时也懂了时序数据库数据传输的格式
-  - [x] 最终，拆分查询，然后各自通过setProperty方法去封装
+    - [x] 自己拉代码到本地修改后install了，目前能获取到了，同时也懂了时序数据库数据传输的格式
+    - [x] 最终，拆分查询，然后各自通过setProperty方法去封装
 - [x] 前端每5s获取数据正常，1s时每隔一次都会出现null
-  - [x] 已解决---忘记原因了，目前是从时许数据库读取
-- [x] 类型转换，获取的map是<String,Object>需要value.toString()获取string，然后去转换vo的各种参数类型，如果value直接(String)强转会报错
-  - [x] class java.lang.Long cannot be cast to class java.lang.String (java.lang.Long and java.lang.String are in module java.base of loader 'bootstrap')
+    - [x] 已解决---忘记原因了，目前是从时许数据库读取
+- [x] 类型转换，获取的map是<String,Object>需要value.toString()获取string，然后去转换vo的各种参数类型，如果value直接(String)
+  强转会报错
+    - [x] class java.lang.Long cannot be cast to class java.lang.String (java.lang.Long and java.lang.String are in
+      module java.base of loader 'bootstrap')
 - [x] 定时任务基本完成，然后读取是上一秒的监控
 - [x] 解决sdk里查询后封装对象的问题，修改SDK的变量赋值
-  - [x] 但是考虑其他，还是决定使用setProperties读取每个value去手动赋值了,反正最后SDK返回的也是每个value一行数据，还需要封装
+    - [x] 但是考虑其他，还是决定使用setProperties读取每个value去手动赋值了,反正最后SDK返回的也是每个value一行数据，还需要封装
 - [x] 遇到bug，写入数据时,processor的个别值会默认加i，是在point后才发生变化
-  - [x] 已解决,之前是每个创建的MEASUREMENTS都设置nowtime属性了，注释了就可以了
+    - [x] 已解决,之前是每个创建的MEASUREMENTS都设置nowtime属性了，注释了就可以了
 
 # 2023.7.5
 

@@ -28,6 +28,22 @@ public class CPUStatVo {
     private Long guest_nice;
     Instant time;
 
+    public Long getTotalCpuTime() {
+        return this.user +
+                this.nice +
+                this.system +
+                this.idle +
+                this.iowait +
+                this.irq +
+                this.softirq +
+                this.steal +
+                this.guest;
+    }
+
+    public Long getIdleCpuTime() {
+        return this.idle;
+    }
+
     public void setProperty(int index, String value) {
         switch (index) {
             case 1 -> this.user = Long.valueOf(value);

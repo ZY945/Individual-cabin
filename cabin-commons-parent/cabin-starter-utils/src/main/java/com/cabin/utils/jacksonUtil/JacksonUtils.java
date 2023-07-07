@@ -39,6 +39,10 @@ public class JacksonUtils {
         return objectMapper.convertValue(fromValue, toValueType);
     }
 
+    public static <T> T convertValue(byte[] fromValue, Class<T> toValueType) throws IOException {
+        return objectMapper.readValue(fromValue, toValueType);
+    }
+
     public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
         return objectMapper.convertValue(fromValue, toValueTypeRef);
     }

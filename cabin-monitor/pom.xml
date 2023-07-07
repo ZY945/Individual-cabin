@@ -46,7 +46,20 @@
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-starter-utils</artifactId>
         </dependency>
+        <!--监控报警通知-->
+        <!--发验证码-->
+        <!--MQ队列-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!--邮件服务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
 
+        <!--存放监控数据-->
         <dependency>
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-start-influxDB</artifactId>
