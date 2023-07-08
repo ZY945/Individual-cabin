@@ -13,14 +13,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author 伍六七
  * @date 2023/7/4 13:37
+ * 从influx里查询
  */
 @Service
 public class QueryService {
@@ -37,7 +38,7 @@ public class QueryService {
         String bucket = "bucket";
         String measurement = "Memory";
         Instant stop = DateUtil.getNowInstant();
-        Instant start = stop.minus(Duration.ofSeconds(1));
+        Instant start = DateUtil.getBeforeSecondInstant(stop, 1L);
         Flux statFlux = Flux.from(bucket)
                 .range(start, stop)
                 .filter(Restrictions.and(
@@ -68,7 +69,7 @@ public class QueryService {
         String bucket = "bucket";
         String measurement = "Uptime";
         Instant stop = DateUtil.getNowInstant();
-        Instant start = stop.minus(Duration.ofSeconds(1));
+        Instant start = DateUtil.getBeforeSecondInstant(stop, 1L);
         Flux statFlux = Flux.from(bucket)
                 .range(start, stop)
                 .filter(Restrictions.and(
@@ -130,11 +131,9 @@ public class QueryService {
     }
 
     public StatVo getOneSecondStatBefore(String bucket, String measurement, Long second) {
-        if (second == null || second < 0) {
-            throw new RuntimeException("second不能为null或负数");
-        }
-        Instant stop = DateUtil.getBeforeSecondInstant(second);
-        Instant start = stop.minus(Duration.ofSeconds(1));
+
+        Instant stop = DateUtil.getBeforeSecondInstant(DateUtil.getNowInstant(), second);
+        Instant start = DateUtil.getBeforeSecondInstant(stop, 1L);
         Flux statFlux = Flux.from(bucket)
                 .range(start, stop)
                 .filter(Restrictions.and(
@@ -166,8 +165,8 @@ public class QueryService {
         if (second == null || second < 0) {
             throw new RuntimeException("second不能为null或负数");
         }
-        Instant stop = DateUtil.getBeforeSecondInstant(second);
-        Instant start = stop.minus(Duration.ofSeconds(1));
+        Instant stop = DateUtil.getBeforeSecondInstant(DateUtil.getNowInstant(), second);
+        Instant start = DateUtil.getBeforeSecondInstant(stop, 1L);
         List<ProcessorVo> processorVos = new ArrayList<>();
         for (int i = 0; i < measurement.length; i++) {
             InfluxBO bo = new InfluxBO();
@@ -204,8 +203,9 @@ public class QueryService {
         if (second == null || second < 0) {
             throw new RuntimeException("second不能为null或负数");
         }
-        Instant stop = DateUtil.getBeforeSecondInstant(second);
-        Instant start = stop.minus(Duration.ofSeconds(1));
+        //往前推100ms,防止获取不到
+        Instant stop = DateUtil.getBeforeSecondInstant(DateUtil.getNowInstant(), second).minus(900, ChronoUnit.MILLIS);
+        Instant start = DateUtil.getBeforeSecondInstant(stop, 1L);
         List<CPUStatVo> cpuStatVos = new ArrayList<>();
         for (int i = 0; i < measurement.length; i++) {
             InfluxBO bo = new InfluxBO();

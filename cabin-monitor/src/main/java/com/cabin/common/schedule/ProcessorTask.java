@@ -14,7 +14,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class ProcessorTask implements Runnable {
     public void writeProcessor() {
         List<ProcessorVo> processorVos = procUtil.readProcessorVoInfo();
         Instant now = DateUtil.getNowInstant();
-        now.atZone(ZoneId.systemDefault());
         for (int i = 0; i < processorVos.size(); i++) {
             ProcessorVo processorVo = processorVos.get(i);
             Processor processor = new Processor();

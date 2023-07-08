@@ -12,7 +12,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.ZoneId;
 
 /**
  * @author 伍六七
@@ -30,7 +29,6 @@ public class UptimeTask implements Runnable {
         Uptime uptime = new Uptime();
         BeanUtils.copyProperties(uptimeVo, uptime, Uptime.class);
         Instant now = DateUtil.getNowInstant();
-        now.atZone(ZoneId.systemDefault());
         uptime.setTime(now);
         template.writeObject(WritePrecision.S, uptime);
     }

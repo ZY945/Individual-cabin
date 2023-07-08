@@ -103,19 +103,28 @@ public class DateUtil {
     }
 
     public static Instant getNowInstant() {
-        return Instant.now();
+        return Instant.now().plus(Duration.ofHours(8));
     }
 
-    public static Instant getBeforeDayInstant(Integer day) {
-        return Instant.now().minus(Period.ofDays(day));
+    public static Instant getBeforeDayInstant(Instant now, Integer day) {
+        if (day == null || day < 0) {
+            throw new RuntimeException("day不能为null或负数");
+        }
+        return now.minus(Period.ofDays(day));
     }
 
-    public static Instant getBeforeMinuteInstant(Integer minute) {
-        return Instant.now().minus(Duration.ofMinutes(minute));
+    public static Instant getBeforeMinuteInstant(Instant now, Integer minute) {
+        if (minute == null || minute < 0) {
+            throw new RuntimeException("minute不能为null或负数");
+        }
+        return now.minus(Duration.ofMinutes(minute));
     }
 
-    public static Instant getBeforeSecondInstant(Long second) {
-        return Instant.now().minus(Duration.ofSeconds(second));
+    public static Instant getBeforeSecondInstant(Instant now, Long second) {
+        if (second == null || second < 0) {
+            throw new RuntimeException("second不能为null或负数");
+        }
+        return now.minus(Duration.ofSeconds(second));
     }
 
     public static Date getNowDate() {

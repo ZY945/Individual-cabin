@@ -177,7 +177,7 @@ public class JsonUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> T jsonToObject(String json, Class<T> tClazz) throws Exception {
-        if (json == null || "".equals(json) || "".equals(json.trim())) {
+        if (json == null || "" .equals(json) || "" .equals(json.trim())) {
             throw new Exception("入参json数据为空，请检查");
         }
         // 基本数据类型包括字符串 且不为 基本数据类型包括字符串数组
