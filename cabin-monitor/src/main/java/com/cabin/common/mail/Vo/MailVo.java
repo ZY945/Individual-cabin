@@ -1,5 +1,6 @@
 package com.cabin.common.mail.Vo;
 
+import com.dingtalk.api.request.OapiRobotSendRequest.Markdown;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -11,6 +12,8 @@ public class MailVo {
     private String to;
 
     private String sub;
+
+    private Markdown markdown;
 
     private String text;
 

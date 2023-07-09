@@ -104,7 +104,7 @@ public class QueryService {
     public StatVo getOneSecondStatVo() {
         String bucket = "bucket";
         String measurement = "Stat";
-        String[] cpuMeasurement = new String[]{"CPU1Stat", "CPU2Stat", "CPU3Stat"};
+        String[] cpuMeasurement = new String[]{"cpuStat", "cpu0Stat", "cpu1Stat"};
         StatVo oneSecondStat = getOneSecondStatBefore(bucket, measurement, 0L);
         List<CPUStatVo> oneSecondCpu = getOneSecondCpuBefore(bucket, cpuMeasurement, 0L);
         StatVo statVo = new StatVo();
@@ -121,7 +121,7 @@ public class QueryService {
     public StatVo getOneSecondStatVoBefore() {
         String bucket = "bucket";
         String measurement = "Stat";
-        String[] cpuMeasurement = new String[]{"CPU1Stat", "CPU2Stat", "CPU3Stat"};
+        String[] cpuMeasurement = new String[]{"cpuStat", "cpu0Stat", "cpu1Stat"};
         StatVo oneSecondStat = getOneSecondStatBefore(bucket, measurement, 0L);
         List<CPUStatVo> oneSecondCpu = getOneSecondCpuBefore(bucket, cpuMeasurement, 0L);
         StatVo statVo = new StatVo();

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @date 2023/7/8 18:15
  */
 @Data
-@Component("NoticeInfo")
+@Component()
 public class NoticeInfo {
 
     @Value(value = "${notice.email}")

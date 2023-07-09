@@ -1,2 +1,2 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.cabin.influxDB.config.AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.cabin.influxDB.config.InfluxAutoConfiguration

@@ -46,8 +46,17 @@ public class StatTask implements Runnable {
             CPUStatVo cpuStatVo = cpus.get(i);
             CPUStat cpuStat = new CPUStat();
             BeanUtils.copyProperties(cpuStatVo, cpuStat, CPUStat.class);
+            String measurementName;
+            if (i == 0) {
+                measurementName = "cpuStat";
+                cpuStat.setCpuName("cpu");
+            } else {
+                measurementName = "cpu" + (i - 1) + "Stat";
+
+                cpuStat.setCpuName("cpu" + (i - 1));
+            }
             Map<String, Object> stringObjectMap = JacksonUtils.convertToHashMap(cpuStat);
-            Point point = Point.measurement("CPU" + (i + 1) + "Stat")
+            Point point = Point.measurement(measurementName)
                     .addFields(stringObjectMap)
                     .time(now, WritePrecision.S);
             template.writePoint(point);

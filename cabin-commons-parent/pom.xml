@@ -55,6 +55,7 @@
         <!-- 验证组件 -->
         <!--        <module>cloud-starter-validation</module>-->
         <module>cabin-starter-file</module>
+        <module>cabin-start-dingTalk</module>
     </modules>
 
     <dependencies>

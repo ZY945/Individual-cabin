@@ -64,6 +64,28 @@
             <groupId>com.cabin.commons</groupId>
             <artifactId>cabin-start-influxDB</artifactId>
         </dependency>
+
+        <!--dingTalk-->
+        <dependency>
+            <groupId>com.cabin.commons</groupId>
+            <artifactId>cabin-start-dingTalk</artifactId>
+        </dependency>
+
+        <!--commommark插件-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+        </dependency>
+        <!--为标题添加id的扩展部分-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-heading-anchor</artifactId>
+        </dependency>
+        <!--表格的扩展部分 如果markdown里有表格需要这个扩展-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark-ext-gfm-tables</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

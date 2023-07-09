@@ -1,3 +1,5 @@
+code:
+  host: ${app_host}
 spring:
   banner:
     location: banner/banner.txt
@@ -11,8 +13,6 @@ influxdb:
   token: ${influxdb_token}
   bucket: ${influxdb_bucket}
   org: ${influxdb_org}
-notice:
-  email: ${notice_email}
 ---
 # mq
 spring:
@@ -26,6 +26,7 @@ spring:
         acknowledge-mode: manual
 
 ---
+# 通知
 # 邮箱配置
 spring:
   mail:
@@ -50,3 +51,9 @@ spring:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
+notice:
+  email: ${notice_email}
+# 钉钉webhook
+dingding:
+  access_token: ${dingding_api_inform_access_token}
+  secret: ${dingding_api_inform_secret}

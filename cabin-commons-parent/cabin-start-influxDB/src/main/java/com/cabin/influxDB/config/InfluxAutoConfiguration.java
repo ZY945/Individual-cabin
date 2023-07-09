@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(InfluxDBProperties.class)
-public class AutoConfiguration {
+public class InfluxAutoConfiguration {
     @Autowired
     private InfluxDBProperties properties;
 

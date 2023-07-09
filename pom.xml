@@ -455,6 +455,11 @@
             </dependency>
             <dependency>
                 <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-start-dingTalk</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
                 <artifactId>cabin-starter-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>

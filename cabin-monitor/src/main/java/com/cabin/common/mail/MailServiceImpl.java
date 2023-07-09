@@ -1,6 +1,7 @@
 package com.cabin.common.mail;
 
 import com.cabin.common.mail.Vo.MailVo;
+import com.cabin.common.util.MarkdownUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,21 @@ public class MailServiceImpl {
                 stringBuilder.append(split[i]).append("<br>");
             }
             helper.setText(stringBuilder.toString(), true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMDToMail(MailVo vo) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            String html = MarkdownUtils.markdownToHtml(vo.getMarkdown().getText());
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(vo.getTo().split(","));//，分割是当需要向多个邮件发送时
+            helper.setSubject(vo.getSub());
+            helper.setText(html, true);
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

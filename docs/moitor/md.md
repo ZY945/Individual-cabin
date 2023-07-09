@@ -40,3 +40,16 @@ steal：表示被虚拟化环境（如虚拟机）偷取的CPU时间。在虚拟
 
 9. guest：表示为虚拟机执行客户操作系统代码所花费的时间。当物理机器上运行虚拟机时，虚拟机会占用一部分 CPU 时间来执行其自己的客户操作系统代码。
 10. guest_nice：调整过的虚拟机执行时间。类似于nice参数，此处表示虚拟机在较低优先级下执行的时间。
+
+# 清空influx数据
+
+```text
+DROP MEASUREMENt "CPU1Stat"
+DROP MEASUREMENT "CPU2Stat"
+DROP MEASUREMENt "CPU3Stat"
+DROP MEASUREMENt "cpuUsage"
+DROP MEASUREMENt "Stat"
+
+
+select * from "cpuUsage"
+```
