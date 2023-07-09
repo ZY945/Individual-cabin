@@ -82,7 +82,7 @@ public class CpuUsageTask implements Runnable {
                 // InetAddress.getLocalHost()会获取docker容器的ip
                 // InetAddress localhost = InetAddress.getLocalHost();
                 // String ipAddress = localhost.getHostAddress();
-                String nowDateTimeStr = DateUtil.getNowDateTimeStr();
+                Instant nowInstant = DateUtil.getNowInstant();
                 Markdown markdown = new Markdown();
                 markdown.setTitle("监控报警通知");
                 markdown.setText("## 监控报警通知\n" +
@@ -96,7 +96,8 @@ public class CpuUsageTask implements Runnable {
                         "> **cpu型号**：\n" + cpuUsageName + "\n" +
                         "\n" +
                         "> **cpu占用率**：\n" + cpuUsage + "%" + "\n" +
-                        "> **当前时间**：\n" + nowDateTimeStr);
+                        "\n" +
+                        "> **当前时间**：\n" + nowInstant);
                 //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
                 //发送钉钉通知
                 rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_MONITOR, MQRoutingKeyEnum.SEND_CABIN_MONITOR_DING.getRoutingKey(), JacksonUtils.writeValueAsString(markdown));

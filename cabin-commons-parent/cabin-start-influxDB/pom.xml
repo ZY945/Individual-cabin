@@ -46,7 +46,6 @@
         <dependency>
             <groupId>com.influxdb</groupId>
             <artifactId>influxdb-client-java</artifactId>
-            <version>6.9.0</version>
             <!--            <exclusions>-->
             <!--                &lt;!&ndash;该包的TOPOJO在influx2.7.0无法正常使用&ndash;&gt;-->
             <!--                <exclusion>-->
@@ -67,7 +66,6 @@
         <dependency>
             <groupId>com.influxdb</groupId>
             <artifactId>flux-dsl</artifactId>
-            <version>6.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
