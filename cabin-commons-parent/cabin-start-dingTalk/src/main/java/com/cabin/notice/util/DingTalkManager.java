@@ -52,7 +52,7 @@ public class DingTalkManager {
     public static DefaultTaobaoClient proxy(DingDingConnect connect) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 
         if (connect.getProxyHost() == null || connect.getProxyPort() == null) {
-            log.error("代理未设置");
+            log.warn("代理未设置");
             return null;
         }
         String url = connect.getAccess_token() + sign(connect.getSecret());

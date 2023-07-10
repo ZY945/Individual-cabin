@@ -13,100 +13,247 @@ import java.time.Instant;
 @NoArgsConstructor
 @Measurement(name = "Memory")//influxDB注解
 public class Memory {
+    /**
+     * 物理内存总量
+     */
     @Column
     private String memTotal;
+    /**
+     * 空闲物理内存
+     */
     @Column
     private String memFree;
+    /**
+     * 可用物理内存
+     */
     @Column
     private String memAvailable;
+    /**
+     * 缓冲区占用的内存
+     */
     @Column
     private String buffers;
+    /**
+     * 缓存占用的内存
+     */
     @Column
     private String cached;
+    /**
+     * 交换缓存占用的内存
+     */
     @Column
     private String swapCached;
+    /**
+     * 活跃内存
+     */
     @Column
     private String active;
+    /**
+     * 非活跃内存
+     */
     @Column
     private String inactive;
+    /**
+     * 活跃的匿名内存
+     */
     @Column
     private String activeAnon;
+    /**
+     * 非活跃的匿名内存
+     */
     @Column
     private String inactiveAnon;
+    /**
+     * 活跃的文件内存
+     */
     @Column
     private String activeFile;
+    /**
+     * 非活跃的文件内存
+     */
     @Column
     private String inactiveFile;
+    /**
+     * 无法驱逐出的内存
+     */
     @Column
     private String unevictable;
+    /**
+     * 锁定的内存
+     */
     @Column
     private String mlocked;
+    /**
+     * 总交换空间大小
+     */
     @Column
     private String swapTotal;
+    /**
+     * 空闲交换空间大小
+     */
     @Column
     private String swapFree;
+    /**
+     * 脏页面的数量
+     */
     @Column
     private String dirty;
+    /**
+     * 正在刷新到磁盘的页面数量
+     */
     @Column
     private String writeback;
+    /**
+     * 匿名页面数量
+     */
     @Column
     private String anonPages;
+    /**
+     * 映射页面数量
+     */
     @Column
     private String mapped;
+    /**
+     * 共享内存数量
+     */
     @Column
     private String shmem;
+    /**
+     * SLUB 分配器使用的内存数量
+     */
     @Column
     private String slab;
+    /**
+     * 可以被分配器重新获取的 SLUB 页面数量
+     */
     @Column
     private String sReclaimable;
+    /**
+     * 无法被分配器重新获取的 SLUB 页面数量
+     */
     @Column
     private String sUnreclaim;
+    /**
+     * 内核栈使用的内存大小
+     */
     @Column
     private String kernelStack;
+    /**
+     * 页表使用的内存大小
+     */
     @Column
     private String pageTables;
+    /**
+     * 不稳定的 NFS 页面数量
+     */
     @Column
     private String nfsUnstable;
+    /**
+     * 回滚页面数量
+     */
     @Column
     private String bounce;
+    /**
+     * 等待刷新到磁盘的页面数量
+     */
     @Column
     private String writebackTmp;
+    /**
+     * 用户进程可提交内存的限制
+     */
     @Column
     private String commitLimit;
+    /**
+     * 已经向用户进程承诺的内存大小
+     */
     @Column
     private String committedAS;
+    /**
+     * 分配给 vmalloc 区域的总内存大小
+     */
     @Column
     private String vmallocTotal;
+    /**
+     * vmalloc 区域已使用的内存大小
+     */
     @Column
     private String vmallocUsed;
+    /**
+     * vmalloc 区域中最大连续空闲块的大小
+     */
     @Column
     private String vmallocChunk;
+    /**
+     * 每个 CPU 的私有数据区大小
+     */
     @Column
     private String percpu;
+    /**
+     * 硬件错误导致的内存损坏数量
+     */
     @Column
     private String hardwareCorrupted;
+    /**
+     * 巨大页面的匿名内存数量
+     */
     @Column
     private String anonHugePages;
+    /**
+     * 连续内存区域的总大小
+     */
     @Column
     private String cmaTotal;
+    /**
+     * 连续内存区域的空闲大小
+     */
     @Column
     private String cmaFree;
+    /**
+     * 巨大页面的总数量
+     */
     @Column
     private String hugePagesTotal;
+    /**
+     * 空闲的巨大页面数量
+     */
     @Column
     private String hugePagesFree;
+    /**
+     * 巨大页面保留数量
+     */
     @Column
     private String hugePagesRsvd;
+
+    /**
+     * 巨大页面额外数量
+     */
     @Column
     private String hugePagesSurp;
+
+    /**
+     * 巨大页面的页面大小
+     */
     @Column
     private String hugepagesize;
+
+    /**
+     * 直接映射的4KB页数
+     */
     @Column
     private String directMap4k;
+
+    /**
+     * 直接映射的2MB页数
+     */
     @Column
     private String directMap2M;
+
+    /**
+     * 直接映射的1GB页数
+     */
     @Column
     private String directMap1G;
+
     @Column(timestamp = true)
     Instant time;
 
