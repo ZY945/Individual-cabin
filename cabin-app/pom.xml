@@ -177,6 +177,10 @@
             <artifactId>cabin-starter-redis</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.cabin.commons</groupId>
+            <artifactId>cabin-starter-file</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
         </dependency>

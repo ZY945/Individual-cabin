@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * @author 伍六七
@@ -41,21 +40,35 @@ public class IndexController {
         return Result.success(shortUrl, "短链接");
     }
 
+//    /**
+//     * 根据短链接重定向1.0--后端重定向
+//     * @param shortUrl 短链接
+//     */
+//    @GetMapping("/{shortUrl}")
+//    public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+//        if (StringUtil.isNullOrEmpty(shortUrl)) {
+//            throw new RuntimeException("请输入正确格式");
+//        }
+//        String url = utilService.getShortUrl(shortUrl);
+//        ObjectUtil.checkStrNonEmpty(url, "url");
+//        response.sendRedirect(url);
+//    }
+
     /**
-     * 根据短链接重定向
+     * 根据短链接重定向2.0--按照302的规范，把url放在响应头的Location
      *
      * @param shortUrl 短链接
      */
     @GetMapping("/{shortUrl}")
-    public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+    public void redirect(@PathVariable String shortUrl, HttpServletResponse response) {
         if (StringUtil.isNullOrEmpty(shortUrl)) {
             throw new RuntimeException("请输入正确格式");
         }
         String url = utilService.getShortUrl(shortUrl);
         ObjectUtil.checkStrNonEmpty(url, "url");
-        response.sendRedirect(url);
+        response.setStatus(HttpServletResponse.SC_FOUND); // 设置状态码为302
+        response.setHeader("Location", url); // 将新页面的URL放入响应头中
     }
-
 
     /**
      * 获取验证码(.png)

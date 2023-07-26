@@ -27,6 +27,43 @@
             <artifactId>commons-csv</artifactId>
             <version>1.10.0</version>
         </dependency>
+        <!--pdf-->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox-app</artifactId>
+            <version>2.0.19</version>
+        </dependency>
+
+        <!--JavaCV-->
+        <!--根据需要引入,全部引入700多M-->
+        <!--https://github.com/bytedeco/javacv-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <classifier>${javacpp.platform.windows-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+        </dependency>
+        <!--部署linux版-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <classifier>${javacpp.platform.linux-x86_64}</classifier>
+        </dependency>
+        <!--开发测试windows版-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <classifier>${javacpp.platform.windows-x86_64}</classifier>
+        </dependency>
+
+        <!--视频处理-->
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

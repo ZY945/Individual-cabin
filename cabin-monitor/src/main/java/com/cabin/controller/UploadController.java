@@ -45,8 +45,6 @@ public class UploadController {
     @GetMapping("/cpuUsage/start")
     public void cpuUsageStart() {
         taskService.startCron("0/3 * * * * ?", new CpuUsageTask(), "cpuUsageTask");
-//        CpuUsageTask cpuUsageTask = new CpuUsageTask();
-//        cpuUsageTask.run();
     }
 
     @GetMapping("/stat/start")

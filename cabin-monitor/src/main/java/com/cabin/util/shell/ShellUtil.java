@@ -26,6 +26,7 @@ public class ShellUtil {
         BufferedReader reader = null;
         try {
             Process process = Runtime.getRuntime().exec(path);
+            //等待命令执行完成，并获取返回值。
             int exitValue = process.waitFor();
             if (0 != exitValue) {
                 log.error("call shell failed. error code is :" + exitValue);

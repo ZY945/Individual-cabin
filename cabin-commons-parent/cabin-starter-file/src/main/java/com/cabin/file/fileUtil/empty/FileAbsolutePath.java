@@ -1,4 +1,4 @@
-package com.cabin.utils.fileUtil.empty;
+package com.cabin.file.fileUtil.empty;
 
 import java.util.List;
 

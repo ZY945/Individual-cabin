@@ -1,4 +1,4 @@
-package com.cabin.utils.fileUtil;
+package com.cabin.file.fileUtil;
 
 
 import org.bytedeco.opencv.global.opencv_imgcodecs;
@@ -80,9 +80,5 @@ public class PictureUtil {
         Mat cannyImage = new Mat();
         opencv_imgproc.Canny(image, cannyImage, 50, 150);
         return cannyImage;
-    }
-
-    public static void main(String[] args) {
-
     }
 }

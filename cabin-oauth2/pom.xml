@@ -53,7 +53,6 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-
         <!--钉钉第三方登录-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

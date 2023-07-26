@@ -1,7 +1,7 @@
-package com.cabin.utils.fileUtil;
+package com.cabin.file.fileUtil;
 
 
-import com.cabin.utils.fileUtil.empty.FileAbsolutePath;
+import com.cabin.file.fileUtil.empty.FileAbsolutePath;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -23,6 +23,26 @@ public class FileUtil {
      */
     public static String getFileSuffix(String url) {
         return url.contains(".") ? url.substring(url.indexOf(".")) : null;
+    }
+
+    /**
+     * 获取文件名
+     *
+     * @param url 文件路径
+     * @return 后缀(类似.java)
+     */
+    public static String getFileNameByWindows(String url) {
+        return url.contains(".") ? url.substring(url.lastIndexOf("\\") + 1, url.indexOf(".")) : null;
+    }
+
+    /**
+     * 获取后缀
+     *
+     * @param url 文件路径
+     * @return 后缀(类似.java)
+     */
+    public static String getFileNameByLinux(String url) {
+        return url.contains(".") ? url.substring(url.lastIndexOf("/"), url.indexOf(".")) : null;
     }
 
     /**

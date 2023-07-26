@@ -482,7 +482,11 @@
                 <artifactId>cabin-starter-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.cabin.commons</groupId>
+                <artifactId>cabin-starter-file</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!--其他jdk版本的包-->
             <!--@Resource 注解-->

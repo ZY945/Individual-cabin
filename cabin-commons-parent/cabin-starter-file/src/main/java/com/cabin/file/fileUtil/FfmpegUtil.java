@@ -1,4 +1,4 @@
-package com.cabin.utils.fileUtil;
+package com.cabin.file.fileUtil;
 
 import ws.schild.jave.Encoder;
 import ws.schild.jave.EncoderException;

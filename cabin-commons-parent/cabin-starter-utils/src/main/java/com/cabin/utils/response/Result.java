@@ -30,6 +30,22 @@ public class Result<T> {
     }
 
     /**
+     * 永久重定向
+     * 301 Too Many Requests
+     */
+    public static <T> Result<T> permanentRedirect(T data, String msg) {
+        return new Result<>(301, data, msg);
+    }
+
+    /**
+     * 临时重定向
+     * 302 Too Many Requests
+     */
+    public static <T> Result<T> temporaryRedirect(T data, String msg) {
+        return new Result<>(302, data, msg);
+    }
+
+    /**
      * 限流
      * 429 Too Many Requests
      */

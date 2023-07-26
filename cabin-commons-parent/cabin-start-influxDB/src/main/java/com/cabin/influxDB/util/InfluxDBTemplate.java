@@ -2,6 +2,7 @@ package com.cabin.influxDB.util;
 
 import com.cabin.influxDB.empty.bo.query.InfluxBO;
 import com.cabin.influxDB.empty.bo.query.QueryType;
+import com.cabin.utils.dateUtil.DateUtil;
 import com.influxdb.client.*;
 import com.influxdb.client.domain.Query;
 import com.influxdb.client.domain.WritePrecision;
@@ -9,10 +10,12 @@ import com.influxdb.client.write.Point;
 import com.influxdb.exceptions.InfluxException;
 import com.influxdb.query.FluxTable;
 import com.influxdb.query.dsl.Flux;
+import com.influxdb.query.dsl.functions.restriction.Restrictions;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.DependsOn;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +102,35 @@ public class InfluxDBTemplate {
         return new ArrayList<>();
     }
 
+    /**
+     * 查询行数(无限制)
+     *
+     * @param measurement
+     * @return
+     */
+    public Long count(String measurement) {
+        Instant stop = DateUtil.getNowInstant();
+        Instant start = Instant.ofEpochMilli(-365243219162L);
+        return countByRange(measurement, start, stop);
+    }
+
+    /**
+     * 查询行数(无限制)
+     *
+     * @param measurement
+     * @return
+     */
+    public Long countByRange(String measurement, Instant start, Instant stop) {
+        InfluxBO influxBO = new InfluxBO();
+        Flux bucket = Flux.from("bucket")
+                .range(start, stop)
+                .filter(Restrictions.and(
+                        Restrictions.measurement().equal(measurement)))
+                .count();
+        influxBO.setFlux(bucket);
+        List<FluxTable> tables = query(QueryType.Flux, influxBO);
+        return (Long) tables.get(0).getRecords().get(0).getRow().get(4);
+    }
 
     public List<FluxTable> query(QueryType queryType, @Nonnull InfluxBO bo) {
         getQueryApi();
@@ -143,6 +175,8 @@ public class InfluxDBTemplate {
     }
 
     /**
+     * 删除指定范围的数据
+     *
      * @param start  OffsetDateTime.now().minus(1, ChronoUnit.HOURS)
      * @param stop   OffsetDateTime.now()
      * @param bucket bucket
