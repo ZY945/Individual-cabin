@@ -34,15 +34,32 @@ vue: https://cn.vuejs.org/guide/introduction.html#single-file-components
 quasar: https://quasar.dev/start/vite-plugin/
 vuetifyjs: https://vuetifyjs.com/en/components/chips/
 
-# npm换源
+# 注意
 
-# 淘宝源
+## vue和sass-loader的版本问题
 
-npm config set registry https://registry.npm.taobao.org
+```text
+npm uninstall sass-loader node-sass    //卸载
+npm install sass-loader@7.3.1 node-sass@4.14.1  --save-dev  //安装对应的版本
+```
 
-# 官方源
+# npm换源---根据自己情况,有的人淘宝源快，有的官方源快
 
 npx nrm use npm
+
+```text
+查看当前使用的那个镜像
+nrm ls
+  npm ---------- https://registry.npmjs.org/
+  yarn --------- https://registry.yarnpkg.com/
+  cnpm --------- https://r.cnpmjs.org/
+  taobao ------- https://registry.npmmirror.com/
+
+切换镜像
+nrm use taobao
+
+```
+
 ---------------------------
 
 # 设置npm下载的路径

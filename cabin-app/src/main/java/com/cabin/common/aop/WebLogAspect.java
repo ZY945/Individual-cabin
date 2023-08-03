@@ -49,8 +49,17 @@ public class WebLogAspect {
      * 以 controller 包下定义的所有请求为切入点
      * 切点
      */
+
+    @Pointcut("normalPointcutWeb() && !excludePointcutWeb()")
+    public void allPointcutWeb() {
+    }
+
     @Pointcut("execution(public * com.cabin.controller..*.*(..))")
-    public void webLog() {
+    public void normalPointcutWeb() {
+    }
+
+    @Pointcut("execution(public *  com.cabin.controller.UploadController.uploadPost(..))")
+    public void excludePointcutWeb() {
     }
 
     /**
@@ -60,7 +69,7 @@ public class WebLogAspect {
      * @param joinPoint
      * @throws Throwable
      */
-    @Before("webLog()")
+    @Before("allPointcutWeb()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -108,7 +117,7 @@ public class WebLogAspect {
      *
      * @throws Throwable
      */
-    @After("webLog()")
+    @After("allPointcutWeb()")
     public void doAfter() throws Throwable {
         log.info("=======================  End  ======================");
     }
@@ -120,7 +129,7 @@ public class WebLogAspect {
      * @return
      * @throws Throwable
      */
-    @Around("webLog()")
+    @Around("allPointcutWeb()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();

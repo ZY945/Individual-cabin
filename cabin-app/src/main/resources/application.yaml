@@ -10,7 +10,9 @@ logging:
     classpath: logback-spring.xml
   file:
     path: ${cabin_app_logs}
-
+# 上传文件
+upload:
+  path: F:\study\code\myProject\Individual-cabin\cabin-app\src\main\resources\test
 ---
 #admin监控
 spring:

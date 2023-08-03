@@ -56,10 +56,54 @@ public class Result<T> {
 
     /**
      * 服务器错误
-     * 500 Server error
+     * 500 Internal Server Error
      */
     public static <T> Result<T> serverFail(String msg) {
         return new Result<>(500, null, msg);
+    }
+
+    /**
+     * 文件上传请求已经成功
+     * 200 OK
+     */
+    public static <T> Result<T> uploadFileSuccess(String msg) {
+        return new Result<>(200, null, msg);
+    }
+
+    /**
+     * 文件正在上传,资源已创建,需要返回路径
+     * 201 Created
+     */
+    public static <T> Result<T> uploadFileInProgress(T data, String msg) {
+        return new Result<>(201, data, msg);
+    }
+
+    /**
+     * 文件正在上传,资源已创建,需要返回路径
+     * 201 Created
+     */
+    public static <T> Result<T> uploadFileInProgress(String msg) {
+        return new Result<>(201, null, msg);
+    }
+
+    /**
+     * 服务器错误
+     * 500 Internal Server Error
+     */
+    public static <T> Result<T> uploadFileCancel(String msg) {
+        return new Result<>(500, null, msg);
+    }
+
+    public static <T> Result<T> uploadFileExist(String msg) {
+        return new Result<>(409, null, msg);
+    }
+
+    /**
+     * 服务器错误
+     * 507 Insufficient Storage
+     */
+    public static <T> Result<T> uploadFileFail(String msg) {
+        return new Result<>(507, null, msg);
     }
 
 }

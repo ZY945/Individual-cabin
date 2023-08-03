@@ -12,6 +12,7 @@ import registerAccount from "@/components/oauth2/register-account.vue";
 import bindAccount from "@/components/oauth2/bind-account.vue";
 import cabinMenus from "@/components/cabin-menus.vue";
 import Linux from "@/components/monitor/monitor-linux.vue";
+import uploadFile from "@/components/util/upload-file.vue";
 
 const app = createApp(App);
 app.use(router);
@@ -25,6 +26,7 @@ app.component("RegisterAccount", registerAccount)
 app.component("BindAccount", bindAccount)
 app.component("CabinMenus", cabinMenus)
 app.component("monitorLinux", Linux)
+app.component("uploadFile", uploadFile)
 app.mount('#app');
 
 

@@ -22,7 +22,7 @@ public class FileUtil {
      * @return 后缀(类似.java)
      */
     public static String getFileSuffix(String url) {
-        return url.contains(".") ? url.substring(url.indexOf(".")) : null;
+        return url.contains(".") ? url.substring(url.lastIndexOf(".") + 1) : null;
     }
 
     /**
@@ -143,6 +143,4 @@ public class FileUtil {
         return fileAbsolutePath;
     }
 
-    public static void fileUpload() {
-    }
 }

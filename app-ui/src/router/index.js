@@ -72,12 +72,17 @@ const routes = [
             {
                 path: '/shortUrl',
                 name: 'shortUrl',
-                component: () => import('@/components/url/short-url.vue')
+                component: () => import('@/components/util/short-url.vue')
             },
             {
                 path: '/monitorLinux',
                 name: 'monitorLinux',
                 component: () => import('@/components/monitor/monitor-linux.vue')
+            },
+            {
+                path: '/uploadFile',
+                name: 'uploadFile',
+                component: () => import('@/components/util/upload-file.vue')
             },
 
         ],
