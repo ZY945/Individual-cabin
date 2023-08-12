@@ -102,4 +102,9 @@ public class IndexController {
         String newJson = JsonUtil.formatJson(olDJson);
         return Result.success(newJson, "格式化的json");
     }
+
+    @GetMapping("/test")
+    public Result<String> test() {
+        return Result.success("test", "test");
+    }
 }
