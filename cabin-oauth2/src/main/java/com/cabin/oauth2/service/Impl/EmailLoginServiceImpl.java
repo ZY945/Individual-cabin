@@ -9,6 +9,7 @@ import com.cabin.oauth2.repository.UserRepository;
 import com.cabin.oauth2.service.EmailLoginService;
 import com.cabin.utils.commonUtil.Base64Util;
 import com.cabin.utils.commonUtil.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2023/1/26 19:09
  */
 @Service
+@Slf4j
 public class EmailLoginServiceImpl implements EmailLoginService {
 
     @Autowired
@@ -94,6 +96,10 @@ public class EmailLoginServiceImpl implements EmailLoginService {
         try {
             token = Base64Util.encoderGetStrByByte(userEmail + random);
             User user = userRepository.getUserByEmail(userEmail);
+            if (user == null) {
+                log.info("该用户不存在:userEmail=" + userEmail);
+                return null;
+            }
             userIdEncoder = Base64Util.encoderGetStrByByte(String.valueOf(user.getId()));
 
         } catch (UnsupportedEncodingException e) {

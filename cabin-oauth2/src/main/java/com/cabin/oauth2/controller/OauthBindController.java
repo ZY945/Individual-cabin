@@ -47,12 +47,12 @@ public class OauthBindController {
 
     @PostMapping("/feishu/email")
     public Result<BindAccountVo> bindFeiShuByEmail(@RequestBody BindAccount bindAccount) {
-        String emailToken = bindAccount.getUserEmail();
+        String email = bindAccount.getUserEmail();
         String code = bindAccount.getCode();
         Long id = bindAccount.getFeiShuId();
         //绑定
 
-        BindAccountVo vo = oauthBindService.bindFeiShuByEmail(emailToken, code, id);
+        BindAccountVo vo = oauthBindService.bindFeiShuByEmail(email, code, id);
         Oauth oauth = vo.getOauth();
         //获取token
         if (oauth.equals(Oauth.OLDBIND)) {
@@ -91,12 +91,12 @@ public class OauthBindController {
 
     @PostMapping("/github/email")
     public Result<BindAccountVo> bindGitHubByEmail(@RequestBody BindAccount bindAccount) {
-        String emailToken = bindAccount.getUserEmail();
+        String email = bindAccount.getUserEmail();
         String code = bindAccount.getCode();
         Long id = bindAccount.getGitHubId();
         //绑定
 
-        BindAccountVo vo = oauthBindService.bindGitHubByEmail(emailToken, code, id);
+        BindAccountVo vo = oauthBindService.bindGitHubByEmail(email, code, id);
         Oauth oauth = vo.getOauth();
         //获取token
         if (oauth.equals(Oauth.OLDBIND)) {
@@ -135,12 +135,12 @@ public class OauthBindController {
 
     @PostMapping("/gitee/email")
     public Result<BindAccountVo> bindGiteeByEmail(@RequestBody BindAccount bindAccount) {
-        String emailToken = bindAccount.getUserEmail();
+        String email = bindAccount.getUserEmail();
         String code = bindAccount.getCode();
         Long id = bindAccount.getGiteeId();
         //绑定
 
-        BindAccountVo vo = oauthBindService.bindGiteeByEmail(emailToken, code, id);
+        BindAccountVo vo = oauthBindService.bindGiteeByEmail(email, code, id);
         Oauth oauth = vo.getOauth();
         //获取token
         if (oauth.equals(Oauth.OLDBIND)) {

@@ -7,6 +7,7 @@ import com.cabin.utils.response.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,10 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod handlerMethod) {
             AccessLimit accessLimit = handlerMethod.getMethodAnnotation(AccessLimit.class);
+            // 获取用户标识
+            String userNo = getUserNo(request);
+            //把用户 ID 放到 MDC 上下文中
+            MDC.put("userId", userNo);
             //方法上没有访问控制的注解，直接通过
             if (accessLimit == null) {
                 return true;
@@ -69,5 +74,10 @@ public class AccessLimitInterceptor implements HandlerInterceptor {
             }
         }
         return true;
+    }
+
+    private String getUserNo(HttpServletRequest request) {
+        // 通过 SSO 或者Cookie 或者 Auth信息获取到 当前登陆的用户信息
+        return null;
     }
 }

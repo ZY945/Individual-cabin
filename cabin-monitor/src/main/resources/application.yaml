@@ -89,3 +89,9 @@ notice:
 dingding:
   access_token: ${dingding_api_inform_access_token}
   secret: ${dingding_api_inform_secret}
+schedule:
+  mail:
+    username: ${mail_qq_username}
+    password: ${mail_qq_password}
+    host: imap.qq.com
+    port: 993

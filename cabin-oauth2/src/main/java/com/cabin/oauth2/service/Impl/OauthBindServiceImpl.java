@@ -66,6 +66,7 @@ public class OauthBindServiceImpl implements OauthBindService {
         String token = emailLoginService.login(email, code);
         vo.setToken(token);
         if (token == null) {
+            //TODO 这里绑定时，发现没有该邮箱用户，可以直接注册，或者分开提示绑定和注册
             vo.setOauth(Oauth.ISNOTUSER);
             return vo;
         }

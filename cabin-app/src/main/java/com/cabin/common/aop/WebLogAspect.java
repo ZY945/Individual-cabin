@@ -12,6 +12,7 @@ import com.cabin.common.util.request.IpUtil;
 import com.cabin.utils.dateUtil.DateUtil;
 import com.dingtalk.api.request.OapiRobotSendRequest;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -76,6 +77,7 @@ public class WebLogAspect {
         //断言,不符合条件会抛异常,测试使用,生产不建议,
 //        assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
+        HttpServletResponse response = attributes.getResponse();
 
         StringBuilder Build = new StringBuilder();
         String remoteIp = IpUtil.getClientIpAddr(request);

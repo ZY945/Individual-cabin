@@ -25,7 +25,7 @@ export default {
         }
       }).then(() => {
       }).catch(() => {
-        alert('Invalid login credentials')
+        alert('绑定失败')
       })
     };
     const bindByAccount = () => {
@@ -42,13 +42,12 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("feiShuId");
             router.push('/chatApp')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("feiShuId");
       }
       if (gitHubId !== null) {
         axios.post('/oauth2/bind/github/account', {
@@ -59,13 +58,12 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("gitHubId");
             router.push('/chatApp')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("gitHubId");
       }
       if (giteeId !== null) {
         axios.post('/oauth2/bind/gitee/account', {
@@ -76,13 +74,12 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("giteeId");
             router.push('/chatApp')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("giteeId");
       }
     };
     const bindByEmail = () => {
@@ -98,13 +95,12 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("feiShuId");
             router.push('/chatApp')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("feiShuId");
       }
       if (gitHubId !== null) {
         axios.post('/oauth2/bind/github/email', {
@@ -115,13 +111,12 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("gitHubId");
             router.push('/chatApp')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("gitHubId");
       }
       if (giteeId !== null) {
         axios.post('/oauth2/bind/gitee/email', {
@@ -132,13 +127,14 @@ export default {
           const token = response.data.data.token
           if (response.data.code === 200) {
             window.localStorage.setItem('token', JSON.stringify(token))
-
+            window.localStorage.removeItem("giteeId");
             router.push('/chatApp')
+          } else if (response.data.data.get("oauth") === 'ISNOTUSER') {
+            alert('该账户未注册')
           }
         }).catch(() => {
-          alert('Invalid login credentials')
+          alert('绑定失败')
         })
-        window.localStorage.removeItem("giteeId");
       }
     };
 

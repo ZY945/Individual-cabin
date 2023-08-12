@@ -10,8 +10,8 @@ export default {
     let rail = ref(true);
     let user = ref({
       avatar: "https://cdn.vuetifyjs.com/images/john.jpg",
-      userName: "Sandra Adams",
-      email: "sandra_a88@gmailcom"
+      userName: "未登录",
+      email: ""
     });
     let menusList = ref([]);
     // const getMenusList = async () => {
@@ -27,6 +27,34 @@ export default {
     //         console.log(error)
     //       })
     // };
+
+    // 异步获取用户数据
+    async function fetchUser() {
+      try {
+        axios.get('/cabin/routing/all', {
+          params: {}
+        })
+            .then(response => {
+              if (response.data.code === 200) {
+                const data = response.data.data
+                // 将获取的数据赋值给响应式数组
+                // 将获取的数据赋值给响应式数组
+                menusList.value = data.map(item => ({
+                  id: item.id,
+                  title: item.title,
+                  path: item.path,
+                  prependIcon: item['prepend-icon']
+                }));
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     // 异步获取后端数据
     async function fetchMenus() {
@@ -65,6 +93,7 @@ export default {
       user,
       menusList,
       // getMenusList,
+      fetchUser,
     }
   }
 }
