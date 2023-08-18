@@ -1,0 +1,45 @@
+### 忽略的文件 ###
+#HELP.md
+**/node_modules
+target/
+!.mvn/wrapper/maven-wrapper.jar
+**/.gitignore
+logs/
+gitZip/
+logPath_IS_UNDEFINED/
+app-ui/dist
+环境变量
+cabin-commons-parent/cabin-starter-file/src/main/resources/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+
+### VS Code ###
+.vscode/
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/img/all.png
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/img/canny.png
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/img/gaussianBlur.png
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/img/grey.png
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/img/input.png
+/cabin-commons-parent/cabin-starter-utils/src/main/resources/video/old.mp4
