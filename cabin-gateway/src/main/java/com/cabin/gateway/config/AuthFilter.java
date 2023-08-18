@@ -1,21 +1,37 @@
 package com.cabin.gateway.config;
 
+import com.cabin.gateway.service.AuthServiceImpl;
+import com.cabin.gateway.util.ApplicationContextUtil;
+import com.cabin.utils.jacksonUtil.JacksonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.Ordered;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class AuthFilter implements GatewayFilter {
+@DependsOn("ApplicationContextUtil")
+@Slf4j
+public class AuthFilter implements GatewayFilter, Ordered {
+    private final AuthServiceImpl authService = (AuthServiceImpl) ApplicationContextUtil.getBean("authServiceImpl");
     // 黑名单列表，也可以放在缓存数据库里
     private static final String START_TIME = "startTime";
+    private static final String app = "/login";
+    private static final String ADMIN = "admin";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        Mono<Void> noLogin = Filter.loginLogic(exchange);
+        Mono<Void> noLogin = authService.loginLogic(exchange);
+        log.info("登录验证结束");
         if (noLogin != null) return noLogin;
-        Mono<Void> blackUser = Filter.blackLoginLogic(exchange);
+        Mono<Void> blackUser = authService.blackLoginLogic(exchange);
+        log.info("黑名单验证结束");
         if (blackUser != null) return blackUser;
         // 下面3行代码在前过滤器pre filter执行
         String url = exchange.getRequest().getURI().getPath();
@@ -40,4 +56,21 @@ public class AuthFilter implements GatewayFilter {
     }
 
 
+    /**
+     * 拦截并返回自定义的json字符串
+     */
+    private <T> Mono<Void> denyAccess(ServerWebExchange exchange, T t) {
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(HttpStatus.OK);
+        //这里在返回头添加编码，否则中文会乱码
+        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        byte[] bytes = JacksonUtils.convertValue(t, byte[].class);
+        DataBuffer buffer = response.bufferFactory().wrap(bytes);
+        return response.writeWith(Mono.just(buffer));
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
+    }
 }

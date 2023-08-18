@@ -2,12 +2,14 @@
 import axios from 'axios'
 import {onBeforeUnmount, ref, watchEffect} from "vue";
 import {useRouter} from "vue-router";
+import {set5mCookie} from "@/assets/js/utils";
 
 export default {
   setup() {
     //vue3写法
     //重定向后会销毁实例,参数会初始化(可以把第三方登录的服务提供作为重定向url的参数,code会&到后面)
     //两种方法,使用父组件去保存,传入子组件
+
     let code = ref('');
     let eMailCode = ref('');
     let feiShuUrl = ref('');
@@ -96,6 +98,8 @@ export default {
         if (response.data.code === 200) {
           const token = response.data.data
           window.localStorage.setItem('token', JSON.stringify(token))
+          // 存储cookie,后端从请求获取的
+          set5mCookie("token", JSON.stringify(token))
           router.push('/chatApp')
         } else {
           alert('账户登录失败')
@@ -115,6 +119,8 @@ export default {
           if (response.data.code === 200) {
             const token = response.data.data
             window.localStorage.setItem('token', JSON.stringify(token))
+            // 存储cookie,后端从请求获取的
+            set5mCookie("token", JSON.stringify(token))
             router.push('/chatApp')
           } else {
             alert('Captcha error')
@@ -153,8 +159,10 @@ export default {
         } else {
           const token = response.data.data.token
           // window.localStorage.removeItem("feiShuId");
-          //存储
+          // 存储localStorage,前端使用的
           window.localStorage.setItem('token', JSON.stringify(token))
+          // 存储cookie,后端从请求获取的
+          set5mCookie("token", JSON.stringify(token))
           router.push('/chatApp')
         }
       }).catch(() => {
@@ -176,6 +184,8 @@ export default {
           // window.localStorage.removeItem("gitHubId");
           //存储
           window.localStorage.setItem('token', JSON.stringify(token))
+          // 存储cookie,后端从请求获取的
+          set5mCookie("token", JSON.stringify(token))
           router.push('/chatApp')
         }
       }).catch(() => {
@@ -196,6 +206,8 @@ export default {
           const token = response.data.data.token
           //存储
           window.localStorage.setItem('token', JSON.stringify(token))
+          // 存储cookie,后端从请求获取的
+          set5mCookie("token", JSON.stringify(token))
           router.push('/chatApp')
         }
       }).catch(() => {

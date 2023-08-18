@@ -5,11 +5,20 @@ spring:
     name: cabin-app
 server:
   port: 8080
+  tomcat:
+    max-connections: 10000 #最大连接数,默认10000
+    threads:
+      max: 600 #最大线程数,默认200,这个要根据操作系统的上下文切换开销来设置
+      min-spare: 100 # 最小工作线程数,给操作系统反应的时间
+    accept-count: 1000 #最大等待数,消耗内存,进队出队也消耗CPU
 logging:
   config:
     classpath: logback-spring.xml
   file:
     path: ${cabin_app_logs}
+  level:
+    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace # 打印jpa的sql
 # 上传文件
 upload:
   path: F:\study\code\myProject\Individual-cabin\cabin-app\src\main\resources\test
@@ -46,6 +55,21 @@ spring:
           url: jdbc:mysql://${host}:3306/cabin?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
           username: ${mysql_username}
           password: ${mysql_password}
+          hikari:
+            # 最小空闲连接数
+            min-idle: 5
+            # 空闲连接时间存货最大时间默认10分钟-600000ms
+            idle-timeout: 180000
+            # 最大连接数，默认10
+            max-pool-size: 10
+            # 从连接池返回的连接自动提交
+            is-auto-commit: true
+            # 最大存活时间，0表示永久，默认30分钟--1800000ms
+            max-lifetime: 180000
+            # 连接超时时间
+            connection-timeout: 30000
+            # 测试连接是否可用
+            connection-test-query: SELECT 1
         # 数据源2
         information:
           driver-class-name: com.mysql.cj.jdbc.Driver
@@ -58,8 +82,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        show_sql: true
-        format_sql: true
+#        show_sql: true # 控制台是否打印sql语句--无入参的
+#        format_sql: true # 格式化sql语句
+#        use_sql_comments: true  # 指出是什么操作生成了该语句
+
 #      # druid 全局配置
 #      druid:
 #        initial-size: 5

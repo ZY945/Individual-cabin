@@ -2,6 +2,7 @@
 import axios from "axios";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
+import {set5mCookie} from "@/assets/js/utils";
 
 export default {
   setup() {
@@ -26,8 +27,10 @@ export default {
       }).then(response => {
         const token = response.data.data
         if (response.data.code === 200) {
-          //存储
+          // 存储
           window.localStorage.setItem('token', JSON.stringify(token))
+          // 存储cookie,后端从请求获取的
+          set5mCookie("token", JSON.stringify(token))
           router.push('/')
         } else {
           alert('注册失败')
@@ -38,7 +41,7 @@ export default {
     };
     const sendCode = () => {
       if (registerEmail.value != null && registerEmail.value !== "") {
-        axios.get('/oauth2/login/email/sendCode', {
+        axios.get('/oauth2/register/email/sendCode', {
           params: {
             userEmail: registerEmail.value,
           }

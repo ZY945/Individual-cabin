@@ -17,4 +17,6 @@ public interface EmailLoginService {
 
     String getAndSaveToken(String userEmail);
 
+    String getAndSaveGuestToken(Long id);
+
 }

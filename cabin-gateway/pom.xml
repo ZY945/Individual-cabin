@@ -25,6 +25,17 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
+        <!--提供redis和序列化-->
+        <dependency>
+            <groupId>com.cabin.commons</groupId>
+            <artifactId>cabin-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

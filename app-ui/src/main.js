@@ -2,7 +2,6 @@ import {createApp} from 'vue'
 import App from "@/App.vue";
 import router from "@/router/index";
 import vuetify from "@/types/vuetify";
-
 //彩色class
 import hljsVuePlugin from '@highlightjs/vue-plugin'
 import axios from "axios";

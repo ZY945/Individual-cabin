@@ -38,6 +38,11 @@ public class EmailLoginServiceImpl implements EmailLoginService {
 
     @Override
     public String sendCode(String userEmail) {
+        User user = userRepository.getUserByEmail(userEmail);
+        if (user == null) {
+            log.info("该用户不存在:userEmail=" + userEmail);
+            return null;
+        }
         String code = StringUtil.creatCode(6);
         //消息队列发送验证码给用户邮件
         MailVo mailVo = new MailVo();
@@ -89,7 +94,7 @@ public class EmailLoginServiceImpl implements EmailLoginService {
 
     @Override
     public String getAndSaveToken(String userEmail) {
-        //TODO 目前key是email+随机数,value是userId,都用base64加密
+        //TODO 目前用户key是email+随机数,value是userId,都用base64加密
         String token = null;
         String userIdEncoder = null;
         String random = StringUtil.creatCode(6);
@@ -106,6 +111,23 @@ public class EmailLoginServiceImpl implements EmailLoginService {
             throw new RuntimeException(e);
         }
         redisTemplate.opsForValue().set("user:token:" + token, userIdEncoder, 5, TimeUnit.MINUTES);
+        return token;
+    }
+
+    @Override
+    public String getAndSaveGuestToken(Long id) {
+        //TODO 目前游客key是email+随机数,value是userId,都用base64加密
+        String token = null;
+        String userIdEncoder = null;
+        long now = System.currentTimeMillis();
+        String random = StringUtil.creatCode(6);
+        try {
+            token = Base64Util.encoderGetStrByByte(now + random);
+            userIdEncoder = Base64Util.encoderGetStrByByte(String.valueOf(id));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        redisTemplate.opsForValue().set("guest:token:" + token, userIdEncoder, 5, TimeUnit.MINUTES);
         return token;
     }
 
@@ -129,6 +151,14 @@ public class EmailLoginServiceImpl implements EmailLoginService {
 
     @Override
     public Boolean logout(String token) {
-        return redisTemplate.delete("user:token:" + token);
+        String user = redisTemplate.opsForValue().get("user:token:" + token);
+        if (!StringUtil.isNullOrEmpty(user)) {
+            redisTemplate.delete("user:token:" + token);
+        }
+        String guest = redisTemplate.opsForValue().get("guest:token:" + token);
+        if (!StringUtil.isNullOrEmpty(guest)) {
+            redisTemplate.delete("user:token:" + token);
+        }
+        return true;
     }
 }

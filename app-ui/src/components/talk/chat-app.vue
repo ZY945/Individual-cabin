@@ -83,7 +83,7 @@
 
 
 import {useRouter} from "vue-router";
-import {isLogin} from "@/assets/js/utils";
+import {isLogin, removeCookie} from "@/assets/js/utils";
 import axios from "axios";
 
 export default {
@@ -125,7 +125,7 @@ export default {
       }).then(response => {
         if (response.data.code === 200) {
           window.localStorage.removeItem("token");
-
+          removeCookie("token")
           this.$router.push('/login')
         }
       }).catch(() => {

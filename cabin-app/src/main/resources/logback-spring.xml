@@ -187,6 +187,9 @@
     <!-- 4.1 开发环境:打印控制台-->
     <!--  <springProfile name="dev">-->
     <logger name="com.example.demo" level="INFO"/><!-- 修改此处扫描包名 -->
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.engine.QueryParameters" level="DEBUG"/>
+    <logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG"/>
     <!--  </springProfile>-->
 
     <root level="info">
