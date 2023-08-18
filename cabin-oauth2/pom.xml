@@ -14,8 +14,8 @@
     <artifactId>cabin-oauth2</artifactId>
     <packaging>jar</packaging>
 
-    <name>cabin-oauth2</name>
-    <description>oauth2和登录系统</description>
+    <name>oauth2</name>
+    <description>oauth2</description>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
