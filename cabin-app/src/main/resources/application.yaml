@@ -3,6 +3,8 @@ code:
 spring:
   application:
     name: cabin-app
+  profiles:
+    active: dev
 server:
   port: 8080
   tomcat:

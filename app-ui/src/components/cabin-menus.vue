@@ -102,12 +102,13 @@ export default {
   <div>
     {{ msg }}
     <v-app>
+      <!--   permanent防止侧边栏消失   -->
       <v-navigation-drawer
           image="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
           theme="dark"
           v-model="drawer"
           :rail="rail"
-          permanent
+          permanent="permanent"
           @click="rail = false"
       >
         <!-- 侧边栏内容 -->

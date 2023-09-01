@@ -120,6 +120,7 @@ export default {
 </script>
 <template>
   <div>
+    <!--  fast-fail @submit.prevent防止页面刷新  -->
     <v-form fast-fail @submit.prevent>
       <div class="select-code-input">
 

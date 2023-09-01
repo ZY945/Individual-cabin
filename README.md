@@ -413,3 +413,10 @@ private\s+(\S+)\s+(\S+)\s*;
     - 然后用jmeter测试
     - 然后把oauth2和登录系统作为前端的拦截
 - [x] 完善cookie和gateway的验证---目前还是主要通过redis
+
+# 2023.9.1
+
+- [x] 修复了点击gitee路由,icon才会加载的问题
+    - 在html添加了link
+- [x] 完善jenkins的构建功能、查询最新日志、查询日志列表接口
+- [ ] 保存jenkins的构建持久化到mysql，同时把构建的服务器、创建时间、执行时间作为记录的属性

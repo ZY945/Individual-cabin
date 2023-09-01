@@ -1,7 +1,7 @@
 package com.cabin.controller;
 
 import com.cabin.common.schedule.email.EmailTask;
-import com.cabin.service.TaskService;
+import com.cabin.service.TaskSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
 
     @Autowired
-    private TaskService taskService;
+    private TaskSchedulerService taskService;
 
     private final String cron = "0/55 * *  * * ? ";
 

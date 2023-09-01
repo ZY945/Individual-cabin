@@ -229,4 +229,16 @@ public class HttpUtil {
         //如果catch捕获异常了,finally会在异常被抛出前执行
         //try中return后的throw是不会执行
     }
+
+    /**
+     * 用来把map转化为application/x-www-form-urlencoded需要的格式
+     */
+    public static String generateParamBody(Map<String, String> body) {
+        StringBuilder sortQueryString = new StringBuilder();
+        for (String key : body.keySet()) {
+            sortQueryString.append("&").append(URLEncoder.encode(key, StandardCharsets.UTF_8)).append("=")
+                    .append(URLEncoder.encode(body.get(key), StandardCharsets.UTF_8));
+        }
+        return sortQueryString.substring(1);
+    }
 }

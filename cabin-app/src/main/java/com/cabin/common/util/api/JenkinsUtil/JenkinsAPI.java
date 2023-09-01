@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.List;
 
 import static com.cabin.utils.http.HttpUtil.getJsonObject;
+import static com.cabin.utils.http.HttpUtil.getResponseStr;
 
 
 /**
@@ -27,7 +28,9 @@ public class JenkinsAPI {
     ///////////////////////////////URL///////////////////////////////
     /**
      * 获取 Jenkins 主页信息
+     * 可用于获取可执行api的url
      * GET /api/json
+     * GET /api/xml
      */
     private static final String GetHomeInfoAPI = "/api/json";
 
@@ -52,15 +55,23 @@ public class JenkinsAPI {
     ///
     /**
      * 根据任务名获取最后一次构建的结果
-     * Get job/{jobName}/lastBuild/api/json?tree=result
+     * Get job/{jobName}/lastBuild/api/json
+     * ?tree=result
      */
-    private static final String GetResultByLastTaskInfoAPI = "/job/%s/lastBuild/api/json?tree=result";
+    private static final String GetResultByLastTaskInfoAPI = "/job/%s/lastBuild/api/json";
 
     /**
      * 根据任务名和构建编号获取构建日志
      * Get job/{jobName}/{buildNumber}/consoleText
      */
     private static final String GetLogInfoAPI = "/job/%s/%s/consoleText";
+
+    /**
+     * 通过项目名构建
+     * <p>
+     * POST /job/{jobName}/build
+     */
+    private static final String BuildTaskInfoAPI = "/job/%s/build";
 
     /**
      * 创建一个新任务
@@ -194,9 +205,9 @@ public class JenkinsAPI {
         return jsonObject;
     }
 
-    public static JSONObject getLogInfo(String hostAndPort, String userName, String token, String jobName, String buildNumber) {
+    public static String getLogInfo(String hostAndPort, String userName, String token, String jobName, String buildNumber) {
         String url = String.format(hostAndPort + GetLogInfoAPI, jobName, buildNumber);
-        JSONObject jsonObject = null;
+        String log = null;
         try {
             String auth = userName + ":" + token;
             String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
@@ -204,6 +215,28 @@ public class JenkinsAPI {
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", authHeader);
+            con.setRequestProperty("Content-Type", "text/plain;charset=utf-8");
+            // 发送 HTTP 请求
+            log = getResponseStr(con);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("url错误" + e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return log;
+    }
+
+    public static JSONObject buildProject(String hostAndPort, String userName, String token, String projectName) {
+        String url = String.format(hostAndPort + BuildTaskInfoAPI, projectName);
+        JSONObject jsonObject = null;
+        try {
+            String auth = userName + ":" + token;
+            String encodedAuth = Base64Util.encoderGetStrByByte(auth.getBytes());
+            String authHeader = "Basic " + encodedAuth;
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
             con.setRequestProperty("Authorization", authHeader);
             con.setRequestProperty("Content-Type", "application/json");
             // 发送 HTTP 请求
@@ -228,5 +261,26 @@ public class JenkinsAPI {
         List<Job> jobs = JacksonUtils.convertValue(jobsJsonArray, Job.class);
         homeInfo.setJobs(jobs);
         return homeInfo;
+    }
+
+
+    /**
+     * 通过jobName获取构建Number
+     *
+     * @param hostAndPort
+     * @param userName
+     * @param token
+     * @param jobName
+     * @return
+     */
+    public String getBuildNumber(String hostAndPort, String userName, String token, String jobName) {
+        JSONObject result = getResultByLastTaskInfo(hostAndPort, userName, token, jobName);
+        Object actions = result.get("number");
+        return actions.toString();
+    }
+
+    public String getLastLog(String hostAndPort, String userName, String token, String jobName) {
+        String buildNumber = getBuildNumber(hostAndPort, userName, token, jobName);
+        return getLogInfo(hostAndPort, userName, token, jobName, buildNumber);
     }
 }
