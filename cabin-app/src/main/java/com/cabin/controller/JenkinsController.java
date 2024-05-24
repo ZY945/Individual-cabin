@@ -39,26 +39,26 @@ public class JenkinsController {
     /**
      * 获取构建日志
      *
-     * @param projectName
+     * @param jobName
      * @return
      */
     @GetMapping("/log/last")
-    public Result<String> getLastBuild(@RequestParam(value = "projectName") String projectName) {
+    public Result<String> getLastBuildRecord(@RequestParam(value = "jobName") String jobName) {
         //TODO 从用户设置中获取token
-        String lastBuildLog = jenkinsAPIl.getLastLog(jenkinsUrl, userName, token, projectName);
-        return Result.success(lastBuildLog, "构建日志");
+        String lastBuildLog = jenkinsAPIl.getLastLog(jenkinsUrl, userName, token, jobName);
+        return Result.success(lastBuildLog, "某任务全部构建日志");
     }
 
     /**
      * 根据项目名进行构建
      *
-     * @param projectName
+     * @param jobName
      * @return
      */
     @GetMapping("/build")
-    public Result<JSONObject> buildProject(@RequestParam(value = "projectName") String projectName) {
+    public Result<JSONObject> buildProject(@RequestParam(value = "jobName") String jobName) {
         //TODO 从用户设置中获取token
-        JSONObject jsonObject = JenkinsAPI.buildProject(jenkinsUrl, userName, token, projectName);
+        JSONObject jsonObject = JenkinsAPI.buildProject(jenkinsUrl, userName, token, jobName);
         return Result.success(jsonObject, "主页信息");
     }
 

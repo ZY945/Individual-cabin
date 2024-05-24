@@ -40,9 +40,16 @@ public class JenkinsAPI {
      */
     private static final String GetAllTaskInfoAPI = "/api/json?tree=jobs[name,url,color]";
 
-    ///
+
     /**
      * 获取指定任务的构建历史记录
+     * Get job/{jobName}/api/json
+     */
+    private static final String GetTaskInfoAPI = "/job/%s/api/json";
+
+
+    /**
+     * 获取指定任务的构建历史记录---只有构建记录,没有任务的信息
      * Get job/{jobName}/api/json?tree=builds[number,url,result,duration,timestamp]
      */
     private static final String GetResultByTaskInfoAPI = "/job/%s/api/json?tree=builds[number,url,result,duration,timestamp]";
