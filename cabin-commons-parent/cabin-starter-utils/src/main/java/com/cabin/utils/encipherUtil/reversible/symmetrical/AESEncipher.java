@@ -2,11 +2,19 @@ package com.cabin.utils.encipherUtil.reversible.symmetrical;
 
 import com.cabin.utils.commonUtil.Base64Util;
 
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.security.*;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 /**
  * @author 伍六七

@@ -8,9 +8,8 @@ logs/
 gitZip/
 logPath_IS_UNDEFINED/
 app-ui/dist
-环境变量
 cabin-commons-parent/cabin-starter-file/src/main/resources/
-
+cabinLogs
 ### STS ###
 .apt_generated
 .classpath

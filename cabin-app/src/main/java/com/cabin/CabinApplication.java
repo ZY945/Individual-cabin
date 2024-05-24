@@ -1,10 +1,12 @@
 package com.cabin;
 
 import jakarta.servlet.MultipartConfigElement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.util.unit.DataSize;
 
 /**
@@ -25,6 +27,13 @@ public class CabinApplication {
         } catch (Throwable e) {
             System.out.println(e);
         }
+    }
+    @Autowired
+    private static Environment env;
+
+
+    void contextLoads() {
+        String property = env.getProperty("mail.host");
     }
 
     /**
