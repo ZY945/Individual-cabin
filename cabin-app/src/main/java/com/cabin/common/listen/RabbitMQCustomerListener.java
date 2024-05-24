@@ -3,7 +3,7 @@ package com.cabin.common.listen;
 
 import com.alibaba.fastjson2.JSON;
 import com.cabin.common.config.RabbitMQConfig;
-import com.cabin.common.emum.MQRoutingKeyEnum;
+import com.cabin.common.enums.MQRoutingKeyEnum;
 import com.cabin.common.util.dingding.DingTalkHelper;
 import com.cabin.common.util.mail.MailServiceImpl;
 import com.cabin.common.util.mail.Vo.MailVo;
