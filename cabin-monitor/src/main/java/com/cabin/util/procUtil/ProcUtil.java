@@ -1,6 +1,10 @@
 package com.cabin.util.procUtil;
 
-import com.cabin.empty.vo.*;
+import com.cabin.empty.vo.CPUStatVo;
+import com.cabin.empty.vo.MemoryVo;
+import com.cabin.empty.vo.ProcessorVo;
+import com.cabin.empty.vo.StatVo;
+import com.cabin.empty.vo.UptimeVo;
 import com.cabin.util.shell.ShellUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

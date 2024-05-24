@@ -1,6 +1,10 @@
 package com.cabin.service;
 
-import com.cabin.empty.vo.*;
+import com.cabin.empty.vo.CPUStatVo;
+import com.cabin.empty.vo.MemoryVo;
+import com.cabin.empty.vo.ProcessorVo;
+import com.cabin.empty.vo.StatVo;
+import com.cabin.empty.vo.UptimeVo;
 import com.cabin.influxDB.empty.bo.query.InfluxBO;
 import com.cabin.influxDB.empty.bo.query.QueryType;
 import com.cabin.influxDB.util.InfluxDBTemplate;
