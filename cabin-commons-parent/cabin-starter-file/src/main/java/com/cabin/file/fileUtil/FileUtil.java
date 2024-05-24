@@ -3,8 +3,15 @@ package com.cabin.file.fileUtil;
 
 import com.cabin.file.fileUtil.empty.FileAbsolutePath;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +21,33 @@ import java.util.List;
  * @date 2023/5/16 12:45
  */
 public class FileUtil {
+
+    public static final String JPEG = "FFD8FF";
+    public static final String PNG = "89504E47";
+    public static final String GIF = "47494638";
+
+
+    public static String getMagicNumber(String filePath) throws IOException {
+        File file = new File(filePath);
+        return getMagicNumber(file);
+    }
+
+    public static String getMagicNumber(File file) throws IOException {
+        try {
+            byte[] bytes = new byte[20];
+            FileInputStream input = new FileInputStream(file);
+            input.read(bytes, 0, 20);
+            StringBuilder builder = new StringBuilder();
+            for (byte b : bytes) {
+                String hexString = Integer.toHexString(b & 0xFF);
+                builder.append(hexString);
+            }
+            return builder.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     /**
      * 获取后缀

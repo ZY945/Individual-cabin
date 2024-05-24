@@ -1,6 +1,10 @@
 package com.cabin.common.util.request;
 
-import com.blueconic.browscap.*;
+import com.blueconic.browscap.BrowsCapField;
+import com.blueconic.browscap.Capabilities;
+import com.blueconic.browscap.ParseException;
+import com.blueconic.browscap.UserAgentParser;
+import com.blueconic.browscap.UserAgentService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 

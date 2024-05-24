@@ -2,6 +2,8 @@ package com.cabin.controller;
 
 import com.cabin.common.annotation.AccessLimit;
 import com.cabin.common.config.PatchcaConfig;
+import com.cabin.entity.UrlMap;
+import com.cabin.mapper.jpa.UrlMapRepository;
 import com.cabin.service.UtilService;
 import com.cabin.utils.beanUtils.ObjectUtil;
 import com.cabin.utils.commonUtil.StringUtil;
@@ -11,10 +13,17 @@ import com.github.bingoohuang.patchca.service.CaptchaService;
 import com.github.bingoohuang.patchca.utils.encoder.EncoderHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileOutputStream;
+import java.util.List;
 
 /**
  * @author 伍六七
@@ -22,10 +31,13 @@ import java.io.FileOutputStream;
  */
 @RestController
 @RequestMapping("/util")
-public class IndexController {
+@Slf4j
+public class UtilController {
 
     @Autowired
     private UtilService utilService;
+    @Autowired
+    private UrlMapRepository urlMapRepository;
 
     /**
      * 短链接获取
@@ -38,6 +50,30 @@ public class IndexController {
     public Result<String> generatesShortUrl(@RequestParam String url) {
         String shortUrl = utilService.setShortUrl(url);
         return Result.success(shortUrl, "短链接");
+    }
+
+    /**
+     * 测试的接口list、mysql、redis
+     *
+     * @return
+     */
+    @GetMapping("/shortUrl/list")
+    public Result<List<UrlMap>> list() {
+        List<UrlMap> urlMaps = utilService.listShortUrl();
+        log.info(urlMaps.toString());
+        return Result.success(urlMaps, "短链接列表");
+    }
+
+    @GetMapping("/shortUrl/mysql")
+    public Result<UrlMap> get() {
+        UrlMap urlMap = urlMapRepository.findById(1L).orElse(null);
+        return Result.success(urlMap, "短链接列表");
+    }
+
+    @GetMapping("/shortUrl/redis")
+    public Result<UrlMap> redis() {
+        UrlMap urlMap = urlMapRepository.findById(1L).orElse(null);
+        return Result.success(urlMap, "短链接列表");
     }
 
 //    /**
@@ -102,4 +138,5 @@ public class IndexController {
         String newJson = JsonUtil.formatJson(olDJson);
         return Result.success(newJson, "格式化的json");
     }
+
 }

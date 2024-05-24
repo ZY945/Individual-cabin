@@ -57,6 +57,9 @@ public class GitHubController {
                 //TODO jwt生成
                 User user = userRepository.getUserById(oauthBind.getUserId());
                 token = emailLoginService.getAndSaveToken(user.getEmail());
+            } else {
+                //TODO 临时游客token
+                token = emailLoginService.getAndSaveGuestToken(exit.getId());
             }
             gitHubvo.setUserId(exit.getId());
         }

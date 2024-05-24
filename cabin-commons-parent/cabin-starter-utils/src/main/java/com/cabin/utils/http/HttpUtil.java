@@ -3,8 +3,17 @@ package com.cabin.utils.http;
 
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -228,5 +237,17 @@ public class HttpUtil {
         //不要在finally里return throw,会导致try和throw的return和throw失效
         //如果catch捕获异常了,finally会在异常被抛出前执行
         //try中return后的throw是不会执行
+    }
+
+    /**
+     * 用来把map转化为application/x-www-form-urlencoded需要的格式
+     */
+    public static String generateParamBody(Map<String, String> body) {
+        StringBuilder sortQueryString = new StringBuilder();
+        for (String key : body.keySet()) {
+            sortQueryString.append("&").append(URLEncoder.encode(key, StandardCharsets.UTF_8)).append("=")
+                    .append(URLEncoder.encode(body.get(key), StandardCharsets.UTF_8));
+        }
+        return sortQueryString.substring(1);
     }
 }

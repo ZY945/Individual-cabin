@@ -59,21 +59,21 @@ public class FeiShuController {
         //异步去保存用户信息,然后绑定是一个单独的接口
         FeiShuUser exit = feiShuService.saveUser(FeiShuToken);
         String token = null;
+
         if (exit != null) {
             OauthBind oauthBind = oauthRepository.getOauthByFeiShuOpenId(exit.getOpenId());
             if (oauthBind != null) {
                 //表示绑定过，业务登录即可
-                //TODO jwt生成
+                //"user:token:" + token
+                //TODO 用户token
                 User user = userRepository.getUserById(oauthBind.getUserId());
                 token = emailLoginService.getAndSaveToken(user.getEmail());
+            } else {
+                //TODO 临时游客token
+                token = emailLoginService.getAndSaveGuestToken(exit.getId());
             }
             feiShuVo.setUserId(exit.getId());
         }
-//            else{
-//                //TODO 临时游客token
-//                token="-1";
-//                redisTemplate.opsForValue().set("tourist:token:" + token, "临时token", 5, TimeUnit.MINUTES);
-//            }
         feiShuVo.setToken(token);
         return token == null ? Result.fail(feiShuVo, "未绑定账户") : Result.success(feiShuVo, "登录成功");
     }

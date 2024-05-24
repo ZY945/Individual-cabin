@@ -43,6 +43,14 @@ module.exports = {
                 ws: false,
                 pathRewrite: {"^/monitor": ""}
             },
+            "/gateway": {
+                //这里是调本地的后端,在服务器的时候也是调服务器本地的后端
+                target: 'http://localhost:9090',
+                //允许跨域
+                changeOrigin: true,
+                ws: false,
+                pathRewrite: {"^/gateway": ""}
+            },
         }
     },
     configureWebpack: config => {

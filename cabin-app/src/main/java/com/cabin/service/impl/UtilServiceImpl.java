@@ -10,10 +10,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,13 +69,13 @@ public class UtilServiceImpl implements UtilService {
 
         } else {
             urlMap = urlMapRepository.findUrlMapByShortUrl(shortUrl);
+
+        }
+        if (urlMap != null) {
             urlMap.setClickCount(urlMap.getClickCount() + 1);
             urlMap.setLastVisitTime(new Date());
             urlMapRepository.save(urlMap);
             redisTemplate.opsForValue().set(key, urlMap, TIMEOUT, TimeUnit.HOURS);
-
-        }
-        if (urlMap != null) {
             return urlMap.getLongUrl();
         } else {
             return null;
@@ -87,7 +89,8 @@ public class UtilServiceImpl implements UtilService {
             String key = "shortUrl:" + existed.getShortUrl();
             //添加缓存
             redisTemplate.opsForValue().set(key, existed, TIMEOUT, TimeUnit.HOURS);
-            return host + ":8080/util/" + existed.getShortUrl();
+//            return host + ":8080/util/" + existed.getShortUrl();
+            return existed.getShortUrl();
         }
         UrlMap urlMap = new UrlMap();
         urlMap.setLongUrl(longUrl);
@@ -114,4 +117,32 @@ public class UtilServiceImpl implements UtilService {
         return random;
     }
 
+    @Override
+    public List<UrlMap> listShortUrl() {
+//        String key = "count";
+//        int count = 1;
+//        //redis分布式锁 如果key不存在设置成功
+//        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", "1");
+//        if (Boolean.TRUE.equals(lock)){
+//            //加锁成功  调用方法返回数据
+//            if(Boolean.TRUE.equals(redisTemplate.hasKey(key))){
+//                String string = Objects.requireNonNull(redisTemplate.opsForValue().get(key)).toString();
+//                count= Integer.parseInt(string)+1;
+//            }
+//            redisTemplate.opsForValue().set(key, count);
+//            //释放锁
+//            redisTemplate.delete("lock");
+//        }else {
+//            //没有分布式锁,等待,进入自旋
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            //自旋
+//            return listShortUrl();
+//        }
+
+        return urlMapRepository.findAll(Sort.by(Sort.Direction.ASC, "createTime"));
+    }
 }

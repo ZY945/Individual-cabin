@@ -43,6 +43,16 @@ npm uninstall sass-loader node-sass    //卸载
 npm install sass-loader@7.3.1 node-sass@4.14.1  --save-dev  //安装对应的版本
 ```
 
+# npm如果报错
+
+删除之前在c盘中安装过模块的地方
+
+```text
+c:\user\username\ .npmrc 
+```
+
+删除这个文件 重新运行项目
+
 # npm换源---根据自己情况,有的人淘宝源快，有的官方源快
 
 npx nrm use npm

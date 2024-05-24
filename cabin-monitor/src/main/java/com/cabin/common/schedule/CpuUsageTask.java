@@ -9,7 +9,7 @@ import com.cabin.empty.notice.NoticeInfo;
 import com.cabin.empty.vo.CPUStatVo;
 import com.cabin.influxDB.util.InfluxDBTemplate;
 import com.cabin.service.QueryService;
-import com.cabin.service.TaskService;
+import com.cabin.service.TaskSchedulerService;
 import com.cabin.utils.dateUtil.DateUtil;
 import com.cabin.utils.jacksonUtil.JacksonUtils;
 import com.dingtalk.api.request.OapiRobotSendRequest.Markdown;
@@ -41,7 +41,7 @@ public class CpuUsageTask implements Runnable {
     private final InfluxDBTemplate template = (InfluxDBTemplate) ApplicationContextUtil.getBean("InfluxDBTemplate");
     private final RabbitTemplate rabbitTemplate = (RabbitTemplate) ApplicationContextUtil.getBean("rabbitTemplate");
     private final QueryService queryService = (QueryService) ApplicationContextUtil.getBean("queryService");
-    private final TaskService taskService = (TaskService) ApplicationContextUtil.getBean("taskService");
+    private final TaskSchedulerService taskService = (TaskSchedulerService) ApplicationContextUtil.getBean("taskSchedulerService");
 
     public Boolean writeStat() throws JsonProcessingException, UnknownHostException {
         HashMap<String, Object> map = new HashMap<>();

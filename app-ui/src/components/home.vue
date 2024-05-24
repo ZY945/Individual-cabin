@@ -8,15 +8,15 @@ export default {
   props: {},
   components: {HelloWorld},
   created() {
-
-    axios.get('/chat/api/messages/1 '
-    )
-        .then(res => {
-          this.messages = res.data;
-        })
-        .catch(error => {
-          console.log(error)
-        });
+    axios.get('/gateway/app/util/shortUrl/mysql', {}).then(res => {
+      if (res.data.code === 200) {
+        this.messages = res.data.data;
+      } else {
+        this.messages = "没有权限";
+      }
+    }).catch(error => {
+      console.log(error)
+    });
   },
   data() {
     return {
