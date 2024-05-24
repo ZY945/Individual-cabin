@@ -1,9 +1,5 @@
 package com.cabin.common.handler;
 
-import com.alibaba.fastjson2.JSON;
-import com.cabin.common.config.RabbitMQConfig;
-import com.cabin.common.emum.MQRoutingKeyEnum;
-import com.cabin.common.util.mail.Vo.MailVo;
 import com.cabin.common.util.project.ApplicationInfo;
 import com.cabin.utils.dateUtil.DateUtil;
 import com.cabin.utils.response.Result;
@@ -59,16 +55,17 @@ public class GlobalExceptionHandler {
                     "> **异常时间**：\n" + nowDateTimeStr + "\n" +
                     "\n" +
                     "> **异常**：\n" + e);
+            log.error(markdown.toString());
             //第一个参数是交换机,第二个参数是你要传的key,第三个参数是消息
             //发送钉钉通知
-            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_ALARM, MQRoutingKeyEnum.SEND_CABIN_ALARM_DINGDING.getRoutingKey(), JSON.toJSONString(markdown));
+//            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_ALARM, MQRoutingKeyEnum.SEND_CABIN_ALARM_DINGDING.getRoutingKey(), JSON.toJSONString(markdown));
             //发送邮件通知
-            MailVo mailVo = new MailVo();
-            //将来获取所有需要通知人的email
-            mailVo.setTo("zhangyang_2002@163.com");
-            mailVo.setSub("报警通知");
-            mailVo.setMarkdown(markdown);
-            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_ALARM, MQRoutingKeyEnum.SEND_CABIN_ALARM_EMAIL.getRoutingKey(), JSON.toJSONString(mailVo));
+//            MailVo mailVo = new MailVo();
+//            //将来获取所有需要通知人的email
+//            mailVo.setTo("");
+//            mailVo.setSub("报警通知");
+//            mailVo.setMarkdown(markdown);
+//            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_CABIN_ALARM, MQRoutingKeyEnum.SEND_CABIN_ALARM_EMAIL.getRoutingKey(), JSON.toJSONString(mailVo));
 
         } catch (Exception ee) {
             log.error("发送异常信息接口异常", ee);

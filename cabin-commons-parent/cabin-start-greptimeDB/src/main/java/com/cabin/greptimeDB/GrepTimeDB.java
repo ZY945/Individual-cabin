@@ -1,7 +1,12 @@
 package com.cabin.greptimeDB;
 
 import io.greptime.GreptimeDB;
-import io.greptime.models.*;
+import io.greptime.models.Err;
+import io.greptime.models.QueryOk;
+import io.greptime.models.QueryRequest;
+import io.greptime.models.Result;
+import io.greptime.models.SelectExprType;
+import io.greptime.models.SelectRows;
 import io.greptime.options.GreptimeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
