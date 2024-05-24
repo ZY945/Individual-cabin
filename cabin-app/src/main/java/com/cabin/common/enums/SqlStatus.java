@@ -1,4 +1,4 @@
-package com.cabin.common.emum;
+package com.cabin.common.enums;
 
 /**
  * @author 伍六七
