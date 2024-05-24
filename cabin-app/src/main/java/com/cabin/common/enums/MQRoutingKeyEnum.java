@@ -1,4 +1,4 @@
-package com.cabin.common.emum;
+package com.cabin.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
