@@ -37,36 +37,3 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <!--包名-->
-        <!--        <finalName>${project.artifactId}</finalName>-->
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <!--替换为你的应用程序主类-->
-                <configuration>
-                    <mainClass>com.cabin.gateway.GatewayApplication</mainClass>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-
-</project>
